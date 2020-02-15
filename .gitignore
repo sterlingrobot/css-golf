@@ -5,6 +5,6 @@ node_modules
 firebase-debug.log
 .env.dev
 .env.stage
-.env.live
+.env.prod
 serviceAccountKey*
 .firebase
