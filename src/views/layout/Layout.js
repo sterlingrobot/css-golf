@@ -21,9 +21,6 @@ const Layout = ({children}) => (
       <HeaderLink to="/">Firefly</HeaderLink>
 
       <div style={{float: 'right'}}>
-        <HeaderLink to="/search">
-          <span role="img" aria-label="search">🔎</span>
-        </HeaderLink>
         {' '}
         <FirebaseAuth>
           { ({isLoading, error, auth}) => {
