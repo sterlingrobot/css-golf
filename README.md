@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7185e6a7-6cbe-4c0e-b7bd-823ee8449f91/deploy-status)](https://app.netlify.com/sites/css-golf/deploys)
+
 A modern web-app boilerplate with Create React App and Firebase. Focused on simplicity for new devs, rapid prototyping, and smallish projects.
 
 ### **Full documentation at [getfirefly.org](http://getfirefly.org)**
