@@ -12,12 +12,5 @@ service cloud.firestore {
       allow create: if request.auth.uid == request.resource.data.createdBy;
       allow update, delete: if request.auth.uid == resource.data.createdBy;
     }
-
-    match /subscriptions/{subscription} {
-      allow read: if request.auth.uid == resource.data.createdBy;
-      allow create: if request.auth.uid == request.resource.data.createdBy;
-      allow update, delete: if request.auth.uid == resource.data.createdBy;
-    }
-
   }
 }
