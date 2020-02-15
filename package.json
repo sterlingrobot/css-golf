@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "sh -ac '. ./.env.dev;   firebase use dev && react-scripts start'",
+    "build": "react-scripts build",
     "build:dev": "firebase use dev && react-scripts build && firebase deploy",
     "build:stage": "firebase use stage && react-scripts build && firebase deploy",
     "build:prod": "firebase use prod && react-scripts build && firebase deploy",
