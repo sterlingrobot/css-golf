@@ -1,14 +1,8 @@
 import Firebase from 'firebase/app'
-import ReactGA from 'react-ga'
 
 const logIn = () => {
 
-  ReactGA.event({
-    category: 'User',
-    action: 'Log in',
-  })
-
-  let provider = new Firebase.auth.GoogleAuthProvider()
+  let provider = new Firebase.auth.GithubAuthProvider()
   
   return Firebase.auth()
     .signInWithRedirect(provider)
