@@ -1,14 +1,13 @@
 {
-  "name": "firefly",
+  "name": "css-golf",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://demo.getfirefly.org",
+  "homepage": "https://css-golf.netlify.com",
   "dependencies": {
     "firebase": "^6.1.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-firestore": "^0.8.1",
-    "react-ga": "^2.5.3",
     "react-instantsearch-dom": "^5.2.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^3.2.0",
@@ -17,11 +16,13 @@
     "styled-components": "^3.3.2"
   },
   "scripts": {
-    "": "How these scripts work: https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d",
-    "start": "sh -ac '. ./.env.dev;   firebase use dev   && react-scripts start'",
-    "dev": "  sh -ac '. ./.env.dev;   firebase use dev   && react-scripts build && firebase deploy'",
-    "stage": "sh -ac '. ./.env.stage; firebase use stage && react-scripts build && firebase deploy'",
-    "prod": " sh -ac '. ./.env.prod;  firebase use prod  && react-scripts build && firebase deploy'"
+    "start": "sh -ac '. ./.env.dev;   firebase use dev && react-scripts start'",
+    "build:dev": "firebase use dev && react-scripts build && firebase deploy",
+    "build:stage": "firebase use stage && react-scripts build && firebase deploy",
+    "build:prod": "firebase use prod && react-scripts build && firebase deploy",
+    "dev": "  sh -ac '. ./.env.dev;   yarn build:dev'",
+    "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
+    "prod": " sh -ac '. ./.env.prod;  yarn build:prod'"
   },
   "browserslist": {
     "production": [
