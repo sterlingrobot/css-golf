@@ -15,7 +15,7 @@ class ErrorBoundary extends React.Component {
 
     // send error info to Sentry
     // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
-    window.Raven.captureException(error, { extra: info })
+    // window.Raven.captureException(error, { extra: info })
   }
 
   render() {
