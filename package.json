@@ -5,12 +5,14 @@
   "homepage": "https://css-golf.netlify.com",
   "dependencies": {
     "firebase": "^6.1.0",
+    "prismjs": "^1.19.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-firestore": "^0.8.1",
     "react-instantsearch-dom": "^5.2.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^3.2.0",
+    "react-simple-code-editor": "^0.11.0",
     "react-transition-group": "^2.3.1",
     "slugify": "^1.3.0",
     "styled-components": "^3.3.2"
@@ -21,9 +23,15 @@
     "build:dev": "firebase use dev && react-scripts build && firebase deploy",
     "build:stage": "firebase use stage && react-scripts build && firebase deploy",
     "build:prod": "firebase use prod && react-scripts build && firebase deploy",
-    "dev": "  sh -ac '. ./.env.dev;   yarn build:dev'",
+    "dev": "sh -ac '. ./.env.dev;   yarn build:dev'",
     "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
-    "prod": " sh -ac '. ./.env.prod;  yarn build:prod'"
+    "prod": "sh -ac '. ./.env.prod;  yarn build:prod'",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint \"**/*.{js,ts,html}\" .",
+    "lint:prettier": "prettier \"**/*.{js,scss,ts}\" --check --ignore-path .eslintignore",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "format:eslint": "eslint \"**/*.{js,ts,html}\" . --fix",
+    "format:prettier": "prettier \"**/*.{js,scss,ts}\" --write --ignore-path .eslintignore"
   },
   "browserslist": {
     "production": [
@@ -36,5 +44,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "prettier": "^1.19.1"
   }
 }
