@@ -34,9 +34,9 @@ const Layout = ({children}) => (
               return <HeaderLink to={`/account`}>
                 <span role="img" aria-label="account">👤</span>
               </HeaderLink>
-            } else {
+            } 
               return <button onClick={logIn}>log in</button>
-            }
+            
           }}
         </FirebaseAuth>
       </div>

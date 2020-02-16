@@ -4,6 +4,7 @@ const Promise = require('bluebird')
 const chalk = require('chalk')
 
 // init firebase
+// eslint-disable-next-line import/no-unresolved
 const serviceAccount = require('./serviceAccountKey.dev.json')
 
 admin.initializeApp({

@@ -6,7 +6,20 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import ErrorBoundary from './misc/ErrorBoundary'
 import Routes from './Routes'
 import Layout from './layout/Layout'
-import '../styles/global'
+
+// scroll to top on route change
+// https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md#scroll-to-top
+class ScrollToTop extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0)
+    }
+  }
+
+  render() {
+    return null
+  }
+}
 
 const App = () => (
   <FirestoreProvider firebase={Firebase}>
@@ -20,18 +33,5 @@ const App = () => (
     </BrowserRouter>
   </FirestoreProvider>
 )
-
-// scroll to top on route change
-// https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md#scroll-to-top
-class ScrollToTop extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0)
-    }
-  }
-  render() {
-    return null
-  }
-}
 
 export default App
