@@ -1,7 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const Avatar = user => (
-  <div className="user-avatar">
-    <img src={user.photoUrl} />
-  </div>
+import {
+  ProfilePhoto,
+  ProfileImage
+} from '../../styles/profile'
+
+export const Avatar = ({ user, width }) => (
+  <ProfilePhoto
+    style={{ width }}
+  >
+    <ProfileImage src={user.photoURL} alt={user.displayName} />
+  </ProfilePhoto>
 );
+
+Avatar.propTypes = {
+  user: PropTypes.shape({
+    photoURL: PropTypes.string,
+    displayName: PropTypes.string
+  }),
+  width: PropTypes.string
+}

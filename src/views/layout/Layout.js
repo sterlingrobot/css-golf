@@ -5,6 +5,8 @@ import React from 'react'
 
 import logIn from '../../actions/logIn'
 import FirebaseAuth from '../misc/FirebaseAuth'
+import { Avatar } from '../account/Avatar'
+
 import {
   HeaderFooterWrapper,
   Header,
@@ -18,9 +20,11 @@ const Layout = ({children}) => (
   <HeaderFooterWrapper>
 
     <Header>
-      <HeaderLink to="/">CSS Golf</HeaderLink>
+      <HeaderLink to="/">
+        <h2>CSS Golf</h2>
+      </HeaderLink>
 
-      <div style={{float: 'right'}}>
+      <div>
         {' '}
         <FirebaseAuth>
           { ({isLoading, error, auth}) => {
@@ -32,11 +36,11 @@ const Layout = ({children}) => (
             }
             if (auth) {
               return <HeaderLink to={`/account`}>
-                <span role="img" aria-label="account">👤</span>
+                <Avatar role="img" aria-label="account" user={auth} width="5rem"/>
               </HeaderLink>
-            } 
+            }
               return <button onClick={logIn}>log in</button>
-            
+
           }}
         </FirebaseAuth>
       </div>
