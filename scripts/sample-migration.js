@@ -1,13 +1,24 @@
+/* eslint-disable no-console */
 const admin = require('firebase-admin')
 const Promise = require('bluebird')
 const chalk = require('chalk')
 
 // init firebase
 const serviceAccount = require('./serviceAccountKey.dev.json')
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
-const db = require('firebase-admin').firestore()
+const db = admin.firestore()
+
+const updatePost = doc => {
+  console.log(`  migrating post ${doc.id}...`)
+  return db.collection('posts')
+    .doc(doc.id)
+    .update({
+      title: doc.data().title.toUpperCase(),
+    })
+}
 
 console.log(chalk.blue(`Making all post titles UPPERCASE...`))
 
@@ -28,11 +39,3 @@ db.collection('posts').get()
     console.log(chalk.red(`⚠️ migration error: `), error)
   })
 
-const updatePost = doc => {
-  console.log(`  migrating post ${doc.id}...`)
-  return db.collection('posts')
-    .doc(doc.id)
-    .update({
-      title: doc.data().title.toUpperCase(),
-    })
-}

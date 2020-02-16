@@ -2,7 +2,7 @@ import Firebase from 'firebase/app'
 
 const logIn = () => {
 
-  let provider = new Firebase.auth.GithubAuthProvider()
+  const provider = new Firebase.auth.GithubAuthProvider()
   
   return Firebase.auth()
     .signInWithRedirect(provider)
