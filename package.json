@@ -29,11 +29,11 @@
     "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
     "prod": "sh -ac '. ./.env.prod;  yarn build:prod'",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint \"**/*.{js,ts,html}\" .",
-    "lint:prettier": "prettier \"**/*.{js,scss,ts}\" --check --ignore-path .eslintignore",
+    "lint:eslint": "eslint \"**/*.js\" .",
+    "lint:prettier": "prettier \"**/*.{js,scss}\" --check --ignore-path .eslintignore",
     "format": "npm run format:eslint && npm run format:prettier",
-    "format:eslint": "eslint \"**/*.{js,ts,html}\" . --fix",
-    "format:prettier": "prettier \"**/*.{js,scss,ts}\" --write --ignore-path .eslintignore"
+    "format:eslint": "eslint \"**/*.js\" . --fix",
+    "format:prettier": "prettier \"**/*.{js,scss}\" --write --ignore-path .eslintignore"
   },
   "browserslist": {
     "production": [
