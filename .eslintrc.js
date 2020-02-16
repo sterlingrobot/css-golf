@@ -5,9 +5,14 @@ module.exports = {
     'plugin:react/recommended',
     'prettier'
   ],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module'
+  },
+  env: {
+    browser: true,
+    node: true
   },
   plugins: ['prettier', 'react'],
   rules: {
