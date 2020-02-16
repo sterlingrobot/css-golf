@@ -9,6 +9,8 @@ import ReactDOM from 'react-dom'
 
 import App from './views/App'
 
+import '@wisetail/wds-button';
+
 import './styles/global.scss';
 
 console.log('create-react-app env:', process.env.NODE_ENV)

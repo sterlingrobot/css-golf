@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://css-golf.netlify.com",
   "dependencies": {
+    "@wisetail/wds-button": "^1.0.0",
     "firebase": "^7.8.2",
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
