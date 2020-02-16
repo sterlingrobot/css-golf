@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     'import/extensions': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
   },
   settings: {
