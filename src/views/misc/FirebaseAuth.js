@@ -18,7 +18,7 @@ class FirebaseAuth extends React.Component {
       .onAuthStateChanged(this.handleAuth, this.handleError)
   }
 
-  componentWillUnmount() {
+  componentDidUnmount() {
     if (this.unsubscribe) {
       this.unsubscribe()
     }
