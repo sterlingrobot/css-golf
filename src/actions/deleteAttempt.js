@@ -1,14 +1,14 @@
 import Firebase from 'firebase/app'
 
-const deletePost = post => {
+const deleteAttempt = attempt => {
 
   return Firebase.firestore()
-    .collection('posts')
-    .doc(post.id)
+    .collection('attempts')
+    .doc(attempt.id)
     .delete()
     .catch( error => {
       alert(`Whoops, couldn't delete the post: ${error.message}`)
     })
 }
 
-export default deletePost
+export default deleteAttempt

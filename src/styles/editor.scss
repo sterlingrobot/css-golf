@@ -1,0 +1,16 @@
+.form-wrap {
+  display: grid;
+  height: 100%;
+  gap: 2rem;
+  grid-template-rows: auto minmax(min-content, 1fr) auto;
+}
+
+.editor {
+
+  button:focus,
+  input:focus,
+  textarea:focus {
+    outline: 0;
+    border-color: #ccc;
+  }
+}

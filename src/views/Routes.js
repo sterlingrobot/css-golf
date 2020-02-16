@@ -4,20 +4,21 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
+import Attempt from './attempts/Attempt'
 import PostList from './posts/PostList'
-import PostNew from './posts/PostNew'
+import AttemptNew from './attempts/AttemptNew'
+import AttemptEdit from './attempts/AttemptEdit'
+
 import Account from './account/Account'
-import PostEdit from './posts/PostEdit'
-import Post from './posts/Post'
 import Error from './misc/Error'
 
 const Routes = () => (
   <Switch>
     <Route exact path="/" component={PostList} />
-    <Route path="/new" component={PostNew} />
+    <Route path="/new" component={AttemptNew} />
     <Route path="/account" component={Account} />
-    <Route path="/:slug/edit" component={PostEdit} />
-    <Route path="/:slug" component={Post} />
+    <Route path="/:slug/edit" component={AttemptEdit} />
+    <Route path="/:slug" component={Attempt} />
     <Route component={Error} />
   </Switch>
 )

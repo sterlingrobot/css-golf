@@ -1,4 +1,5 @@
 import Firebase from 'firebase/app'
+import slugify from 'slugify'
 
 import { prepareDocForCreate } from './helpers/firestoreHelpers'
 
