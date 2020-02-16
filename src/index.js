@@ -9,10 +9,12 @@ import ReactDOM from 'react-dom'
 
 import App from './views/App'
 
+import './styles/global.scss';
+
 console.log('create-react-app env:', process.env.NODE_ENV)
 console.log('firefly project:', process.env.REACT_APP_ENV)
 
-// connect our app to firebase 
+// connect our app to firebase
 const dbConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
