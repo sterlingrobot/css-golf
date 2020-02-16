@@ -8,6 +8,10 @@ const HeaderFooterWrapper = styled.div`
   min-height: 100vh;
 `
 const Header = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
   padding: 2rem 1rem 1rem;
 `
 const Page = styled.div`
