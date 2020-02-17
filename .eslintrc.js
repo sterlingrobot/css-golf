@@ -19,6 +19,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
+    'no-underscore-dangle': 'off',
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
   },
   settings: {
