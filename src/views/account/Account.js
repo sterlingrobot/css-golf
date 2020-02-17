@@ -23,8 +23,8 @@ const Account = () => (
         if (!auth) {
           return (
             <div>
-              <p>Log in to see your account</p>
-              <wds-button onClick={logIn}>Log in</wds-button>
+              <p>Sign in to see your account</p>
+              <wds-button onClick={logIn}>Sign in</wds-button>
             </div>
           );
         }

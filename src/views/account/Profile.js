@@ -19,7 +19,7 @@ const Profile = ({ auth }) => (
             color="red"
             onClick={() => logOut().then(() => history.push(`/`))}
           >
-            Log out
+            Sign out
           </wds-button>
         </div>
       </div>
