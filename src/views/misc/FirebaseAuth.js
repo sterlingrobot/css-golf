@@ -51,5 +51,5 @@ class FirebaseAuth extends React.Component {
 export default FirebaseAuth;
 
 FirebaseAuth.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.any
 };

@@ -37,7 +37,7 @@ const Layout = ({ children }) => (
                 </HeaderLink>
               );
             }
-            return <button onClick={logIn}>log in</button>;
+            return <wds-button onClick={logIn}>Sign in</wds-button>;
           }}
         </FirebaseAuth>
       </div>

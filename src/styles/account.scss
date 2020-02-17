@@ -1,0 +1,10 @@
+.account-profile {
+  .profile,
+  .profile-info {
+    display: flex;
+  }
+
+  .profile-info {
+    flex-flow: column nowrap;
+  }
+}

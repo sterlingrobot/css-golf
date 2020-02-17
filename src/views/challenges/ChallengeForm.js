@@ -12,8 +12,6 @@ import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
-import Challenge from './Challenge';
-
 import { TextInput } from '../../styles/forms';
 import editor from '../../styles/editor';
 
@@ -51,7 +49,7 @@ class ChallengeForm extends React.Component {
                 type="text"
                 name="title"
                 defaultValue={challenge ? challenge.title : ''}
-                autocomplete="off"
+                autoComplete="off"
                 required
               />
             </div>
@@ -66,7 +64,7 @@ class ChallengeForm extends React.Component {
               highlight={html => Prism.highlight(html, Prism.languages.html)}
               padding={10}
               style={{ ...editor }}
-              autocomplete="off"
+              autoComplete="off"
               required
             />
             <Editor
@@ -77,7 +75,7 @@ class ChallengeForm extends React.Component {
               highlight={css => Prism.highlight(css, Prism.languages.scss)}
               padding={10}
               style={{ ...editor }}
-              autocomplete="off"
+              autoComplete="off"
               required
             />
           </div>
@@ -104,6 +102,10 @@ class ChallengeForm extends React.Component {
 export default ChallengeForm;
 
 ChallengeForm.propTypes = {
-  challenge: PropTypes.instanceOf(Challenge),
+  challenge: PropTypes.shape({
+    title: PropTypes.string,
+    html: PropTypes.string,
+    css: PropTypes.string
+  }),
   onSubmit: PropTypes.func
 };

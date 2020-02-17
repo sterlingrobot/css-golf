@@ -6,6 +6,8 @@ import Error from '../misc/Error';
 import Profile from './Profile';
 import { Page } from '../../styles/layout';
 
+import '../../styles/account.scss';
+
 const Account = () => (
   <Page>
     <FirebaseAuth>
@@ -21,14 +23,14 @@ const Account = () => (
         if (!auth) {
           return (
             <div>
-              <p>Log in to see your account</p>
-              <button onClick={logIn}>Log in</button>
+              <p>Sign in to see your account</p>
+              <wds-button onClick={logIn}>Sign in</wds-button>
             </div>
           );
         }
 
         return (
-          <div>
+          <div className="account-profile">
             <Profile auth={auth} />
           </div>
         );

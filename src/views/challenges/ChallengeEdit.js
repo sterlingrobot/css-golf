@@ -62,6 +62,6 @@ const ChallengeEdit = ({ match, history }) => (
 export default ChallengeEdit;
 
 ChallengeEdit.propTypes = {
-  match: PropTypes.instanceOf(Route.match),
-  history: PropTypes.instanceOf(Route.history)
+  match: PropTypes.shape(Route.match),
+  history: PropTypes.shape(Route.history)
 };

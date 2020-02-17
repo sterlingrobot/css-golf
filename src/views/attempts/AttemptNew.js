@@ -27,7 +27,7 @@ const AttemptNew = ({ history }) => (
           return (
             <div>
               <p>You must be logged in to add posts</p>
-              <button onClick={logIn}>log in</button>
+              <wds-button onClick={logIn}>Sign in</wds-button>
             </div>
           );
         }

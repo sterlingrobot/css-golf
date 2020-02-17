@@ -20,9 +20,9 @@ const Routes = () => (
   <Switch>
     <Route exact path="/" component={ChallengeList} />
     <Route path="/new" component={ChallengeNew} />
+    <Route path="/account" component={Account} />
     <Route path="/:slug/edit" component={ChallengeEdit} />
     <Route path="/:slug" component={Challenge} />
-    <Route path="/account" component={Account} />
     <Route component={Error} />
   </Switch>
 );
