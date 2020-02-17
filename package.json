@@ -28,6 +28,7 @@
     "build:dev": "firebase use dev && react-scripts build && firebase deploy",
     "build:stage": "firebase use stage && react-scripts build && firebase deploy",
     "build:prod": "firebase use prod && react-scripts build && firebase deploy",
+    "build:functions": "cd functions && yarn install",
     "dev": "sh -ac '. ./.env.dev;   yarn build:dev'",
     "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
     "prod": "sh -ac '. ./.env.prod;  yarn build:prod'",
