@@ -6,6 +6,8 @@ import Error from '../misc/Error';
 import Profile from './Profile';
 import { Page } from '../../styles/layout';
 
+import '../../styles/account.scss';
+
 const Account = () => (
   <Page>
     <FirebaseAuth>
@@ -28,7 +30,7 @@ const Account = () => (
         }
 
         return (
-          <div>
+          <div className="account-profile">
             <Profile auth={auth} />
           </div>
         );

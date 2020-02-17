@@ -8,18 +8,20 @@ import { Avatar } from './Avatar';
 const Profile = ({ auth }) => (
   <Route
     render={({ history }) => (
-      <div>
-        <Avatar user={auth} width="10rem" />
-        <p>
+      <div className="profile">
+        <div style={{ marginRight: '2rem' }}>
+          <Avatar user={auth} width="10rem" />
+        </div>
+        <div className="profile-info">
           <strong>{auth.displayName}</strong>
-        </p>
-        <p>{auth.email}</p>
-        <wds-button
-          color="red"
-          onClick={() => logOut().then(() => history.push(`/`))}
-        >
-          Log out
-        </wds-button>
+          <p>{auth.email}</p>
+          <wds-button
+            color="red"
+            onClick={() => logOut().then(() => history.push(`/`))}
+          >
+            Log out
+          </wds-button>
+        </div>
       </div>
     )}
   />
