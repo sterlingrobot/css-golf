@@ -22,7 +22,7 @@ const Account = () => (
           return (
             <div>
               <p>Log in to see your account</p>
-              <button onClick={logIn}>Log in</button>
+              <wds-button onClick={logIn}>Log in</wds-button>
             </div>
           );
         }
