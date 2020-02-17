@@ -1,4 +1,7 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import { FirestoreCollection } from 'react-firestore';
 
 import Error from '../misc/Error';
@@ -57,3 +60,8 @@ const ChallengeEdit = ({ match, history }) => (
 );
 
 export default ChallengeEdit;
+
+ChallengeEdit.propTypes = {
+  match: PropTypes.instanceOf(Route.match),
+  history: PropTypes.instanceOf(Route.history)
+};
