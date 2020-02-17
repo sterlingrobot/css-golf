@@ -30,5 +30,5 @@ const Profile = ({ auth }) => (
 export default Profile;
 
 Profile.propTypes = {
-  auth: PropTypes.instanceOf(FirebaseAuth)
+  auth: PropTypes.shape(FirebaseAuth)
 };
