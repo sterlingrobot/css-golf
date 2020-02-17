@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // the main file in our front-end app
 // create-react-app expects a file in src/index.js and loads everything from here
 

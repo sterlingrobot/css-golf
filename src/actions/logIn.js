@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Firebase from 'firebase/app';
 
 import { setPresence } from './presence';
