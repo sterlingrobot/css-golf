@@ -1,6 +1,7 @@
+import React from 'react'
+import PropTypes from 'prop-types';
 import Firebase from 'firebase/app'
 import { FirestoreProvider } from 'react-firestore'
-import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import ErrorBoundary from './misc/ErrorBoundary'
@@ -16,9 +17,14 @@ class ScrollToTop extends React.Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   render() {
     return null
   }
+}
+
+ScrollToTop.propTypes = {
+  location: PropTypes.string
 }
 
 const App = () => (
