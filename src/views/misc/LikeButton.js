@@ -1,46 +1,58 @@
-import React from 'react'
-import { FirestoreCollection } from 'react-firestore'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FirestoreCollection } from 'react-firestore';
 
-import likePost from '../../actions/likePost'
-import unlikePost from '../../actions/unlikePost'
-import FirebaseAuth from '../misc/FirebaseAuth'
+import likeChallenge from '../../actions/likeChallenge';
+import unlikeChallenge from '../../actions/unlikeChallenge';
+import FirebaseAuth from './FirebaseAuth';
 
-const LikeButton = ({post}) => (
+const LikeButton = ({ challenge }) => (
   <FirebaseAuth>
-    { ({isLoading, error, auth}) => {
-
+    {({ isLoading, error, auth }) => {
       if (!auth || isLoading || error) {
-        return <button disabled>like</button>
+        return <wds-button disabled>Like</wds-button>;
       }
 
-      return <FirestoreCollection
-        path={'postLikes'}
-        filter={[
-          ['postId', '==', post.id],
-          ['createdBy', '==', auth.uid],
-        ]}
-      >
-        { ({error, isLoading, data}) => {
-
-          if (error || isLoading) {
-            return <button disabled>like</button>
-          }
-
-          const userLike = data[0]
-
-          return <button onClick={ () => {
-            if (userLike) {
-              unlikePost(userLike)
-            } else {
-              likePost(post)
+      return (
+        <FirestoreCollection
+          path={'challengeLikes'}
+          filter={[
+            ['challengeId', '==', challenge.id],
+            ['createdBy', '==', auth.uid]
+          ]}
+        >
+          {({ collectionError, collectionIsLoading, data }) => {
+            if (collectionError || collectionIsLoading) {
+              return <button disabled>like</button>;
             }
-          }}>
-            {userLike ? 'unlike' : 'like'}
-          </button>
-        }}
-      </FirestoreCollection>
+
+            const userLike = data[0];
+
+            return (
+              <wds-button
+                type={userLike ? '' : 'dark'}
+                onClick={() => {
+                  if (userLike) {
+                    unlikeChallenge(userLike);
+                  } else {
+                    likeChallenge(challenge);
+                  }
+                }}
+              >
+                {userLike ? 'Unlike' : 'Like'}
+              </wds-button>
+            );
+          }}
+        </FirestoreCollection>
+      );
     }}
   </FirebaseAuth>
-)
+);
 
-export default LikeButton
+export default LikeButton;
+
+LikeButton.propTypes = {
+  challenge: PropTypes.shape({
+    id: PropTypes.string,
+  }),
+};
