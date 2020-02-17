@@ -1,16 +1,9 @@
-.form-wrap {
-  display: grid;
-  height: 100%;
-  gap: 2rem;
-  grid-template-rows: auto minmax(min-content, 1fr) auto;
-}
+@import '~@wisetail/tokens/build/scss/variables';
 
 .editor {
 
-  button:focus,
-  input:focus,
   textarea:focus {
+    border: 1px solid $color-silver-50 !important;
     outline: 0;
-    border-color: #ccc;
   }
 }
