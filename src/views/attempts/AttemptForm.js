@@ -16,7 +16,6 @@ import Attempt from './Attempt';
 
 import {
   FormRow,
-  FormLabel,
   TextInput,
 } from '../../styles/forms'
 import editor from '../../styles/editor';
