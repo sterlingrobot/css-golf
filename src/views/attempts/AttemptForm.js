@@ -5,7 +5,7 @@
 // You can use browser form validation these days, and just
 // get the values from the form on submit.
 
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Editor from 'react-simple-code-editor';
@@ -14,34 +14,30 @@ import 'prismjs/components/prism-scss';
 
 import Attempt from './Attempt';
 
-import {
-  FormRow,
-  TextInput,
-} from '../../styles/forms'
+import { FormRow, TextInput } from '../../styles/forms';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
 import '../../styles/editor.scss';
 
 class AttemptForm extends React.Component {
-
   state = {
     code: this.props.attempt || ''
-  }
+  };
 
   onSubmit = event => {
-    event.preventDefault()
-    const {title, content} = event.target.elements
+    event.preventDefault();
+    const { title, content } = event.target.elements;
     const values = {
       title: title.value,
-      content: content.value,
-    }
+      content: content.value
+    };
     return (
       title.checkValidity() &&
       content.checkValidity() &&
       this.props.onSubmit(values)
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -49,11 +45,14 @@ class AttemptForm extends React.Component {
     } = this;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
-
         <div className="form-wrap">
-
           <FormRow className="editor">
-            <TextInput type="text" name="title" defaultValue={attempt ? attempt.title : ''} required />
+            <TextInput
+              type="text"
+              name="title"
+              defaultValue={attempt ? attempt.title : ''}
+              required
+            />
           </FormRow>
 
           <FormRow>
@@ -70,27 +69,27 @@ class AttemptForm extends React.Component {
           </FormRow>
 
           <FormRow className="editor">
-            <button type="submit"
+            <button
+              type="submit"
               style={{
                 width: '100%',
-                appearance: 'none' ,
+                appearance: 'none',
                 border: 0,
-                background: 'none',
+                background: 'none'
               }}
             >
               <wds-button type="dark">Submit Attempt</wds-button>
             </button>
           </FormRow>
-
         </div>
       </form>
-    )
+    );
   }
 }
 
-export default AttemptForm
+export default AttemptForm;
 
 AttemptForm.propTypes = {
   attempt: PropTypes.instanceOf(Attempt),
   onSubmit: PropTypes.func
-}
+};

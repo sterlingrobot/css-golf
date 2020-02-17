@@ -1,11 +1,10 @@
-import Firebase from 'firebase/app'
+import Firebase from 'firebase/app';
 
 const unlikeChallenge = userLike => {
-
   return Firebase.firestore()
     .collection('challengeLikes')
     .doc(userLike.id)
-    .delete()
-}
+    .delete();
+};
 
-export default unlikeChallenge
+export default unlikeChallenge;

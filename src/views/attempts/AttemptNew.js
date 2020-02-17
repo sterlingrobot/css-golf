@@ -47,5 +47,5 @@ const AttemptNew = ({ history }) => (
 export default AttemptNew;
 
 AttemptNew.propTypes = {
-  history: PropTypes.instanceOf(Route.history),
+  history: PropTypes.instanceOf(Route.history)
 };

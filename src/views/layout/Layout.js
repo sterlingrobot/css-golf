@@ -1,24 +1,15 @@
-// this Layout component wraps every page with the app header on top
-// check out App.js to see how it's used
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import React from 'react'
+import logIn from '../../actions/logIn';
+import FirebaseAuth from '../misc/FirebaseAuth';
+import { Avatar } from '../account/Avatar';
 
-import logIn from '../../actions/logIn'
-import FirebaseAuth from '../misc/FirebaseAuth'
-import { Avatar } from '../account/Avatar'
+import { HeaderFooterWrapper, Header, Footer } from '../../styles/layout';
+import { HeaderLink } from '../../styles/links';
 
-import {
-  HeaderFooterWrapper,
-  Header,
-  Footer,
-} from '../../styles/layout'
-import {
-  HeaderLink,
-} from '../../styles/links'
-
-const Layout = ({children}) => (
+const Layout = ({ children }) => (
   <HeaderFooterWrapper>
-
     <Header>
       <HeaderLink to="/">
         <h2>CSS Golf</h2>
@@ -27,20 +18,26 @@ const Layout = ({children}) => (
       <div>
         {' '}
         <FirebaseAuth>
-          { ({isLoading, error, auth}) => {
+          {({ isLoading, error, auth }) => {
             if (isLoading) {
-              return '...'
+              return '...';
             }
             if (error) {
-              return '⚠️ login error'
+              return '⚠️ login error';
             }
             if (auth) {
-              return <HeaderLink to={`/account`}>
-                <Avatar role="img" aria-label="account" user={auth} width="5rem"/>
-              </HeaderLink>
+              return (
+                <HeaderLink to={`/account`}>
+                  <Avatar
+                    role="img"
+                    aria-label="account"
+                    user={auth}
+                    width="5rem"
+                  />
+                </HeaderLink>
+              );
             }
-              return <button onClick={logIn}>log in</button>
-
+            return <button onClick={logIn}>log in</button>;
           }}
         </FirebaseAuth>
       </div>
@@ -48,11 +45,12 @@ const Layout = ({children}) => (
 
     {children}
 
-    <Footer>
-      © {(new Date()).getFullYear()}
-    </Footer>
-
+    <Footer>© {new Date().getFullYear()}</Footer>
   </HeaderFooterWrapper>
-)
+);
 
-export default Layout
+export default Layout;
+
+Layout.propTypes = {
+  children: PropTypes.node
+};

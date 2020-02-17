@@ -6,4 +6,4 @@ export default {
   border: `1px solid ${Colors.SILVER_20}`,
   fontFamily: '"Fira code", monospace',
   fontSize: '1.6rem'
-}
+};

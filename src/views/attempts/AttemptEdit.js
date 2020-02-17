@@ -61,5 +61,5 @@ export default AttemptEdit;
 
 AttemptEdit.propTypes = {
   match: PropTypes.instanceOf(Route.match),
-  history: PropTypes.instanceOf(Route.history),
+  history: PropTypes.instanceOf(Route.history)
 };

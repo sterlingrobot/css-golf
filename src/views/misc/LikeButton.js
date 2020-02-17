@@ -53,6 +53,6 @@ export default LikeButton;
 
 LikeButton.propTypes = {
   challenge: PropTypes.shape({
-    id: PropTypes.string,
-  }),
+    id: PropTypes.string
+  })
 };

@@ -1,7 +1,6 @@
 @import '~@wisetail/tokens/build/scss/variables';
 
 .editor {
-
   textarea:focus {
     border: 1px solid $color-silver-50 !important;
     outline: 0;

@@ -1,8 +1,7 @@
-import Firebase from 'firebase/app'
+import Firebase from 'firebase/app';
 
 const logOut = () => {
+  return Firebase.auth().signOut();
+};
 
-  return Firebase.auth().signOut()
-}
-
-export default logOut
+export default logOut;
