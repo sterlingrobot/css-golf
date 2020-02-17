@@ -1,25 +1,30 @@
 // the main routes of our app are defined here using react-router
 // https://reacttraining.com/react-router/web/example/basic
 
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import PostList from './posts/PostList'
-import PostNew from './posts/PostNew'
-import Account from './account/Account'
-import PostEdit from './posts/PostEdit'
-import Post from './posts/Post'
-import Error from './misc/Error'
+// import Attempt from './attempts/Attempt'
+// import AttemptNew from './attempts/AttemptNew'
+// import AttemptEdit from './attempts/AttemptEdit'
+
+import ChallengeList from './challenges/ChallengeList';
+import Challenge from './challenges/Challenge';
+import ChallengeNew from './challenges/ChallengeNew';
+import ChallengeEdit from './challenges/ChallengeEdit';
+
+import Account from './account/Account';
+import Error from './misc/Error';
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={PostList} />
-    <Route path="/new" component={PostNew} />
+    <Route exact path="/" component={ChallengeList} />
+    <Route path="/new" component={ChallengeNew} />
+    <Route path="/:slug/edit" component={ChallengeEdit} />
+    <Route path="/:slug" component={Challenge} />
     <Route path="/account" component={Account} />
-    <Route path="/:slug/edit" component={PostEdit} />
-    <Route path="/:slug" component={Post} />
     <Route component={Error} />
   </Switch>
-)
+);
 
-export default Routes
+export default Routes;

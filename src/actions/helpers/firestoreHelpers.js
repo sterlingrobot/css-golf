@@ -1,37 +1,36 @@
 // Helper functions for working with Firebase Firestore
 
-import Firebase from 'firebase/app'
-import 'firebase/auth'
+import Firebase from 'firebase/app';
+import 'firebase/auth';
 
 const prepareDocForCreate = doc => {
-
   // timestamps
-  doc.createdBy = Firebase.auth().currentUser ? Firebase.auth().currentUser.uid : null
-  doc.createdOn = Firebase.firestore.Timestamp.now()
+  const createdBy = Firebase.auth().currentUser
+    ? Firebase.auth().currentUser.uid
+    : null;
+  const createdOn = Firebase.firestore.Timestamp.now();
 
-  return doc
-}
+  return { ...doc, createdBy, createdOn };
+};
 
 const prepareDocForUpdate = doc => {
+  const update = {};
 
   // timestamps
-  doc.updatedBy = Firebase.auth().currentUser ? Firebase.auth().currentUser.uid : null
-  doc.updatedOn = Firebase.firestore.Timestamp.now()
+  update.updatedBy = Firebase.auth().currentUser
+    ? Firebase.auth().currentUser.uid
+    : null;
+  update.updatedOn = Firebase.firestore.Timestamp.now();
 
   // don't save the id as part of the document
-  delete doc.id
-
   // don't save values that start with an underscore (these are calculated by the backend)
-  Object.keys(doc).forEach( key => {
-    if (key.indexOf('_') === 0) {
-      delete doc[key]
+  Object.keys(doc).forEach(key => {
+    if (key.indexOf('_') !== 0 && key !== 'id') {
+      update[key] = doc[key];
     }
-  })
+  });
 
-  return doc
-}
+  return update;
+};
 
-export {
-  prepareDocForCreate,
-  prepareDocForUpdate,
-}
+export { prepareDocForCreate, prepareDocForUpdate };
