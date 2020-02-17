@@ -12,6 +12,8 @@ import { ChallengeOutput } from './ChallengeOutput';
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
 
+import '../../styles/challenge.scss';
+
 class Challenge extends React.Component {
   render() {
     const {
@@ -39,18 +41,20 @@ class Challenge extends React.Component {
             const challenge = data[0];
 
             return (
-              <div>
-                <h1>{challenge.title}</h1>
+              <div className="challenge">
+                <header>
+                  <h1>{challenge.title}</h1>
+                  <FirebaseAuth>
+                    {({ auth }) =>
+                      auth ? (
+                        <InternalLink to={`/${challenge.slug}/edit`}>
+                          <wds-button>Edit</wds-button>
+                        </InternalLink>
+                      ) : null
+                    }
+                  </FirebaseAuth>
+                </header>
                 <ChallengeOutput challenge={challenge} />
-                <FirebaseAuth>
-                  {({ auth }) =>
-                    auth ? (
-                      <InternalLink to={`/${challenge.slug}/edit`}>
-                        Edit
-                      </InternalLink>
-                    ) : null
-                  }
-                </FirebaseAuth>
               </div>
             );
           }}
@@ -64,5 +68,5 @@ export default Challenge;
 
 Challenge.propTypes = {
   code: PropTypes.string,
-  match: PropTypes.instanceOf(Route)
+  match: PropTypes.shape(Route.match)
 };

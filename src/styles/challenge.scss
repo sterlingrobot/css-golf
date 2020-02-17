@@ -1,0 +1,16 @@
+@import '~@wisetail/tokens/build/scss/variables';
+
+.challenge {
+  header {
+    --layout-buttons-height: 3rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 2rem;
+
+    h1 {
+      margin: 0;
+    }
+  }
+}
