@@ -51,7 +51,7 @@ class ChallengeForm extends React.Component {
                 type="text"
                 name="title"
                 defaultValue={challenge ? challenge.title : ''}
-                autocomplete="off"
+                autoComplete="off"
                 required
               />
             </div>
@@ -66,7 +66,7 @@ class ChallengeForm extends React.Component {
               highlight={html => Prism.highlight(html, Prism.languages.html)}
               padding={10}
               style={{ ...editor }}
-              autocomplete="off"
+              autoComplete="off"
               required
             />
             <Editor
@@ -77,7 +77,7 @@ class ChallengeForm extends React.Component {
               highlight={css => Prism.highlight(css, Prism.languages.scss)}
               padding={10}
               style={{ ...editor }}
-              autocomplete="off"
+              autoComplete="off"
               required
             />
           </div>
