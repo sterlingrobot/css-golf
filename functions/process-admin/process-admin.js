@@ -1,10 +1,9 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.dev.json');
 
 const admins = require('./admin.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.applicationDefault(),
   databaseURL: 'https://css-golf-dev.firebaseio.com'
 });
 
