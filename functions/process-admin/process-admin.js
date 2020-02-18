@@ -1,3 +1,4 @@
+const querystring = require('querystring');
 const admin = require('firebase-admin');
 
 const admins = require('./admin.json');
@@ -9,7 +10,7 @@ admin.initializeApp({
 
 // On sign up.
 exports.handler = async (event, context) => {
-  const { user } = JSON.parse(event.body);
+  const { user } = querystring.parse(event.body);
   // Check if user meets role criteria.
   if (user.email && user.emailVerified && admins.includes(user.email)) {
     const customClaims = {

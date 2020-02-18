@@ -1,7 +1,8 @@
+const querystring = require('querystring');
 const sass = require('node-sass');
 
 exports.handler = async (event, context) => {
-  const { id, css } = JSON.parse(event.body);
+  const { id, css } = querystring.parse(event.body);
 
   try {
     const styles = sass.renderSync({
