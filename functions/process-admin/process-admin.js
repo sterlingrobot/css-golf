@@ -9,7 +9,7 @@ admin.initializeApp({
 });
 
 // On sign up.
-exports.handler = async (event, context) => {
+exports.handler = async (event, _context) => {
   const { user } = querystring.parse(event.body);
   // Check if user meets role criteria.
   if (user.email && user.emailVerified && admins.includes(user.email)) {
