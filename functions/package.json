@@ -8,8 +8,8 @@
   "dependencies": {
     "@wisetail/tokens": "^1.0.0",
     "firebase-admin": "^8.9.2",
-    "node-sass": "^4.13.1",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "sass": "^1.25.0"
   },
   "directories": {
     "lib": "lib"
