@@ -3,12 +3,8 @@ const admin = require('firebase-admin');
 const Promise = require('bluebird');
 const chalk = require('chalk');
 
-// init firebase
-const serviceAccount = require('./serviceAccountKey.dev.json');
+admin.initializeApp();
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
 const db = admin.firestore();
 
 const updatePost = doc => {

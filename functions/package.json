@@ -1,0 +1,19 @@
+{
+  "name": "css-golf-functions",
+  "version": "1.0.0",
+  "description": "This folder contains a little backend code for updating our search index when a post changes, keeping subscriptions in sync with stripe, and updating the number of likes on each post, etc.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "dependencies": {
+    "@wisetail/tokens": "^1.0.0",
+    "firebase-admin": "^8.9.2",
+    "querystring": "^0.2.0",
+    "sass": "^1.25.0"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "license": "ISC"
+}

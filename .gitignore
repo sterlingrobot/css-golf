@@ -8,3 +8,7 @@ firebase-debug.log
 .env.prod
 serviceAccountKey*
 .firebase
+*error.log
+
+# Local Netlify folder
+.netlify

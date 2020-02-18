@@ -1,13 +1,16 @@
 import Firebase from 'firebase/app';
 import slugify from 'slugify';
 
+import { compileScss } from './compileScss';
 import { prepareDocForCreate } from './helpers/firestoreHelpers';
 
-const createAttempt = values => {
+const createChallenge = async values => {
   const slug = slugify(values.title, { lower: true });
   const _likeCount = 0;
 
   const challenge = { ...values, slug, _likeCount };
+
+  challenge.style = await compileScss(challenge.id, challenge.css);
 
   return Firebase.firestore()
     .collection('challenges')
@@ -19,4 +22,4 @@ const createAttempt = values => {
     });
 };
 
-export default createAttempt;
+export default createChallenge;

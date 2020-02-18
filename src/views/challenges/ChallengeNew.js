@@ -48,5 +48,5 @@ const ChallengeNew = ({ history }) => (
 export default ChallengeNew;
 
 ChallengeNew.propTypes = {
-  history: PropTypes.instanceOf(Route.history)
+  history: PropTypes.shape(Route.history)
 };
