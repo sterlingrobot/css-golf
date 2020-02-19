@@ -1,10 +1,5 @@
 module.exports = {
-  extends: [
-    'eslint:recommended',
-    'airbnb-base',
-    'plugin:react/recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
