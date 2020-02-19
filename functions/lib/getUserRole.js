@@ -4,7 +4,7 @@ const admins = require('./admin.json');
 
 exports.isAdmin = async user => {
   // Check if user meets role criteria.
-  if (user.email && user.emailVerified && admins.includes(user.email)) {
+  if (user.email && admins.includes(user.email)) {
     const customClaims = {
       admin: true,
       accessLevel: 9

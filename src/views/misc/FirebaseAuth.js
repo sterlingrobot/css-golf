@@ -27,7 +27,11 @@ class FirebaseAuth extends React.Component {
     }
   }
 
-  handleAuth = auth => {
+  handleAuth = async auth => {
+    if (auth) {
+      const token = await auth.getIdTokenResult();
+      auth.admin = !!token.claims.admin;
+    }
     this.setState({
       isLoading: false,
       auth,
