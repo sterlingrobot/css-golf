@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import { FirestoreCollection } from 'react-firestore';
 
 import Error from '../misc/Error';
-import deleteChallenge from '../../actions/deleteChallenge';
 import updateChallenge from '../../actions/updateChallenge';
+import deleteChallenge from '../../actions/deleteChallenge';
+
 import ChallengeForm from './ChallengeForm';
 
 import { Page } from '../../styles/layout';
@@ -43,15 +44,10 @@ const ChallengeEdit = ({ match, history }) => (
                   history.push(`/${challenge.slug}/edit`)
                 )
               }
-            />
-            <br />
-            <button
-              onClick={() =>
+              onDelete={() =>
                 deleteChallenge(challenge).then(() => history.push(`/`))
               }
-            >
-              Delete post
-            </button>
+            />
           </div>
         );
       }}

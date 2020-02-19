@@ -38,7 +38,7 @@ class ChallengeForm extends React.Component {
 
   render() {
     const {
-      props: { challenge }
+      props: { challenge, onDelete }
     } = this;
     return (
       <form id="challengeForm" onSubmit={this.onSubmit}>
@@ -80,17 +80,17 @@ class ChallengeForm extends React.Component {
             />
           </div>
 
-          <div className="form-row">
-            <button
-              type="submit"
-              style={{
-                width: '100%',
-                appearance: 'none',
-                border: 0,
-                background: 'none'
-              }}
+          <div className="form-actions">
+            <wds-button
+              className="delete-button"
+              color="red"
+              type="dark"
+              onClick={onDelete}
             >
-              <wds-button type="dark">Save Challenge</wds-button>
+              Delete
+            </wds-button>
+            <button type="submit">
+              <wds-button type="dark">Save</wds-button>
             </button>
           </div>
         </div>
@@ -107,5 +107,6 @@ ChallengeForm.propTypes = {
     html: PropTypes.string,
     css: PropTypes.string
   }),
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  onDelete: PropTypes.func
 };
