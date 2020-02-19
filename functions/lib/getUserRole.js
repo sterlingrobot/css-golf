@@ -1,18 +1,10 @@
-const querystring = require('querystring');
 const admin = require('firebase-admin');
 
 const admins = require('./admin.json');
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://css-golf-dev.firebaseio.com'
-});
-
-// On sign up.
-exports.handler = async (event, _context) => {
-  const { user } = querystring.parse(event.body);
+exports.isAdmin = async user => {
   // Check if user meets role criteria.
-  if (user.email && user.emailVerified && admins.includes(user.email)) {
+  if (user.email && admins.includes(user.email)) {
     const customClaims = {
       admin: true,
       accessLevel: 9
@@ -23,16 +15,7 @@ exports.handler = async (event, _context) => {
     const metadataRef = admin.database().ref(`metadata/${user.uid}`);
     // Set the refresh time to the current UTC timestamp.
     // This will be captured on the client to force a token refresh.
-    metadataRef.set({ refreshTime: new Date().getTime() });
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ user })
-    };
+    return metadataRef.set({ refreshTime: new Date().getTime() });
   }
-
-  return {
-    statusCode: 403,
-    body: JSON.stringify({ message: `Unauthorized` })
-  };
+  return false;
 };

@@ -46,7 +46,7 @@ class Challenge extends React.Component {
                   <h1>{challenge.title}</h1>
                   <FirebaseAuth>
                     {({ auth }) =>
-                      auth ? (
+                      auth && auth.admin ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
                           <wds-button>Edit</wds-button>
                         </InternalLink>
