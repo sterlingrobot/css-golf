@@ -6,7 +6,9 @@ admin.initializeApp(functions.config().firebase);
 const getUserRole = require('./lib/getUserRole');
 const challengeLikes = require('./lib/challengeLikes');
 
-exports.setAccessPrivileges = functions.auth.onCreate(getUserRole.isAdmin);
+exports.setAccessPrivileges = functions.auth
+  .user()
+  .onCreate(getUserRole.isAdmin);
 
 exports.updatePostLikeCount = functions.firestore
   .document('challengeLikes/{challengeLikeId}')
