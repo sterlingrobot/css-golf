@@ -1,20 +1,29 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7185e6a7-6cbe-4c0e-b7bd-823ee8449f91/deploy-status)](https://app.netlify.com/sites/css-golf/deploys)
 
-A modern web-app boilerplate with Create React App and Firebase. Focused on simplicity for new devs, rapid prototyping, and smallish projects.
+A CSS code-in-the-dark challenge game built with Create React App, Firebase and Netlify.
 
-### **Full documentation at [getfirefly.org](http://getfirefly.org)**
-
-### **[Live Demo](https://demo.getfirefly.org)**
+### **[Live Site](https://css-golf.netlify.com)**
 
 ## Folders
 
 Child folders each have their own readmes
 
-- [`/functions`](https://github.com/sampl/firefly/tree/master/functions) - contains all the backend code (not much)
-- [`/public`](https://github.com/sampl/firefly/tree/master/public) - files that will be available as-is on the web server
-- [`/scripts`](https://github.com/sampl/firefly/tree/master/scripts) - convenience scripts for developers
-- [`/src`](https://github.com/sampl/firefly/tree/master/src) - the front-end app
+- [`/functions`](https://github.com/sterlingrobot/css-golf/tree/development/functions) - contains serverless backend lamba functions,
+  built both for [Netlify Functions](https://app.netlify.com/sites/css-golf/functions) and [Firebase Functions](https://console.firebase.google.com/project/css-golf-dev/functions/list)
+- [`/public`](https://github.com/sterlingrobot/css-golf/tree/development/public) - files that will be available as-is on the web server
+- [`/scripts`](https://github.com/sterlingrobot/css-golf/tree/development/scripts) - convenience scripts, eg. migration, unused currently
+- [`/src`](https://github.com/sterlingrobot/css-golf/tree/development/src) - the front-end app
 
-## License
+## Development
 
-[MIT License](https://en.wikipedia.org/wiki/MIT_License)
+Install [Firebase CLI](https://firebase.google.com/docs/cli)
+
+```
+  npm install -g firebase-tools
+```
+
+Install [Netlify CLI](https://docs.netlify.com/cli/get-started/)
+
+```
+  npm install -g netlify cli
+```
