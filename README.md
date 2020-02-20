@@ -27,3 +27,9 @@ Install [Netlify CLI](https://docs.netlify.com/cli/get-started/)
 ```
   npm install -g netlify cli
 ```
+
+To start a local dev server with access to Netlify Functions run
+
+```
+  netlify dev
+```

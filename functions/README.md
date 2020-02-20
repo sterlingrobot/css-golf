@@ -11,3 +11,8 @@ Node scripts necessary for pre-processing (SCSS compile).
   eg. `yarn deploy:dev` which points to `.env.dev`
 
 **[Documentation for Netlify Functions](https://docs.netlify.com/functions/overview/)**
+
+- Netlify functions are organized in `<function-name>/<function-name>.js` directories
+- They are deployed along with the standard build deploy/preview via push/PR to `master`,
+  or they can be deployed from a local environment via `netlify functions:deploy`
+- They can be built and used locally via the `netlify dev` command
