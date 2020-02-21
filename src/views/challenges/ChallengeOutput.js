@@ -1,26 +1,53 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import FirebaseAuth from '../misc/FirebaseAuth';
+import Error from '../misc/Error';
+
+import { OutputImg } from '../../styles/challenge';
 
 const setContent = html => {
   return { __html: html };
 };
 
-export const ChallengeOutput = ({ challenge }) => (
-  <div id={challenge.id} className="challenge-container">
-    <style>{challenge.style}</style>
-    <div
-      className="challenge-content"
-      dangerouslySetInnerHTML={setContent(challenge.html)}
-    ></div>
+// eslint-disable-next-line react/display-name
+const ChallengeOutput = React.forwardRef(({ challenge }, ref) => (
+  <div id={challenge.id} ref={ref} className="challenge-container">
+    <FirebaseAuth>
+      {({ isLoading, error, auth }) => {
+        if (error) {
+          return <Error error={error} />;
+        }
+
+        if (isLoading) {
+          return <div>loading...</div>;
+        }
+
+        if (!!auth.admin) {
+          return (
+            <>
+              <style>{challenge.style}</style>
+              <div
+                className="challenge-content"
+                dangerouslySetInnerHTML={setContent(challenge.html)}
+              ></div>
+            </>
+          );
+        }
+        return <OutputImg src={challenge.snapshot} />;
+      }}
+    </FirebaseAuth>
   </div>
-);
+));
+
+export default ChallengeOutput;
 
 ChallengeOutput.propTypes = {
   challenge: PropTypes.shape({
     id: PropTypes.string,
     html: PropTypes.string,
     css: PropTypes.string,
-    style: PropTypes.string
+    style: PropTypes.string,
+    snapshot: PropTypes.string
   })
 };
