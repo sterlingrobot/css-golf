@@ -7,7 +7,7 @@ import { Route } from 'react-router-dom';
 import Error from '../misc/Error';
 import FirebaseAuth from '../misc/FirebaseAuth';
 
-import { ChallengeOutput } from './ChallengeOutput';
+import ChallengeOutput from './ChallengeOutput';
 
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
