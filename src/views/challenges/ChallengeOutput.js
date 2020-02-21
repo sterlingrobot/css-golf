@@ -23,7 +23,7 @@ const ChallengeOutput = React.forwardRef(({ challenge }, ref) => (
           return <div>loading...</div>;
         }
 
-        if (!!auth.admin) {
+        if (auth.admin === true) {
           return (
             <>
               <style>{challenge.style}</style>
