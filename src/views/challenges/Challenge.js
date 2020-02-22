@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { FirestoreCollection } from 'react-firestore';
 import { Route } from 'react-router-dom';
 
+import Prism from 'prismjs';
+
 import Error from '../misc/Error';
 import FirebaseAuth from '../misc/FirebaseAuth';
 
@@ -11,8 +13,16 @@ import ChallengeOutput from './ChallengeOutput';
 
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
+import editor from '../../styles/editor';
 
+import 'prismjs/themes/prism.css';
 import '../../styles/challenge.scss';
+
+const setContent = html => {
+  return {
+    __html: Prism.highlight(html, Prism.languages.html)
+  };
+};
 
 class Challenge extends React.Component {
   render() {
@@ -55,6 +65,14 @@ class Challenge extends React.Component {
                   </FirebaseAuth>
                 </header>
                 <ChallengeOutput challenge={challenge} />
+                <div className="challenge-markup" style={{ ...editor }}>
+                  <pre>
+                    <code
+                      language="html"
+                      dangerouslySetInnerHTML={setContent(challenge.html)}
+                    />
+                  </pre>
+                </div>
               </div>
             );
           }}
