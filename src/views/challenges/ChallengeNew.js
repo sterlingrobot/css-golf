@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
 import FirebaseAuth from '../misc/FirebaseAuth';
-
 import Error from '../misc/Error';
+
+import ChallengeForm from './ChallengeForm';
+
 import logIn from '../../actions/logIn';
 import createChallenge from '../../actions/createChallenge';
-import ChallengeForm from './ChallengeForm';
+
 import { Page } from '../../styles/layout';
 
 const ChallengeNew = ({ history }) => (
@@ -35,7 +37,7 @@ const ChallengeNew = ({ history }) => (
           <ChallengeForm
             onSubmit={values =>
               createChallenge(values).then(post =>
-                history.push(`/${post.slug}`)
+                history.push(`/${post.slug}/edit`)
               )
             }
           />

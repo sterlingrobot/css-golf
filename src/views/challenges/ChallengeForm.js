@@ -13,6 +13,7 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
 import { TextInput } from '../../styles/forms';
+import { InternalLink } from '../../styles/links';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
@@ -56,31 +57,39 @@ class ChallengeForm extends React.Component {
           </div>
 
           <div className="form-row">
-            <Editor
-              className="editor"
-              name="html"
-              value={this.state.html}
-              onValueChange={html => this.setState({ html })}
-              highlight={html => Prism.highlight(html, Prism.languages.html)}
-              padding={10}
-              style={{ ...editor }}
-              autoComplete="off"
-              required
-            />
-            <Editor
-              className="editor"
-              name="css"
-              value={this.state.css}
-              onValueChange={css => this.setState({ css })}
-              highlight={css => Prism.highlight(css, Prism.languages.scss)}
-              padding={10}
-              style={{ ...editor }}
-              autoComplete="off"
-              required
-            />
+            <div className="editor-wrap">
+              <Editor
+                className="editor"
+                name="html"
+                value={this.state.html}
+                onValueChange={html => this.setState({ html })}
+                highlight={html => Prism.highlight(html, Prism.languages.html)}
+                padding={10}
+                style={{ ...editor }}
+                autoComplete="off"
+                required
+              />
+            </div>
+            <div className="editor-wrap">
+              <Editor
+                className="editor"
+                name="css"
+                value={this.state.css}
+                onValueChange={css => this.setState({ css })}
+                highlight={css => Prism.highlight(css, Prism.languages.scss)}
+                padding={10}
+                style={{ ...editor }}
+                autoComplete="off"
+                required
+              />
+            </div>
           </div>
 
           <div className="form-actions">
+            <InternalLink to="/" style={{ marginRight: 'auto' }}>
+              <wds-icon>arrow_back</wds-icon>
+              Back to Challenges
+            </InternalLink>
             <wds-button
               className="delete-button"
               color="red"
