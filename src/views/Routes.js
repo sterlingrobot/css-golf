@@ -6,7 +6,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import Attempt from './attempts/Attempt';
 import AttemptNew from './attempts/AttemptNew';
-// import AttemptEdit from './attempts/AttemptEdit'
 
 import ChallengeList from './challenges/ChallengeList';
 import Challenge from './challenges/Challenge';
