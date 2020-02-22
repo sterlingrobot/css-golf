@@ -19,6 +19,7 @@ import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
 import '../../styles/editor.scss';
+import '../../styles/challenge';
 
 class AttemptForm extends React.Component {
   state = {
@@ -27,16 +28,11 @@ class AttemptForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { title, content } = event.target.elements;
+    const { content } = event.target.elements;
     const values = {
-      title: title.value,
       content: content.value
     };
-    return (
-      title.checkValidity() &&
-      content.checkValidity() &&
-      this.props.onSubmit(values)
-    );
+    return content.checkValidity() && this.props.onSubmit(values);
   };
 
   render() {
@@ -46,15 +42,6 @@ class AttemptForm extends React.Component {
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <div className="form-wrap">
-          <FormRow className="editor">
-            <TextInput
-              type="text"
-              name="title"
-              defaultValue={attempt ? attempt.title : ''}
-              required
-            />
-          </FormRow>
-
           <FormRow>
             <Editor
               className="editor"
