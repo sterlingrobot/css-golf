@@ -56,7 +56,9 @@ class Challenge extends React.Component {
                     }
                   </FirebaseAuth>
                 </header>
-                <ChallengeOutput challenge={challenge} />
+                <div className="challenge-container">
+                  <ChallengeOutput challenge={challenge} />
+                </div>
                 <ChallengeMarkup html={challenge.html} />
               </div>
             );

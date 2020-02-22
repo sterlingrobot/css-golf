@@ -13,11 +13,7 @@ const setContent = html => {
 
 // eslint-disable-next-line react/display-name
 const ChallengeOutput = React.forwardRef(({ challenge }, ref) => (
-  <div
-    id={`challenge-${challenge.id}`}
-    ref={ref}
-    className="challenge-container"
-  >
+  <div id={`challenge-${challenge.id}`} ref={ref}>
     <FirebaseAuth>
       {({ isLoading, error, auth }) => {
         if (error) {

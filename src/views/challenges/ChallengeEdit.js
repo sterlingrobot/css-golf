@@ -44,7 +44,9 @@ class ChallengeEdit extends React.Component {
 
             return (
               <div>
-                <ChallengeOutput challenge={challenge} ref={this.output} />
+                <div className="challenge-container">
+                  <ChallengeOutput challenge={challenge} ref={this.output} />
+                </div>
                 <ChallengeForm
                   challenge={challenge}
                   onSubmit={values => {
