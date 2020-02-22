@@ -2049,6 +2049,16 @@
     lit-html "^1.1.2"
     rxjs "^6.5.3"
 
+"@wisetail/wds-icon@^1.0.0":
+  version "1.0.0"
+  resolved "https://npm.pkg.github.com/download/@wisetail/wds-icon/1.0.0/97dafb9c93fbcde60168d94c9b0f7b5b7a1f570daaa2c04739e8629d638bff5b#b52c79b5f1138a7e440d80ccb6c64e6cfb4348f3"
+  integrity sha512-m9YsMxcv6HvOxOIJ/tokYeinLlu9RbTvZuhfP6U40vYa3E63DciWND15CkniKfCAhSFfRU9arZrw17QLreU48g==
+  dependencies:
+    "@wisetail/tokens" "^1.0.0"
+    "@wisetail/wds-base" "^1.0.0"
+    lit-element "^2.0.1"
+    lit-html "^1.1.2"
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
