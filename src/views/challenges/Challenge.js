@@ -60,6 +60,10 @@ class Challenge extends React.Component {
                   <ChallengeOutput challenge={challenge} />
                 </div>
                 <ChallengeMarkup html={challenge.html} />
+                <InternalLink to="/" style={{ marginRight: 'auto' }}>
+                  <wds-icon>arrow_back</wds-icon>
+                  Back to Challenges
+                </InternalLink>
               </div>
             );
           }}

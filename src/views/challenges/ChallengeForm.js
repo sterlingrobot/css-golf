@@ -13,6 +13,7 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
 import { TextInput } from '../../styles/forms';
+import { InternalLink } from '../../styles/links';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
@@ -85,6 +86,10 @@ class ChallengeForm extends React.Component {
           </div>
 
           <div className="form-actions">
+            <InternalLink to="/" style={{ marginRight: 'auto' }}>
+              <wds-icon>arrow_back</wds-icon>
+              Back to Challenges
+            </InternalLink>
             <wds-button
               className="delete-button"
               color="red"
