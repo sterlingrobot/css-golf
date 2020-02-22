@@ -8,8 +8,11 @@
     "serve": "firebase serve --only functions",
     "shell": "firebase experimental:functions:shell",
     "start": "npm run shell",
-    "deploy": "sh -ac '. ../.env.dev; yarn deploy:functions'",
-    "deploy:functions": "firebase use dev && firebase deploy --only functions",
+    "deploy": "yarn deploy:dev",
+    "deploy:dev": "sh -ac '. ../.env.dev; yarn deploy:functions'",
+    "deploy:stage": "sh -ac '. ../.env.stage; yarn deploy:functions'",
+    "deploy:prod": "sh -ac '. ../.env.prod; yarn deploy:functions'",
+    "deploy:functions": "firebase use ${REACT_APP_ENV} && firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {

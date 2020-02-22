@@ -9,51 +9,65 @@ import updateChallenge from '../../actions/updateChallenge';
 import deleteChallenge from '../../actions/deleteChallenge';
 
 import ChallengeForm from './ChallengeForm';
+import ChallengeOutput from './ChallengeOutput';
 
 import { Page } from '../../styles/layout';
-import { ChallengeOutput } from './ChallengeOutput';
 
-const ChallengeEdit = ({ match, history }) => (
-  <Page>
-    <FirestoreCollection
-      path={'challenges'}
-      filter={['slug', '==', match.params.slug]}
-    >
-      {({ error, isLoading, data }) => {
-        if (error) {
-          return <Error error={error} />;
-        }
+class ChallengeEdit extends React.Component {
+  constructor() {
+    super();
+    this.output = React.createRef();
+  }
 
-        if (isLoading) {
-          return <p>loading...</p>;
-        }
+  render() {
+    const { match, history } = this.props;
+    return (
+      <Page>
+        <FirestoreCollection
+          path={'challenges'}
+          filter={['slug', '==', match.params.slug]}
+        >
+          {({ error, isLoading, data }) => {
+            if (error) {
+              return <Error error={error} />;
+            }
 
-        if (data.length === 0) {
-          return <Error />;
-        }
+            if (isLoading) {
+              return <p>loading...</p>;
+            }
 
-        const challenge = data[0];
+            if (data.length === 0) {
+              return <Error />;
+            }
 
-        return (
-          <div>
-            <ChallengeOutput challenge={challenge} />
-            <ChallengeForm
-              challenge={challenge}
-              onSubmit={values =>
-                updateChallenge(challenge.id, values).then(() =>
-                  history.push(`/${challenge.slug}/edit`)
-                )
-              }
-              onDelete={() =>
-                deleteChallenge(challenge).then(() => history.push(`/`))
-              }
-            />
-          </div>
-        );
-      }}
-    </FirestoreCollection>
-  </Page>
-);
+            const challenge = data[0];
+
+            return (
+              <div>
+                <div className="challenge-container">
+                  <ChallengeOutput challenge={challenge} ref={this.output} />
+                </div>
+                <ChallengeForm
+                  challenge={challenge}
+                  onSubmit={values => {
+                    updateChallenge(
+                      challenge.id,
+                      values,
+                      this.output.current
+                    ).then(() => history.push(`/${challenge.slug}/edit`));
+                  }}
+                  onDelete={() =>
+                    deleteChallenge(challenge).then(() => history.push(`/`))
+                  }
+                />
+              </div>
+            );
+          }}
+        </FirestoreCollection>
+      </Page>
+    );
+  }
+}
 
 export default ChallengeEdit;
 

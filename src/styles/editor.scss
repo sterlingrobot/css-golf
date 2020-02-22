@@ -1,8 +1,12 @@
 @import '~@wisetail/tokens/build/scss/variables';
 
+.editor-wrap {
+  min-height: 20em;
+  max-height: 60vh;
+  overflow: auto;
+}
 .editor {
   textarea:focus {
-    border: 1px solid $color-silver-50 !important;
     outline: 0;
   }
 }

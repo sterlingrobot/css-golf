@@ -3,7 +3,7 @@
 .form-wrap {
   display: grid;
   height: 100%;
-  gap: 2rem;
+  gap: 1rem;
   grid-template-rows: auto minmax(min-content, 1fr) auto;
 }
 
@@ -29,11 +29,25 @@
     border-radius: 3px;
   }
 
+  input[name='title'] {
+    margin: 0;
+    padding: 0 0.5rem;
+    font-size: 2.4rem;
+    border-radius: 0;
+    border-color: transparent;
+    border-bottom-color: $color-silver-20;
+  }
+
   button:focus,
   input:focus,
   textarea:focus {
     border-color: $color-silver-50;
     outline: 0;
+  }
+
+  input[name='title']:focus {
+    border-color: transparent;
+    border-bottom-color: $color-silver-50;
   }
 }
 
