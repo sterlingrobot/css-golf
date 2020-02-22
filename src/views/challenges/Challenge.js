@@ -7,7 +7,8 @@ import { Route } from 'react-router-dom';
 import Error from '../misc/Error';
 import FirebaseAuth from '../misc/FirebaseAuth';
 
-import { ChallengeOutput } from './ChallengeOutput';
+import ChallengeOutput from './ChallengeOutput';
+import ChallengeMarkup from './ChallengeMarkup';
 
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
@@ -49,12 +50,14 @@ class Challenge extends React.Component {
                       auth && auth.admin ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
                           <wds-button>Edit</wds-button>
+                          <wds-button>Attempt Challenge</wds-button>
                         </InternalLink>
                       ) : null
                     }
                   </FirebaseAuth>
                 </header>
                 <ChallengeOutput challenge={challenge} />
+                <ChallengeMarkup html={challenge.html} />
               </div>
             );
           }}
@@ -67,6 +70,5 @@ class Challenge extends React.Component {
 export default Challenge;
 
 Challenge.propTypes = {
-  code: PropTypes.string,
   match: PropTypes.shape(Route.match)
 };

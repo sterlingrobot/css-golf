@@ -5,7 +5,7 @@ module.exports.handler = async (event, _context) => {
   try {
     const styles = sass
       .renderSync({
-        data: `#${id} { ${css} }`,
+        data: `#challenge-${id} { ${css} }`,
         includePaths: ['node_modules/@wisetail/tokens/build/scss']
       })
       .css.toString('utf-8');
