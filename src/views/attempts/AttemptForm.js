@@ -14,7 +14,7 @@ import 'prismjs/components/prism-scss';
 
 import Attempt from './Attempt';
 
-import { FormRow, TextInput } from '../../styles/forms';
+import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
@@ -36,9 +36,6 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const {
-      props: { attempt }
-    } = this;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <div className="form-wrap">
