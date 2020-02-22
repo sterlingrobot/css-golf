@@ -7,6 +7,7 @@ import FirebaseAuth from '../misc/FirebaseAuth';
 
 import Error from '../misc/Error';
 import AttemptForm from './AttemptForm';
+import ChallengeOutput from '../challenges/ChallengeOutput';
 
 import logIn from '../../actions/logIn';
 import createAttempt from '../../actions/createAttempt';
@@ -56,6 +57,9 @@ const AttemptNew = ({ history, match }) => (
 
               return (
                 <div>
+                  <div className="challenge-container">
+                    <ChallengeOutput challenge={challenge} />
+                  </div>
                   <AttemptForm
                     challenge={challenge}
                     onSubmit={values =>
