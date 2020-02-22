@@ -5,6 +5,7 @@ import FirebaseAuth from '../misc/FirebaseAuth';
 import Error from '../misc/Error';
 
 import { OutputImg } from '../../styles/challenge';
+import '../../styles/challenge.scss';
 
 const setContent = html => {
   return { __html: html };
@@ -27,7 +28,7 @@ const ChallengeOutput = React.forwardRef(({ challenge }, ref) => (
           return <div>loading...</div>;
         }
 
-        if (auth.admin === true) {
+        if (auth && auth.admin === true) {
           return (
             <>
               <style>{challenge.style}</style>
