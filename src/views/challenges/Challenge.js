@@ -4,25 +4,16 @@ import PropTypes from 'prop-types';
 import { FirestoreCollection } from 'react-firestore';
 import { Route } from 'react-router-dom';
 
-import Prism from 'prismjs';
-
 import Error from '../misc/Error';
 import FirebaseAuth from '../misc/FirebaseAuth';
 
 import ChallengeOutput from './ChallengeOutput';
+import ChallengeMarkup from './ChallengeMarkup';
 
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
-import editor from '../../styles/editor';
 
-import 'prismjs/themes/prism.css';
 import '../../styles/challenge.scss';
-
-const setContent = html => {
-  return {
-    __html: Prism.highlight(html, Prism.languages.html)
-  };
-};
 
 class Challenge extends React.Component {
   render() {
@@ -59,20 +50,14 @@ class Challenge extends React.Component {
                       auth && auth.admin ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
                           <wds-button>Edit</wds-button>
+                          <wds-button>Attempt Challenge</wds-button>
                         </InternalLink>
                       ) : null
                     }
                   </FirebaseAuth>
                 </header>
                 <ChallengeOutput challenge={challenge} />
-                <div className="challenge-markup" style={{ ...editor }}>
-                  <pre>
-                    <code
-                      language="html"
-                      dangerouslySetInnerHTML={setContent(challenge.html)}
-                    />
-                  </pre>
-                </div>
+                <ChallengeMarkup html={challenge.html} />
               </div>
             );
           }}
@@ -85,6 +70,5 @@ class Challenge extends React.Component {
 export default Challenge;
 
 Challenge.propTypes = {
-  code: PropTypes.string,
   match: PropTypes.shape(Route.match)
 };
