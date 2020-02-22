@@ -12,18 +12,19 @@ import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
-import Attempt from './Attempt';
+import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
 import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
+import '../../styles/form.scss';
 import '../../styles/editor.scss';
 import '../../styles/challenge';
 
 class AttemptForm extends React.Component {
   state = {
-    code: this.props.attempt || ''
+    code: ''
   };
 
   onSubmit = event => {
@@ -36,23 +37,30 @@ class AttemptForm extends React.Component {
   };
 
   render() {
+    const {
+      props: { challenge }
+    } = this;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <div className="form-wrap">
-          <FormRow>
-            <Editor
-              className="editor"
-              name="content"
-              value={this.state.code}
-              onValueChange={code => this.setState({ code })}
-              highlight={code => Prism.highlight(code, Prism.languages.scss)}
-              padding={10}
-              style={{ ...editor }}
-              required
-            />
+          <FormRow className="form-row">
+            <ChallengeMarkup html={challenge.html} />
+            <div className="editor-wrap">
+              <Editor
+                className="editor"
+                name="content"
+                value={this.state.code}
+                placeholder="... you can write SCSS here ..."
+                onValueChange={code => this.setState({ code })}
+                highlight={code => Prism.highlight(code, Prism.languages.scss)}
+                padding={10}
+                style={{ ...editor }}
+                required
+              />
+            </div>
           </FormRow>
 
-          <FormRow className="editor">
+          <FormRow>
             <button
               type="submit"
               style={{
@@ -74,6 +82,8 @@ class AttemptForm extends React.Component {
 export default AttemptForm;
 
 AttemptForm.propTypes = {
-  attempt: PropTypes.instanceOf(Attempt),
+  challenge: PropTypes.shape({
+    html: PropTypes.string
+  }),
   onSubmit: PropTypes.func
 };
