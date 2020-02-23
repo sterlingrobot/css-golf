@@ -7,7 +7,7 @@ import { prepareDocForUpdate } from './helpers/firestoreHelpers';
 const updateChallenge = async (challengeId, values, snapshotNode) => {
   const challenge = { ...values };
 
-  challenge.style = await compileScss(challengeId, challenge.css);
+  challenge.style = await compileScss('challenge', challengeId, challenge.css);
 
   challenge.snapshot = await domtoimage.toPng(snapshotNode);
 

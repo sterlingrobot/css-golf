@@ -7,7 +7,7 @@ const createAttempt = async (challengeId, values) => {
   const _likeCount = 0;
 
   const attempt = { ...values, challenge: challengeId, _likeCount };
-  attempt.style = await compileScss(challengeId, attempt.css);
+  attempt.style = await compileScss('attempt', challengeId, attempt.css);
 
   return Firebase.firestore()
     .collection('attempts')
