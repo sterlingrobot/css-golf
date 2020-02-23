@@ -29,11 +29,11 @@ class AttemptForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { content } = event.target.elements;
+    const { css } = event.target.elements;
     const values = {
-      content: content.value
+      css: css.value
     };
-    return content.checkValidity() && this.props.onSubmit(values);
+    return css.checkValidity() && this.props.onSubmit(values);
   };
 
   render() {
@@ -48,7 +48,7 @@ class AttemptForm extends React.Component {
             <div className="editor-wrap">
               <Editor
                 className="editor"
-                name="content"
+                name="css"
                 value={this.state.code}
                 placeholder="... you can write SCSS here ..."
                 onValueChange={code => this.setState({ code })}
