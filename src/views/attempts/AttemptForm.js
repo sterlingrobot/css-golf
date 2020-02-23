@@ -24,7 +24,7 @@ import '../../styles/challenge';
 
 class AttemptForm extends React.Component {
   state = {
-    code: ''
+    code: this.props.attempt ? this.props.attempt.css : ''
   };
 
   onSubmit = event => {
@@ -90,6 +90,9 @@ class AttemptForm extends React.Component {
 export default AttemptForm;
 
 AttemptForm.propTypes = {
+  attempt: PropTypes.shape({
+    css: PropTypes.string
+  }),
   challenge: PropTypes.shape({
     html: PropTypes.string
   }),
