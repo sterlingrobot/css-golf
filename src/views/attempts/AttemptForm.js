@@ -37,9 +37,7 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const {
-      props: { challenge }
-    } = this;
+    const { challenge, error, onClick } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <div className="form-wrap">
@@ -57,6 +55,14 @@ class AttemptForm extends React.Component {
                 style={{ ...editor }}
                 required
               />
+              {error && (
+                <div className="attempt-error">
+                  <wds-icon type="warn" onClick={onClick}>
+                    close
+                  </wds-icon>
+                  {error}
+                </div>
+              )}
             </div>
           </FormRow>
 
@@ -85,5 +91,7 @@ AttemptForm.propTypes = {
   challenge: PropTypes.shape({
     html: PropTypes.string
   }),
-  onSubmit: PropTypes.func
+  error: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onClick: PropTypes.func
 };

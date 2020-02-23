@@ -1,6 +1,7 @@
 @import '~@wisetail/tokens/build/scss/variables';
 
 .editor-wrap {
+  position: relative;
   min-height: 20em;
   max-height: 60vh;
   overflow: auto;
