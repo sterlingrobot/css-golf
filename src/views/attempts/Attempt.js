@@ -8,6 +8,7 @@ import Error from '../misc/Error';
 
 import { Page } from '../../styles/layout';
 import ChallengeOutput from '../challenges/ChallengeOutput';
+import AttemptOutput from './AttemptOutput';
 
 const Attempt = ({ match }) => (
   <Page>
@@ -48,7 +49,7 @@ const Attempt = ({ match }) => (
                 <div>
                   <h2>{challenge.title}</h2>
                   <ChallengeOutput challenge={challenge} />
-                  <p>{attempt.style}</p>
+                  <AttemptOutput attempt={attempt} challenge={challenge} />
                 </div>
               );
             }}
