@@ -15,6 +15,9 @@ module.exports.handler = async (event, _context) => {
       body: JSON.stringify({ styles })
     };
   } catch (err) {
-    return { statusCode: 500, body: err.toString() };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.toString() })
+    };
   }
 };
