@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FirestoreDocument } from 'react-firestore';
+import FirebaseAuth from '../misc/FirebaseAuth';
+
 import { Route } from 'react-router-dom';
 
 import Error from '../misc/Error';
@@ -34,24 +36,18 @@ class Attempt extends React.Component {
     const { match } = this.props;
     return (
       <Page>
-        <FirestoreDocument path={`attempts/${match.params.id}`}>
-          {({ error, isLoading, data }) => {
+        <FirebaseAuth>
+          {({ isLoading, error, auth }) => {
             if (error) {
               return <Error error={error} />;
             }
 
             if (isLoading) {
-              return <p>loading...</p>;
+              return <div>loading...</div>;
             }
-
-            if (data.length === 0) {
-              return <Error />;
-            }
-
-            const attempt = data;
 
             return (
-              <FirestoreDocument path={`challenges/${attempt.challenge}`}>
+              <FirestoreDocument path={`attempts/${match.params.id}`}>
                 {({ error, isLoading, data }) => {
                   if (error) {
                     return <Error error={error} />;
@@ -65,33 +61,60 @@ class Attempt extends React.Component {
                     return <Error />;
                   }
 
-                  const challenge = data;
+                  const attempt = data;
 
                   return (
-                    <div className="attempt-container">
-                      <h2>{challenge.title}</h2>
-                      <ChallengeOutput challenge={challenge} />
-                      <AttemptOutput attempt={attempt} challenge={challenge} />
-                      <AttemptForm
-                        attempt={attempt}
-                        challenge={challenge}
-                        path={attempt.path}
-                        error={this.state.error}
-                        onSubmit={values =>
-                          createAttempt(
-                            challenge.id,
-                            values
-                          ).catch(({ error }) => this.setState({ error }))
+                    <FirestoreDocument path={`challenges/${attempt.challenge}`}>
+                      {({ error, isLoading, data }) => {
+                        if (error) {
+                          return <Error error={error} />;
                         }
-                        onClick={this.resetError}
-                      />
-                    </div>
+
+                        if (isLoading) {
+                          return <p>loading...</p>;
+                        }
+
+                        if (data.length === 0) {
+                          return <Error />;
+                        }
+
+                        const challenge = data;
+
+                        return (
+                          <div className="attempt-container">
+                            <h2>{challenge.title}</h2>
+                            <ChallengeOutput challenge={challenge} />
+                            <AttemptOutput
+                              attempt={attempt}
+                              challenge={challenge}
+                            />
+                            {auth.uid === attempt.createdBy && (
+                              <AttemptForm
+                                attempt={attempt}
+                                challenge={challenge}
+                                path={attempt.path}
+                                error={this.state.error}
+                                onSubmit={values =>
+                                  createAttempt(
+                                    challenge.id,
+                                    values
+                                  ).catch(({ error }) =>
+                                    this.setState({ error })
+                                  )
+                                }
+                                onClick={this.resetError}
+                              />
+                            )}
+                          </div>
+                        );
+                      }}
+                    </FirestoreDocument>
                   );
                 }}
               </FirestoreDocument>
             );
           }}
-        </FirestoreDocument>
+        </FirebaseAuth>
       </Page>
     );
   }
