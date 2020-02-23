@@ -1,7 +1,10 @@
 import Firebase from 'firebase/app';
 
 import { compileScss } from './compileScss';
-import { prepareDocForCreate } from './helpers/firestoreHelpers';
+import {
+  prepareDocForCreate,
+  prepareDocForUpdate
+} from './helpers/firestoreHelpers';
 
 const createAttempt = async (challengeId, values) => {
   const _likeCount = 0;
@@ -12,14 +15,14 @@ const createAttempt = async (challengeId, values) => {
     ? Firebase.firestore().doc(attempt.path)
     : await Firebase.firestore()
         .collection('attempts')
-        .add(prepareDocForCreate({ ...attempt }))
+        .add(prepareDocForCreate(attempt))
         .catch(error => {
           // eslint-disable-next-line no-alert
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
         });
 
   if (attempt.path) {
-    await doc.update({ ...attempt });
+    await doc.update(prepareDocForUpdate(attempt));
   }
 
   return compileScss('attempt', doc.id, attempt.css)
