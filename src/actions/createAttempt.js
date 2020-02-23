@@ -1,18 +1,18 @@
 import Firebase from 'firebase/app';
-import slugify from 'slugify';
 
+import { compileScss } from './compileScss';
 import { prepareDocForCreate } from './helpers/firestoreHelpers';
 
-const createAttempt = values => {
-  const slug = slugify(values.title, { lower: true });
+const createAttempt = async (challengeId, values) => {
   const _likeCount = 0;
 
-  const attempt = { ...values, slug, _likeCount };
+  const attempt = { ...values, challenge: challengeId, _likeCount };
+  attempt.style = await compileScss(challengeId, attempt.css);
 
   return Firebase.firestore()
     .collection('attempts')
     .add(prepareDocForCreate(attempt))
-    .then(() => attempt)
+    .then(data => ({ path: data.path, ...attempt }))
     .catch(error => {
       // eslint-disable-next-line no-alert
       alert(`Whoops, couldn't save your attempt: ${error.message}`);
