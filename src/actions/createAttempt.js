@@ -26,9 +26,9 @@ const createAttempt = async (challengeId, values) => {
   }
 
   return compileScss('attempt', doc.id, attempt.css)
-    .then(styles => doc.update({ style: styles }))
+    .then(styles => doc.update({ style: styles, path: doc.path }))
     .then(() => Promise.resolve({ ...attempt, path: doc.path }))
-    .catch(error => Promise.reject({ path: doc.path, error }));
+    .catch(error => Promise.reject({ error, path: doc.path }));
 };
 
 export default createAttempt;
