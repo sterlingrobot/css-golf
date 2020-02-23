@@ -9,8 +9,9 @@ export const compileScss = async (prefix, id, css) => {
     },
     body: JSON.stringify({ prefix, id, css })
   });
-  const { status, styles, error } = await response.json();
-  if (status !== 200) {
+  const { styles, error } = await response.json();
+
+  if (error) {
     return Promise.reject(error);
   }
   return Promise.resolve(styles);
