@@ -14,69 +14,95 @@ import createAttempt from '../../actions/createAttempt';
 
 import { Page } from '../../styles/layout';
 
-const AttemptNew = ({ history, match }) => (
-  <Page>
-    <FirebaseAuth>
-      {({ isLoading, error, auth }) => {
-        if (error) {
-          return <Error error={error} />;
-        }
+import '../../styles/attempt.scss';
 
-        if (isLoading) {
-          return <div>loading...</div>;
-        }
+class AttemptNew extends React.Component {
+  constructor() {
+    super();
+    this.resetError = this.resetError.bind(this);
+  }
 
-        if (!auth) {
-          return (
-            <div>
-              <p>You must be logged in to attempt a challenge</p>
-              <wds-button onClick={logIn}>Sign in</wds-button>
-            </div>
-          );
-        }
+  state = {
+    error: null
+  };
 
-        return (
-          <FirestoreCollection
-            path={'challenges'}
-            filter={['slug', '==', match.params.slug]}
-          >
-            {({ error, isLoading, data }) => {
-              if (error) {
-                return <Error error={error} />;
-              }
+  resetError(_e) {
+    this.setState({ error: null });
+  }
 
-              if (isLoading) {
-                return <p>loading...</p>;
-              }
+  render() {
+    const { history, match } = this.props;
+    return (
+      <Page>
+        <FirebaseAuth>
+          {({ isLoading, error, auth }) => {
+            if (error) {
+              return <Error error={error} />;
+            }
 
-              if (data.length === 0) {
-                return <Error />;
-              }
+            if (isLoading) {
+              return <div>loading...</div>;
+            }
 
-              const challenge = data[0];
-
+            if (!auth) {
               return (
                 <div>
-                  <div className="challenge-container">
-                    <ChallengeOutput challenge={challenge} />
-                  </div>
-                  <AttemptForm
-                    challenge={challenge}
-                    onSubmit={values =>
-                      createAttempt(values).then(post =>
-                        history.push(`/${post.slug}`)
-                      )
-                    }
-                  />
+                  <p>You must be logged in to attempt a challenge</p>
+                  <wds-button onClick={logIn}>Sign in</wds-button>
                 </div>
               );
-            }}
-          </FirestoreCollection>
-        );
-      }}
-    </FirebaseAuth>
-  </Page>
-);
+            }
+
+            return (
+              <FirestoreCollection
+                path={'challenges'}
+                filter={['slug', '==', match.params.slug]}
+              >
+                {({ error, isLoading, data }) => {
+                  if (error) {
+                    return <Error error={error} />;
+                  }
+
+                  if (isLoading) {
+                    return <p>loading...</p>;
+                  }
+
+                  if (data.length === 0) {
+                    return <Error />;
+                  }
+
+                  const challenge = data[0];
+
+                  return (
+                    <div>
+                      <div className="challenge-container">
+                        <ChallengeOutput challenge={challenge} />
+                      </div>
+                      <AttemptForm
+                        challenge={challenge}
+                        error={this.state.error}
+                        onSubmit={values =>
+                          createAttempt(challenge.id, values)
+                            .then(attempt => {
+                              return history.push(
+                                `/${challenge.slug}/${attempt.path}`
+                              );
+                            })
+                            .catch(error => this.setState({ error }))
+                        }
+                        onClick={this.resetError}
+                      />
+                    </div>
+                  );
+                }}
+              </FirestoreCollection>
+            );
+          }}
+        </FirebaseAuth>
+      </Page>
+    );
+  }
+}
 
 export default AttemptNew;
 
