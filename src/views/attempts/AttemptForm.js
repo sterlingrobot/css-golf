@@ -29,17 +29,19 @@ class AttemptForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { css } = event.target.elements;
+    const { css, path } = event.target.elements;
     const values = {
+      path: path.value,
       css: css.value
     };
     return css.checkValidity() && this.props.onSubmit(values);
   };
 
   render() {
-    const { challenge, error, onClick } = this.props;
+    const { challenge, path, error, onClick } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
+        <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
           <FormRow className="form-row">
             <ChallengeMarkup html={challenge.html} />
@@ -91,6 +93,7 @@ AttemptForm.propTypes = {
   challenge: PropTypes.shape({
     html: PropTypes.string
   }),
+  path: PropTypes.string,
   error: PropTypes.string,
   onSubmit: PropTypes.func,
   onClick: PropTypes.func

@@ -23,6 +23,7 @@ class AttemptNew extends React.Component {
   }
 
   state = {
+    path: undefined,
     error: null
   };
 
@@ -80,6 +81,7 @@ class AttemptNew extends React.Component {
                       </div>
                       <AttemptForm
                         challenge={challenge}
+                        path={this.state.path}
                         error={this.state.error}
                         onSubmit={values =>
                           createAttempt(challenge.id, values)
@@ -88,7 +90,12 @@ class AttemptNew extends React.Component {
                                 `/${challenge.slug}/${attempt.path}`
                               );
                             })
-                            .catch(error => this.setState({ error }))
+                            // if we error on SCSS compile, we've still
+                            //  created the doc, so store that in state
+                            //  to pass back into the form values
+                            .catch(({ path, error }) =>
+                              this.setState({ path, error })
+                            )
                         }
                         onClick={this.resetError}
                       />
