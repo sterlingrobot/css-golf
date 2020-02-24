@@ -58,6 +58,19 @@
   border-radius: 3px;
 }
 
+.attempt-static {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin: 0 -0.5rem 1rem;
+
+  > * {
+    flex: 1 1 20em;
+    margin: 0 0.5rem 1rem;
+  }
+}
+
 .attempt-error {
   position: absolute;
   top: 0;

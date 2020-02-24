@@ -9,8 +9,10 @@ import { Route } from 'react-router-dom';
 import Error from '../misc/Error';
 
 import AttemptForm from './AttemptForm';
-import ChallengeOutput from '../challenges/ChallengeOutput';
 import AttemptOutput from './AttemptOutput';
+import AttemptMarkup from '../attempts/AttemptMarkup';
+import ChallengeOutput from '../challenges/ChallengeOutput';
+import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
 import createAttempt from '../../actions/createAttempt';
 
@@ -104,6 +106,11 @@ class Attempt extends React.Component {
                                 }
                                 onClick={this.resetError}
                               />
+                            ) : (
+                              <div className="attempt-static">
+                                <ChallengeMarkup html={challenge.html} />
+                                <AttemptMarkup css={challenge.css} />
+                              </div>
                             )}
                           </div>
                         );
