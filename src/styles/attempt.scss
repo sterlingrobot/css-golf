@@ -92,3 +92,35 @@
     cursor: pointer;
   }
 }
+
+.attempts-list {
+  margin: 2rem 0;
+
+  h3 {
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  p {
+    padding: 1rem;
+  }
+}
+
+.attempt-item {
+  display: flex;
+  align-items: center;
+}
+
+.attempt-item-avatar {
+  margin-right: 1.5rem;
+}
+
+.attempt-item-info {
+  display: flex;
+  flex-flow: column nowrap;
+
+  small {
+    margin-top: 0.333em;
+    color: $color-gray-base;
+  }
+}
