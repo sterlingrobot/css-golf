@@ -90,7 +90,7 @@ class Attempt extends React.Component {
                               attempt={attempt}
                               challenge={challenge}
                             />
-                            {auth.uid === attempt.createdBy && (
+                            {auth.uid === attempt.createdBy ? (
                               <AttemptForm
                                 attempt={attempt}
                                 challenge={challenge}
@@ -109,7 +109,7 @@ class Attempt extends React.Component {
                             ) : (
                               <div className="attempt-static">
                                 <ChallengeMarkup html={challenge.html} />
-                                <AttemptMarkup css={challenge.css} />
+                                <AttemptMarkup css={attempt.css} />
                               </div>
                             )}
                           </div>
