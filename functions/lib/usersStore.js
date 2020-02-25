@@ -7,6 +7,6 @@ exports.addUser = async user => {
     .doc(user.uid)
     .set({
       displayName: user.displayName,
-      photoUrl: user.photoUrl
+      photoUrl: user.photoURL
     });
 };
