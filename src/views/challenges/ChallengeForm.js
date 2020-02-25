@@ -86,10 +86,6 @@ class ChallengeForm extends React.Component {
           </div>
 
           <div className="form-actions">
-            <InternalLink to="/" style={{ marginRight: 'auto' }}>
-              <wds-icon>arrow_back</wds-icon>
-              Back to Challenges
-            </InternalLink>
             <wds-button
               className="delete-button"
               color="red"

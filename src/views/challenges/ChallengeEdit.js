@@ -12,6 +12,7 @@ import ChallengeForm from './ChallengeForm';
 import ChallengeOutput from './ChallengeOutput';
 
 import { Page } from '../../styles/layout';
+import { InternalLink } from '../../styles/links';
 
 class ChallengeEdit extends React.Component {
   constructor() {
@@ -44,6 +45,10 @@ class ChallengeEdit extends React.Component {
 
             return (
               <div>
+                <InternalLink to="/" style={{ margin: '0 0 2rem' }}>
+                  <wds-icon>arrow_back</wds-icon>
+                  Back to Challenges
+                </InternalLink>
                 <div className="challenge-container">
                   <ChallengeOutput challenge={challenge} ref={this.output} />
                 </div>
