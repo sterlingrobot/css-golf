@@ -1262,6 +1262,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@icons-pack/react-simple-icons@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@icons-pack/react-simple-icons/-/react-simple-icons-2.3.0.tgz#917dd50a9e316b74eb739b292e08f455f2691cd3"
+  integrity sha512-2GU2sgnJjc5zzKU2rUEBxDMZsy3lBL2gwdj3Q6EXmt/eADkdiadazS97QXB05P5s1RpXxXPaYtJDwknfutkj3w==
+  dependencies:
+    prop-types "^15.7.2"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
