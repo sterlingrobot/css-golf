@@ -1,57 +1,135 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FirestoreCollection } from 'react-firestore';
+import { FirestoreDocument } from 'react-firestore';
+import FirebaseAuth from '../misc/FirebaseAuth';
+
 import { Route } from 'react-router-dom';
 
 import Error from '../misc/Error';
-import FirebaseAuth from '../misc/FirebaseAuth';
 
-import { InternalLink } from '../../styles/links';
+import AttemptForm from './AttemptForm';
+import AttemptOutput from './AttemptOutput';
+import AttemptMarkup from '../attempts/AttemptMarkup';
+import ChallengeOutput from '../challenges/ChallengeOutput';
+import ChallengeMarkup from '../challenges/ChallengeMarkup';
+
+import createAttempt from '../../actions/createAttempt';
+
 import { Page } from '../../styles/layout';
 
-const Attempt = ({ match }) => (
-  <Page>
-    <FirestoreCollection
-      path={'attempts'}
-      filter={['slug', '==', match.params.slug]}
-    >
-      {({ error, isLoading, data }) => {
-        if (error) {
-          return <Error error={error} />;
-        }
+import '../../styles/attempt.scss';
 
-        if (isLoading) {
-          return <p>loading...</p>;
-        }
+class Attempt extends React.Component {
+  constructor() {
+    super();
+    this.resetError = this.resetError.bind(this);
+  }
 
-        if (data.length === 0) {
-          return <Error />;
-        }
+  state = {
+    error: null
+  };
 
-        const attempt = data[0];
+  resetError(_e) {
+    this.setState({ error: null });
+  }
 
-        return (
-          <div>
-            <h1>{attempt.title}</h1>
-            <p>{attempt.content}</p>
-            <FirebaseAuth>
-              {({ auth }) =>
-                auth ? (
-                  <InternalLink to={`/${attempt.slug}/edit`}>Edit</InternalLink>
-                ) : null
-              }
-            </FirebaseAuth>
-          </div>
-        );
-      }}
-    </FirestoreCollection>
-  </Page>
-);
+  render() {
+    const { match } = this.props;
+    return (
+      <Page>
+        <FirebaseAuth>
+          {({ isLoading, error, auth }) => {
+            if (error) {
+              return <Error error={error} />;
+            }
+
+            if (isLoading) {
+              return <div>loading...</div>;
+            }
+
+            return (
+              <FirestoreDocument path={`attempts/${match.params.id}`}>
+                {({ error, isLoading, data }) => {
+                  if (error) {
+                    return <Error error={error} />;
+                  }
+
+                  if (isLoading) {
+                    return <p>loading...</p>;
+                  }
+
+                  if (data.length === 0) {
+                    return <Error />;
+                  }
+
+                  const attempt = data;
+
+                  return (
+                    <FirestoreDocument path={`challenges/${attempt.challenge}`}>
+                      {({ error, isLoading, data }) => {
+                        if (error) {
+                          return <Error error={error} />;
+                        }
+
+                        if (isLoading) {
+                          return <p>loading...</p>;
+                        }
+
+                        if (data.length === 0) {
+                          return <Error />;
+                        }
+
+                        const challenge = data;
+
+                        return (
+                          <div className="attempt-container">
+                            <h2>{challenge.title}</h2>
+                            <ChallengeOutput challenge={challenge} />
+                            <AttemptOutput
+                              attempt={attempt}
+                              challenge={challenge}
+                            />
+                            {auth.uid === attempt.createdBy ? (
+                              <AttemptForm
+                                attempt={attempt}
+                                challenge={challenge}
+                                path={attempt.path}
+                                error={this.state.error}
+                                onSubmit={values =>
+                                  createAttempt(
+                                    challenge.id,
+                                    values
+                                  ).catch(({ error }) =>
+                                    this.setState({ error })
+                                  )
+                                }
+                                onClick={this.resetError}
+                              />
+                            ) : (
+                              <div className="attempt-static">
+                                <ChallengeMarkup html={challenge.html} />
+                                <AttemptMarkup css={attempt.css} />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }}
+                    </FirestoreDocument>
+                  );
+                }}
+              </FirestoreDocument>
+            );
+          }}
+        </FirebaseAuth>
+      </Page>
+    );
+  }
+}
 
 export default Attempt;
 
 Attempt.propTypes = {
   code: PropTypes.string,
-  match: PropTypes.instanceOf(Route)
+  match: PropTypes.shape(Route.match)
 };

@@ -5,7 +5,7 @@ import Prism from 'prismjs';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
-import '../../styles/challenge.scss';
+import '../../styles/markup.scss';
 
 const setContent = html => {
   return {
@@ -14,7 +14,7 @@ const setContent = html => {
 };
 
 const ChallengeMarkup = ({ html }) => (
-  <div className="challenge-markup" style={{ ...editor }}>
+  <div className="markup" style={{ ...editor }}>
     <pre>
       <code language="html" dangerouslySetInnerHTML={setContent(html)} />
     </pre>

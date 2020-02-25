@@ -4,9 +4,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-// import Attempt from './attempts/Attempt'
-// import AttemptNew from './attempts/AttemptNew'
-// import AttemptEdit from './attempts/AttemptEdit'
+import Attempt from './attempts/Attempt';
+import AttemptNew from './attempts/AttemptNew';
 
 import ChallengeList from './challenges/ChallengeList';
 import Challenge from './challenges/Challenge';
@@ -20,9 +19,11 @@ const Routes = () => (
   <Switch>
     <Route exact path="/" component={ChallengeList} />
     <Route path="/new" component={ChallengeNew} />
-    <Route path="/account" component={Account} />
+    <Route path="/:slug/attempts/new" component={AttemptNew} />
+    <Route path="/:slug/attempts/:id" component={Attempt} />
     <Route path="/:slug/edit" component={ChallengeEdit} />
     <Route path="/:slug" component={Challenge} />
+    <Route path="/account" component={Account} />
     <Route component={Error} />
   </Switch>
 );

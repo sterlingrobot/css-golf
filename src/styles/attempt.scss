@@ -1,0 +1,94 @@
+@import '~@wisetail/tokens/build/scss/variables';
+
+.attempt-container {
+  display: grid;
+  gap: 2rem;
+  grid-template-areas: 'header' 'output' 'form';
+  grid-template-rows: auto minmax(20rem, max-content) auto;
+  margin-bottom: 2rem;
+
+  .attempt-output,
+  .challenge-output {
+    position: relative;
+    transition: 300ms opacity;
+
+    &:after {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      padding: 2rem;
+      font-size: 3rem;
+      color: $color-silver-50;
+      text-transform: uppercase;
+    }
+  }
+
+  .attempt-output {
+    opacity: 1;
+    z-index: 1;
+
+    &:after {
+      content: 'attempt';
+      transform: translateX(-100%);
+    }
+  }
+
+  .challenge-output {
+    opacity: 0;
+    z-index: 2;
+
+    &:after {
+      content: 'challenge';
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+    &:hover + .attempt-output {
+      opacity: 0.5;
+    }
+  }
+}
+
+.attempt-output,
+.challenge-output {
+  grid-area: output;
+  border: 1px solid $color-silver-20;
+  border-radius: 3px;
+}
+
+.attempt-static {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin: 0 -0.5rem 1rem;
+
+  > * {
+    flex: 1 1 20em;
+    margin: 0 0.5rem 1rem;
+  }
+}
+
+.attempt-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  padding: 4rem 1rem 1rem;
+  font-family: 'Fira code', monospace;
+  font-size: 1.2rem;
+  white-space: pre;
+  color: $color-red-base;
+  background: $color-red-20;
+
+  wds-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+  }
+}
