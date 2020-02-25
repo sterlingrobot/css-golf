@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import logIn from '../../actions/logIn';
+import { Link } from 'react-router-dom';
+
 import FirebaseAuth from '../misc/FirebaseAuth';
 import { Avatar } from '../account/Avatar';
 
@@ -16,7 +17,6 @@ const Layout = ({ children }) => (
       </HeaderLink>
 
       <div>
-        {' '}
         <FirebaseAuth>
           {({ isLoading, error, auth }) => {
             if (isLoading) {
@@ -37,7 +37,11 @@ const Layout = ({ children }) => (
                 </HeaderLink>
               );
             }
-            return <wds-button onClick={logIn}>Sign in</wds-button>;
+            return (
+              <Link to="/login">
+                <wds-button>Sign in</wds-button>
+              </Link>
+            );
           }}
         </FirebaseAuth>
       </div>
