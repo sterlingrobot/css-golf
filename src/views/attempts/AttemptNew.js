@@ -85,11 +85,7 @@ class AttemptNew extends React.Component {
                         error={this.state.error}
                         onSubmit={values =>
                           createAttempt(challenge.id, values)
-                            .then(attempt => {
-                              return history.push(
-                                `/${challenge.slug}/${attempt.path}`
-                              );
-                            })
+                            .then(attempt => history.push(attempt.path))
                             // if we error on SCSS compile, we've still
                             //  created the doc, so store that in state
                             //  to pass back into the form values
