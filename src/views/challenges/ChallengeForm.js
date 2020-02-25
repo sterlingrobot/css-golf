@@ -13,7 +13,6 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
 import { TextInput } from '../../styles/forms';
-import { InternalLink } from '../../styles/links';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
