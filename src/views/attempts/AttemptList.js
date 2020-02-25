@@ -17,7 +17,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
     <FirestoreCollection
       path={'attempts'}
       filter={
-        user ? ['createdBy', '==', user.id] : ['challenge', '==', challenge.id]
+        user ? ['createdBy', '==', user.uid] : ['challenge', '==', challenge.id]
       }
       sort="createdOn:desc"
     >
@@ -52,26 +52,74 @@ const AttemptList = ({ challenge = null, user = null }) => (
                       return <Error />;
                     }
 
-                    const user = data;
+                    const attemptUser = data;
 
                     return (
                       <InternalLink
                         to={`/attempts/${attempt.id}`}
                         className="attempt-item"
                       >
-                        <div className="attempt-item-avatar">
-                          <Avatar user={user} width="2.5em" />
-                        </div>
-                        <div className="attempt-item-info">
-                          by {user.displayName || 'Somebody Else'}
-                          <small>
-                            {attempt.updatedOn ? (
-                              <DateFormat timestamp={attempt.updatedOn} />
-                            ) : (
-                              <DateFormat timestamp={attempt.createdOn} />
-                            )}
-                          </small>
-                        </div>
+                        {challenge ? (
+                          <>
+                            <div className="attempt-item-avatar">
+                              <Avatar user={attemptUser} width="2.5em" />
+                            </div>
+                            <div className="attempt-item-info">
+                              by {attemptUser.displayName || 'Somebody Else'}
+                              <small>
+                                {attempt.updatedOn ? (
+                                  <DateFormat timestamp={attempt.updatedOn} />
+                                ) : (
+                                  <DateFormat timestamp={attempt.createdOn} />
+                                )}
+                              </small>
+                            </div>
+                          </>
+                        ) : (
+                          <FirestoreDocument
+                            path={`challenges/${attempt.challenge}`}
+                          >
+                            {({ error, isLoading, data }) => {
+                              if (error) {
+                                return <Error error={error} />;
+                              }
+
+                              if (isLoading) {
+                                return <p>loading...</p>;
+                              }
+
+                              if (!data) {
+                                return <Error />;
+                              }
+
+                              const attemptChallenge = data;
+
+                              return (
+                                <>
+                                  <div className="attempt-item-challenge">
+                                    <div className="attempt-item-snapshot">
+                                      <img src={attemptChallenge.snapshot} />
+                                    </div>
+                                  </div>
+                                  <div className="attempt-item-info">
+                                    {attemptChallenge.title}
+                                    <small>
+                                      {attempt.updatedOn ? (
+                                        <DateFormat
+                                          timestamp={attempt.updatedOn}
+                                        />
+                                      ) : (
+                                        <DateFormat
+                                          timestamp={attempt.createdOn}
+                                        />
+                                      )}
+                                    </small>
+                                  </div>
+                                </>
+                              );
+                            }}
+                          </FirestoreDocument>
+                        )}
                       </InternalLink>
                     );
                   }}

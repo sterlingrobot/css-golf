@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Page } from '../../styles/layout';
 
 import '../../styles/account.scss';
+import AttemptList from '../attempts/AttemptList';
 
 const Account = () => (
   <Page>
@@ -34,9 +35,13 @@ const Account = () => (
         }
 
         return (
-          <div className="account-profile">
-            <Profile auth={auth} />
-          </div>
+          <>
+            <div className="account-profile">
+              <Profile auth={auth} />
+            </div>
+            <hr />
+            <AttemptList user={auth} />
+          </>
         );
       }}
     </FirebaseAuth>

@@ -2,10 +2,10 @@
 
 .attempt-container {
   display: grid;
+  margin-bottom: 2rem;
   gap: 2rem;
   grid-template-areas: 'header' 'output' 'form';
   grid-template-rows: auto minmax(20rem, max-content) auto;
-  margin-bottom: 2rem;
 
   .attempt-output,
   .challenge-output {
@@ -15,12 +15,12 @@
     &:after {
       display: block;
       position: absolute;
-      bottom: 0;
       left: 50%;
+      bottom: 0;
       padding: 2rem;
       font-size: 3rem;
-      color: $color-silver-50;
       text-transform: uppercase;
+      color: $color-silver-50;
     }
   }
 
@@ -53,9 +53,9 @@
 
 .attempt-output,
 .challenge-output {
-  grid-area: output;
   border: 1px solid $color-silver-20;
   border-radius: 3px;
+  grid-area: output;
 }
 
 .attempt-static {
@@ -75,8 +75,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
   margin: 0;
   padding: 4rem 1rem 1rem;
   font-family: 'Fira code', monospace;
@@ -111,8 +111,26 @@
   align-items: center;
 }
 
+.attempt-item-challenge,
 .attempt-item-avatar {
   margin-right: 1.5rem;
+}
+
+.attempt-item-snapshot {
+  position: relative;
+  width: 15rem;
+  padding-bottom: 50%;
+  overflow: hidden;
+  border: 1px solid $color-silver-20;
+  border-radius: 3px;
+
+  img {
+    position: absolute;
+    max-width: 150%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .attempt-item-info {
