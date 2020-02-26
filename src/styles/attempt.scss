@@ -1,5 +1,7 @@
 @import '~@wisetail/tokens/build/scss/variables';
 
+@import './list-view';
+
 .attempt-container {
   display: grid;
   margin-bottom: 2rem;
@@ -103,42 +105,5 @@
 
   p {
     padding: 1rem;
-  }
-}
-
-.attempt-item {
-  display: flex;
-  align-items: center;
-}
-
-.attempt-item-challenge,
-.attempt-item-avatar {
-  margin-right: 1.5rem;
-}
-
-.attempt-item-snapshot {
-  position: relative;
-  width: 15rem;
-  padding-bottom: 50%;
-  overflow: hidden;
-  border: 1px solid $color-silver-20;
-  border-radius: 3px;
-
-  img {
-    position: absolute;
-    max-width: 150%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.attempt-item-info {
-  display: flex;
-  flex-flow: column nowrap;
-
-  small {
-    margin-top: 0.333em;
-    color: $color-gray-base;
   }
 }

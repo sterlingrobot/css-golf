@@ -57,14 +57,14 @@ const AttemptList = ({ challenge = null, user = null }) => (
                     return (
                       <InternalLink
                         to={`/attempts/${attempt.id}`}
-                        className="attempt-item"
+                        className="list-item"
                       >
                         {challenge ? (
                           <>
-                            <div className="attempt-item-avatar">
+                            <div className="list-item-avatar">
                               <Avatar user={attemptUser} width="2.5em" />
                             </div>
-                            <div className="attempt-item-info">
+                            <div className="list-item-info">
                               by {attemptUser.displayName || 'Somebody Else'}
                               <small>
                                 {attempt.updatedOn ? (
@@ -74,6 +74,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                 )}
                               </small>
                             </div>
+                            <div className="list-item-icons"></div>
                           </>
                         ) : (
                           <FirestoreDocument
@@ -96,12 +97,15 @@ const AttemptList = ({ challenge = null, user = null }) => (
 
                               return (
                                 <>
-                                  <div className="attempt-item-challenge">
-                                    <div className="attempt-item-snapshot">
-                                      <img src={attemptChallenge.snapshot} />
+                                  <div className="list-item-challenge">
+                                    <div className="snapshot">
+                                      <img
+                                        src={attemptChallenge.snapshot}
+                                        alt={attemptChallenge.title}
+                                      />
                                     </div>
                                   </div>
-                                  <div className="attempt-item-info">
+                                  <div className="list-item-info">
                                     {attemptChallenge.title}
                                     <small>
                                       {attempt.updatedOn ? (
@@ -115,6 +119,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                       )}
                                     </small>
                                   </div>
+                                  <div className="list-item-icons"></div>
                                 </>
                               );
                             }}
