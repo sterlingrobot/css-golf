@@ -13,6 +13,6 @@ exports.setAccessPrivileges = functions.auth
   .user()
   .onCreate(getUserRole.isAdmin);
 
-exports.updatePostLikeCount = functions.firestore
-  .document('challengeLikes/{challengeLikeId}')
+exports.updateChallengeLikeCount = functions.firestore
+  .document('challenge-likes/{challengeLikeId}')
   .onWrite(challengeLikes.updateChallengeLikeCount);
