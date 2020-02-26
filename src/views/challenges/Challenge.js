@@ -50,7 +50,12 @@ class Challenge extends React.Component {
                       auth && auth.admin ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
                           <wds-button>Edit</wds-button>
-                          <wds-button>Attempt Challenge</wds-button>
+                        </InternalLink>
+                      ) : auth ? (
+                        <InternalLink to={`/${challenge.slug}/attempt/new`}>
+                          <wds-button color="green">
+                            Attempt Challenge
+                          </wds-button>
                         </InternalLink>
                       ) : null
                     }

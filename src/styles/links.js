@@ -8,7 +8,7 @@ const InternalLink = styled(Link)`
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  margin: 1em 1em 0;
+  margin: 1em 1em 0 0;
   color: ${Colors.BLUE_BASE};
   text-decoration: none;
 

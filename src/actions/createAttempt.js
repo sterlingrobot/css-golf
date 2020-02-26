@@ -1,22 +1,34 @@
 import Firebase from 'firebase/app';
-import slugify from 'slugify';
 
-import { prepareDocForCreate } from './helpers/firestoreHelpers';
+import { compileScss } from './compileScss';
+import {
+  prepareDocForCreate,
+  prepareDocForUpdate
+} from './helpers/firestoreHelpers';
 
-const createAttempt = values => {
-  const slug = slugify(values.title, { lower: true });
+const createAttempt = async (challengeId, values) => {
   const _likeCount = 0;
 
-  const attempt = { ...values, slug, _likeCount };
+  const attempt = { ...values, challenge: challengeId, _likeCount };
 
-  return Firebase.firestore()
-    .collection('attempts')
-    .add(prepareDocForCreate(attempt))
-    .then(() => attempt)
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(`Whoops, couldn't save your attempt: ${error.message}`);
-    });
+  const doc = attempt.path
+    ? Firebase.firestore().doc(attempt.path)
+    : await Firebase.firestore()
+        .collection('attempts')
+        .add(prepareDocForCreate(attempt))
+        .catch(error => {
+          // eslint-disable-next-line no-alert
+          alert(`Whoops, couldn't save your attempt: ${error.message}`);
+        });
+
+  if (attempt.path) {
+    await doc.update(prepareDocForUpdate(attempt));
+  }
+
+  return compileScss('attempt', doc.id, attempt.css)
+    .then(styles => doc.update({ style: styles, path: doc.path }))
+    .then(() => Promise.resolve({ ...attempt, path: doc.path }))
+    .catch(error => Promise.reject({ error, path: doc.path }));
 };
 
 export default createAttempt;

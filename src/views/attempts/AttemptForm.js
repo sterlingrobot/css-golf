@@ -12,63 +12,63 @@ import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 
-import Attempt from './Attempt';
+import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
-import { FormRow, TextInput } from '../../styles/forms';
+import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
+import '../../styles/form.scss';
 import '../../styles/editor.scss';
+import '../../styles/challenge';
 
 class AttemptForm extends React.Component {
   state = {
-    code: this.props.attempt || ''
+    code: this.props.attempt ? this.props.attempt.css : ''
   };
 
   onSubmit = event => {
     event.preventDefault();
-    const { title, content } = event.target.elements;
+    const { css, path } = event.target.elements;
     const values = {
-      title: title.value,
-      content: content.value
+      path: path.value,
+      css: css.value
     };
-    return (
-      title.checkValidity() &&
-      content.checkValidity() &&
-      this.props.onSubmit(values)
-    );
+    return css.checkValidity() && this.props.onSubmit(values);
   };
 
   render() {
-    const {
-      props: { attempt }
-    } = this;
+    const { challenge, path, error, onClick } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
+        <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
-          <FormRow className="editor">
-            <TextInput
-              type="text"
-              name="title"
-              defaultValue={attempt ? attempt.title : ''}
-              required
-            />
+          <FormRow className="form-row">
+            <ChallengeMarkup html={challenge.html} />
+            <div className="editor-wrap">
+              <Editor
+                className="editor"
+                name="css"
+                value={this.state.code}
+                placeholder="... you can write SCSS here ..."
+                onValueChange={code => this.setState({ code })}
+                highlight={code => Prism.highlight(code, Prism.languages.scss)}
+                padding={10}
+                style={{ ...editor }}
+                required
+              />
+              {error && (
+                <div className="attempt-error">
+                  <wds-icon type="warn" onClick={onClick}>
+                    close
+                  </wds-icon>
+                  {error}
+                </div>
+              )}
+            </div>
           </FormRow>
 
           <FormRow>
-            <Editor
-              className="editor"
-              name="content"
-              value={this.state.code}
-              onValueChange={code => this.setState({ code })}
-              highlight={code => Prism.highlight(code, Prism.languages.scss)}
-              padding={10}
-              style={{ ...editor }}
-              required
-            />
-          </FormRow>
-
-          <FormRow className="editor">
             <button
               type="submit"
               style={{
@@ -90,6 +90,14 @@ class AttemptForm extends React.Component {
 export default AttemptForm;
 
 AttemptForm.propTypes = {
-  attempt: PropTypes.instanceOf(Attempt),
-  onSubmit: PropTypes.func
+  attempt: PropTypes.shape({
+    css: PropTypes.string
+  }),
+  challenge: PropTypes.shape({
+    html: PropTypes.string
+  }),
+  path: PropTypes.string,
+  error: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onClick: PropTypes.func
 };

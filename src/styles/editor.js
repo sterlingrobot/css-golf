@@ -5,5 +5,5 @@ export default {
   borderRadius: '3px',
   border: `1px solid ${Colors.SILVER_20}`,
   fontFamily: '"Fira code", monospace',
-  fontSize: '1.6rem'
+  fontSize: '1.4rem'
 };

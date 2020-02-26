@@ -1,11 +1,11 @@
 const sass = require('sass');
 
 module.exports.handler = async (event, _context) => {
-  const { id, css } = JSON.parse(event.body);
+  const { prefix, id, css } = JSON.parse(event.body);
   try {
     const styles = sass
       .renderSync({
-        data: `#challenge-${id} { ${css} }`,
+        data: `#${prefix}-${id} { ${css} }`,
         includePaths: ['node_modules/@wisetail/tokens/build/scss']
       })
       .css.toString('utf-8');
@@ -15,6 +15,9 @@ module.exports.handler = async (event, _context) => {
       body: JSON.stringify({ styles })
     };
   } catch (err) {
-    return { statusCode: 500, body: err.toString() };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.toString() })
+    };
   }
 };
