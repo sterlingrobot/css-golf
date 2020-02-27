@@ -1,10 +1,3 @@
-// This is an uncontrolled React form, which is way simpler than
-// the normal React controlled form
-// https://reactjs.org/docs/uncontrolled-components.html
-//
-// You can use browser form validation these days, and just
-// get the values from the form on submit.
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -117,6 +110,7 @@ export default ChallengeForm;
 
 ChallengeForm.propTypes = {
   challenge: PropTypes.shape({
+    path: PropTypes.string,
     title: PropTypes.string,
     html: PropTypes.string,
     css: PropTypes.string
