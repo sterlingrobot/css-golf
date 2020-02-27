@@ -73,28 +73,6 @@
   }
 }
 
-.attempt-error {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  padding: 4rem 1rem 1rem;
-  font-family: 'Fira code', monospace;
-  font-size: 1.2rem;
-  white-space: pre;
-  color: $color-red-base;
-  background: $color-red-20;
-
-  wds-icon {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-  }
-}
-
 .attempts-list {
   margin: 2rem 0;
 
