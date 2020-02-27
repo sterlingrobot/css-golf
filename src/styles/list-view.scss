@@ -51,7 +51,8 @@
 
   .like-count,
   wds-icon {
-    color: $color-blue-20;
+    color: $color-blue-50;
+    opacity: 0.6;
   }
 
   .like-count {
@@ -67,7 +68,7 @@
   }
 
   &:hover wds-icon {
-    color: $color-blue-50;
+    opacity: 1;
     transform: translateY(-3px) scale(1.1);
   }
 
