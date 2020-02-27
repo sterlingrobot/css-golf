@@ -14,7 +14,7 @@ import AttemptMarkup from '../attempts/AttemptMarkup';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
-import createAttempt from '../../actions/createAttempt';
+import saveAttempt from '../../actions/saveAttempt';
 
 import { Page } from '../../styles/layout';
 
@@ -23,6 +23,7 @@ import '../../styles/attempt.scss';
 class Attempt extends React.Component {
   constructor() {
     super();
+    this.output = React.createRef();
     this.resetError = this.resetError.bind(this);
   }
 
@@ -89,6 +90,7 @@ class Attempt extends React.Component {
                             <AttemptOutput
                               attempt={attempt}
                               challenge={challenge}
+                              ref={this.output}
                             />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
@@ -97,9 +99,10 @@ class Attempt extends React.Component {
                                 path={attempt.path}
                                 error={this.state.error}
                                 onSubmit={values =>
-                                  createAttempt(
+                                  saveAttempt(
                                     challenge.id,
-                                    values
+                                    values,
+                                    this.output.current
                                   ).catch(({ error }) =>
                                     this.setState({ error })
                                   )
