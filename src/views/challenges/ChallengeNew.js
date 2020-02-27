@@ -7,7 +7,7 @@ import Error from '../misc/Error';
 
 import ChallengeForm from './ChallengeForm';
 
-import createChallenge from '../../actions/createChallenge';
+import saveChallenge from '../../actions/saveChallenge';
 
 import { Page } from '../../styles/layout';
 
@@ -37,8 +37,8 @@ const ChallengeNew = ({ history }) => (
         return (
           <ChallengeForm
             onSubmit={values =>
-              createChallenge(values).then(post =>
-                history.push(`/${post.slug}/edit`)
+              saveChallenge(values).then(challenge =>
+                history.push(`/${challenge.slug}/edit`)
               )
             }
           />
