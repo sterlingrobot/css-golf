@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { FirestoreCollection } from 'react-firestore';
 
 import Error from '../misc/Error';
-import updateChallenge from '../../actions/updateChallenge';
+import saveChallenge from '../../actions/saveChallenge';
 import deleteChallenge from '../../actions/deleteChallenge';
 
 import ChallengeForm from './ChallengeForm';
@@ -18,6 +18,15 @@ class ChallengeEdit extends React.Component {
   constructor() {
     super();
     this.output = React.createRef();
+    this.resetError = this.resetError.bind(this);
+  }
+
+  state = {
+    error: null
+  };
+
+  resetError(_e) {
+    this.setState({ error: null });
   }
 
   render() {
@@ -54,16 +63,14 @@ class ChallengeEdit extends React.Component {
                 </div>
                 <ChallengeForm
                   challenge={challenge}
+                  error={this.state.error}
                   onSubmit={values => {
-                    updateChallenge(
-                      challenge.id,
-                      values,
-                      this.output.current
-                    ).then(() => history.push(`/${challenge.slug}/edit`));
+                    saveChallenge(values, this.output.current);
                   }}
                   onDelete={() =>
                     deleteChallenge(challenge).then(() => history.push(`/`))
                   }
+                  onClick={this.resetError}
                 />
               </div>
             );

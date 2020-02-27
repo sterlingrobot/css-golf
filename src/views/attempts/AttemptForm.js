@@ -58,7 +58,7 @@ class AttemptForm extends React.Component {
                 required
               />
               {error && (
-                <div className="attempt-error">
+                <div className="editor-error">
                   <wds-icon type="warn" onClick={onClick}>
                     close
                   </wds-icon>
