@@ -77,6 +77,7 @@ class AttemptNew extends React.Component {
 
                   return (
                     <div>
+                      <h2>{challenge.title}</h2>
                       <div className="challenge-container">
                         <ChallengeOutput challenge={challenge} />
                       </div>
