@@ -6,8 +6,9 @@
   display: grid;
   margin-bottom: 2rem;
   gap: 2rem;
-  grid-template-areas: 'header' 'output' 'form';
-  grid-template-rows: auto minmax(20rem, max-content) auto;
+  grid-template-areas: 'header' 'output' 'actions' 'form';
+  grid-template-rows: auto;
+  align-items: flex-start;
 
   .attempt-output,
   .challenge-output {
@@ -29,35 +30,32 @@
   .attempt-output {
     opacity: 1;
     z-index: 1;
-
-    &:after {
-      content: 'attempt';
-      transform: translateX(-100%);
-    }
   }
 
   .challenge-output {
     opacity: 0;
-    z-index: 2;
+  }
 
-    &:after {
-      content: 'challenge';
-    }
+  .diff-output {
+    opacity: 0;
+    z-index: 2;
 
     &:hover {
       opacity: 1;
     }
-    &:hover + .attempt-output {
-      opacity: 0.5;
-    }
   }
 }
 
+.diff-output,
 .attempt-output,
 .challenge-output {
   border: 1px solid $color-silver-20;
   border-radius: 3px;
   grid-area: output;
+}
+
+.attempt-actions {
+  margin: 0 auto;
 }
 
 .attempt-static {
