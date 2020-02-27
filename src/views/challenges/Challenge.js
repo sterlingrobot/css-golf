@@ -10,6 +10,8 @@ import FirebaseAuth from '../misc/FirebaseAuth';
 import ChallengeOutput from './ChallengeOutput';
 import ChallengeMarkup from './ChallengeMarkup';
 
+import AttemptList from '../attempts/AttemptList';
+
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
 
@@ -43,16 +45,21 @@ class Challenge extends React.Component {
 
             return (
               <div className="challenge">
+                <InternalLink to="/" style={{ margin: '0 auto 1rem 0' }}>
+                  <wds-icon>arrow_back</wds-icon>
+                  Back to Challenges
+                </InternalLink>
+
                 <header>
                   <h1>{challenge.title}</h1>
                   <FirebaseAuth>
                     {({ auth }) =>
                       auth && auth.admin ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
-                          <wds-button>Edit</wds-button>
+                          <wds-button>Edit Challenge</wds-button>
                         </InternalLink>
                       ) : auth ? (
-                        <InternalLink to={`/${challenge.slug}/attempt/new`}>
+                        <InternalLink to={`/${challenge.slug}/attempt`}>
                           <wds-button color="green">
                             Attempt Challenge
                           </wds-button>
@@ -65,10 +72,7 @@ class Challenge extends React.Component {
                   <ChallengeOutput challenge={challenge} />
                 </div>
                 <ChallengeMarkup html={challenge.html} />
-                <InternalLink to="/" style={{ marginRight: 'auto' }}>
-                  <wds-icon>arrow_back</wds-icon>
-                  Back to Challenges
-                </InternalLink>
+                <AttemptList challenge={challenge} />
               </div>
             );
           }}

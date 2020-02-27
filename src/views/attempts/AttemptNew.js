@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { FirestoreCollection } from 'react-firestore';
@@ -9,7 +9,6 @@ import Error from '../misc/Error';
 import AttemptForm from './AttemptForm';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 
-import logIn from '../../actions/logIn';
 import createAttempt from '../../actions/createAttempt';
 
 import { Page } from '../../styles/layout';
@@ -49,7 +48,9 @@ class AttemptNew extends React.Component {
               return (
                 <div>
                   <p>You must be logged in to attempt a challenge</p>
-                  <wds-button onClick={logIn}>Sign in</wds-button>
+                  <Link to="/login">
+                    <wds-button>Sign in</wds-button>
+                  </Link>
                 </div>
               );
             }
@@ -85,11 +86,7 @@ class AttemptNew extends React.Component {
                         error={this.state.error}
                         onSubmit={values =>
                           createAttempt(challenge.id, values)
-                            .then(attempt => {
-                              return history.push(
-                                `/${challenge.slug}/${attempt.path}`
-                              );
-                            })
+                            .then(attempt => history.push(attempt.path))
                             // if we error on SCSS compile, we've still
                             //  created the doc, so store that in state
                             //  to pass back into the form values

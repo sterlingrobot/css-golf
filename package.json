@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://css-golf.netlify.com",
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^2.3.0",
     "@wisetail/tokens": "^1.0.0",
     "@wisetail/wds-button": "^1.0.0",
     "@wisetail/wds-icon": "^1.0.0",

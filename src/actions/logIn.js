@@ -3,9 +3,7 @@ import Firebase from 'firebase/app';
 
 import { setPresence } from './presence';
 
-const logIn = () => {
-  const provider = new Firebase.auth.GithubAuthProvider();
-
+const logIn = provider => {
   return Firebase.auth()
     .signInWithRedirect(provider)
     .then(result => {

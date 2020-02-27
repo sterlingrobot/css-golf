@@ -1,0 +1,22 @@
+@import '~@wisetail/tokens/build/scss/variables';
+
+.signin-container {
+  display: flex;
+  justify-content: center;
+
+  --button-color: #{$color-font-base};
+  --button-background-color: #{$color-silver-10};
+  --button-hover-color: #{$color-font-base};
+  --button-hover-background-color: #{$color-silver-20};
+  --button-ripple-color: #{$color-white-base};
+
+  wds-button {
+    margin: 2em;
+  }
+}
+
+.icon {
+  position: relative;
+  top: 0.2em;
+  margin-right: 1em;
+}
