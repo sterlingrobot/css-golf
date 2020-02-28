@@ -18,8 +18,6 @@ import DiffOutput from './DiffOutput';
 import saveAttempt from '../../actions/saveAttempt';
 import imgToUint8Array from '../../actions/imageDataToArray';
 
-import pixelmatch from 'pixelmatch';
-
 import { Page } from '../../styles/layout';
 
 import '../../styles/attempt.scss';
@@ -27,57 +25,53 @@ import '../../styles/attempt.scss';
 class Attempt extends React.Component {
   constructor() {
     super();
-    this.output = React.createRef();
-    this.measure = React.createRef();
-    this.diff = React.createRef();
+    this.attemptOutput = React.createRef();
+    this.challengeOutput = React.createRef();
     this.resetError = this.resetError.bind(this);
-    this.compareToChallenge = this.compareToChallenge.bind(this);
-    this.writeDiffToOutput = this.writeDiffToOutput.bind(this);
+    this.prepareSnapshots = this.prepareSnapshots.bind(this);
   }
 
   state = {
-    error: null
+    error: null,
+    imgData: null
   };
 
-  compareToChallenge(attempt, challenge) {
-    const { offsetWidth, offsetHeight } = this.measure.current;
-    console.log(offsetWidth, offsetHeight);
-    saveAttempt(challenge.id, attempt, this.output.current).then(attempt =>
-      Promise.all([
-        imgToUint8Array(challenge.snapshot, offsetWidth, offsetHeight),
-        imgToUint8Array(attempt.snapshot, offsetWidth, offsetHeight)
-      ]).then(([snapshotImg, attemptImg]) => {
-        const imgDataOutput = new ImageData(offsetWidth, offsetHeight);
-        const diff = pixelmatch(
-          snapshotImg,
-          attemptImg,
-          imgDataOutput.data,
-          offsetWidth,
-          offsetHeight,
-          {
-            threshold: 0.2,
-            diffMask: true
-          }
-        );
-        this.writeDiffToOutput(imgDataOutput);
-        return console.log((diff / (offsetWidth * offsetHeight)) * 100);
-      })
+  prepareSnapshots(challenge, values) {
+    // compare based on height of the challenge
+    const { offsetWidth, offsetHeight } = this.challengeOutput.current;
+    // first unset imgData to avoid unnecessary diff
+    this.setState({ imgData: null }, () =>
+      // save the css to the database
+      saveAttempt(challenge.id, values)
+        // and wait for updated css to capture new snapshot
+        .then(result =>
+          saveAttempt(challenge.id, result, this.attemptOutput.current)
+        )
+        // convert the snapshots into image data
+        .then(attempt =>
+          Promise.all([
+            imgToUint8Array(challenge.snapshot, offsetWidth, offsetHeight),
+            imgToUint8Array(attempt.snapshot, offsetWidth, offsetHeight)
+          ])
+        )
+        // set state for DiffOutput to pick up
+        .then(([challengeImg, attemptImg]) =>
+          this.setState({
+            imgData: {
+              target: challengeImg,
+              attempt: attemptImg,
+              width: offsetWidth,
+              height: offsetHeight
+            }
+          })
+        )
+        .catch(({ error }) => this.setState({ error }))
     );
-  }
-
-  writeDiffToOutput(imgDataOutput) {
-    const canvas = this.diff.current;
-    canvas.width = imgDataOutput.width;
-    canvas.height = imgDataOutput.height;
-    var ctx = canvas.getContext('2d');
-    ctx.putImageData(imgDataOutput, 0, 0);
   }
 
   resetError(_e) {
     this.setState({ error: null });
   }
-
-  componentDidMount() {}
 
   render() {
     const { match } = this.props;
@@ -129,27 +123,16 @@ class Attempt extends React.Component {
                         return (
                           <div className="attempt-container">
                             <h2>{challenge.title}</h2>
-                            <DiffOutput ref={this.diff} />
                             <ChallengeOutput
                               challenge={challenge}
-                              ref={this.measure}
+                              ref={this.challengeOutput}
                             />
                             <AttemptOutput
                               attempt={attempt}
-                              challenge={challenge}
-                              ref={this.output}
+                              html={challenge.html}
+                              ref={this.attemptOutput}
                             />
-                            <div className="attempt-actions">
-                              <wds-button
-                                color="red"
-                                onClick={() => {
-                                  this.compareToChallenge(attempt, challenge);
-                                }}
-                              >
-                                Compare
-                              </wds-button>
-                            </div>
-
+                            <DiffOutput imgData={this.state.imgData} />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
                                 attempt={attempt}
@@ -157,13 +140,7 @@ class Attempt extends React.Component {
                                 path={attempt.path}
                                 error={this.state.error}
                                 onSubmit={values =>
-                                  saveAttempt(
-                                    challenge.id,
-                                    values,
-                                    this.output.current
-                                  ).catch(({ error }) =>
-                                    this.setState({ error })
-                                  )
+                                  this.prepareSnapshots(challenge, values)
                                 }
                                 onClick={this.resetError}
                               />
