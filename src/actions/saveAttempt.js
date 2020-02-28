@@ -1,7 +1,7 @@
 import Firebase from 'firebase/app';
 
-import { compileScss } from './compileScss';
-import { generateSnapshot } from './generateSnapshot';
+import compileScss from './compileScss';
+import generateSnapshot from './generateSnapshot';
 
 import {
   prepareDocForCreate,

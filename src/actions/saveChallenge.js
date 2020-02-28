@@ -1,7 +1,7 @@
 import Firebase from 'firebase/app';
 
 import slugify from 'slugify';
-import { compileScss } from './compileScss';
+import compileScss from './compileScss';
 import domtoimage from 'dom-to-image';
 
 import {

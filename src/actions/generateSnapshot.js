@@ -1,6 +1,6 @@
 import domtoimage from 'dom-to-image';
 
-export const generateSnapshot = (id, type, markup, css) => {
+const generateSnapshot = (id, type, markup, css) => {
   const node = document.createElement('div');
   const style = document.createElement('style');
   const content = document.createElement('div');
@@ -14,3 +14,5 @@ export const generateSnapshot = (id, type, markup, css) => {
   console.log(node);
   return domtoimage.toPng(node);
 };
+
+export default generateSnapshot;

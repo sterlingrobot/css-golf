@@ -1,4 +1,4 @@
-export const compileScss = async (prefix, id, css) => {
+const compileScss = async (prefix, id, css) => {
   const response = await fetch('/.netlify/functions/generate-styles', {
     method: 'POST',
     mode: 'cors', // no-cors, *cors, same-origin
@@ -16,3 +16,5 @@ export const compileScss = async (prefix, id, css) => {
   }
   return Promise.resolve(styles);
 };
+
+export default compileScss;
