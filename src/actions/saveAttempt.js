@@ -34,10 +34,8 @@ const saveAttempt = async (challengeId, values) => {
       return generateSnapshot(doc.id, 'attempt', challenge.html, attempt.style);
     })
     .then(snapshot => {
-      console.log(snapshot);
-      return doc.update(
-        prepareDocForUpdate({ ...attempt, snapshot, path: doc.path })
-      );
+      attempt.snapshot = snapshot;
+      return doc.update(prepareDocForUpdate({ ...attempt, path: doc.path }));
     })
     .then(() => Promise.resolve({ ...attempt, path: doc.path }))
     .catch(error => Promise.reject({ error, path: doc.path }));
