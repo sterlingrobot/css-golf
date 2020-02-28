@@ -8,7 +8,6 @@
   gap: 2rem;
   grid-template-areas: 'header' 'output' 'actions' 'form';
   grid-template-rows: auto;
-  align-items: flex-start;
 
   .attempt-output,
   .challenge-output {
@@ -49,8 +48,6 @@
 .diff-output,
 .attempt-output,
 .challenge-output {
-  border: 1px solid $color-silver-20;
-  border-radius: 3px;
   grid-area: output;
 }
 
