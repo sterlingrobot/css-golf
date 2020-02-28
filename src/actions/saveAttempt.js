@@ -1,19 +1,22 @@
 import Firebase from 'firebase/app';
 
 import { compileScss } from './compileScss';
-import domtoimage from 'dom-to-image';
+import { generateSnapshot } from './generateSnapshot';
 
 import {
   prepareDocForCreate,
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
 
-const saveAttempt = async (challengeId, values, snapshotNode) => {
+const saveAttempt = async (challengeId, values) => {
   const attempt = { ...values, challenge: challengeId };
 
-  if (snapshotNode) {
-    attempt.snapshot = await domtoimage.toPng(snapshotNode);
-  }
+  const challengeDoc = await Firebase.firestore()
+    .collection('challenges')
+    .doc(challengeId)
+    .get();
+
+  const challenge = challengeDoc.data();
 
   const doc = attempt.path
     ? Firebase.firestore().doc(attempt.path)
@@ -25,12 +28,17 @@ const saveAttempt = async (challengeId, values, snapshotNode) => {
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
         });
 
-  if (attempt.path) {
-    await doc.update(prepareDocForUpdate(attempt));
-  }
-
   return compileScss('attempt', doc.id, attempt.css)
-    .then(styles => doc.update({ style: styles, path: doc.path }))
+    .then(styles => {
+      attempt.style = styles;
+      return generateSnapshot(doc.id, 'attempt', challenge.html, attempt.style);
+    })
+    .then(snapshot => {
+      console.log(snapshot);
+      return doc.update(
+        prepareDocForUpdate({ ...attempt, snapshot, path: doc.path })
+      );
+    })
     .then(() => Promise.resolve({ ...attempt, path: doc.path }))
     .catch(error => Promise.reject({ error, path: doc.path }));
 };
