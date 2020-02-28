@@ -15,8 +15,6 @@ const saveAttempt = async (challengeId, values, snapshotNode) => {
     attempt.snapshot = await domtoimage.toPng(snapshotNode);
   }
 
-  console.log(attempt.path, !!attempt.path);
-
   const doc = attempt.path
     ? Firebase.firestore().doc(attempt.path)
     : await Firebase.firestore()
