@@ -7,7 +7,7 @@ const imgToUint8Array = (data, width, height) => {
 
   return new Promise((resolve, _reject) => {
     //create image, set src to base64 and onload draw to canvas
-    var image = new Image();
+    const image = new Image();
     image.onload = (ctx => {
       return function() {
         ctx.drawImage(this, 0, 0);
