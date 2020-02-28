@@ -4,11 +4,11 @@ import { prepareDocForCreate } from './helpers/firestoreHelpers';
 
 const likeChallenge = challenge => {
   const like = prepareDocForCreate({
-    challengeId: challenge.id
+    challenge: challenge.id
   });
 
   return Firebase.firestore()
-    .collection('challengeLikes')
+    .collection('challenge-likes')
     .add(like);
 };
 

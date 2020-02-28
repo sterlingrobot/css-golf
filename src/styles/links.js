@@ -17,14 +17,14 @@ const InternalLink = styled(Link)`
     text-decoration: none;
   }
 
-  wds-icon {
+  > wds-icon {
     margin-right: 0.25em;
     color: inherit;
     transform: translate(0, 0.025em);
     transition: 250ms transform;
   }
 
-  &:hover wds-icon {
+  &:hover > wds-icon {
     transform: translate(-0.2em, 0.025em);
   }
 `;

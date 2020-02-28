@@ -13,17 +13,19 @@ import ChallengeNew from './challenges/ChallengeNew';
 import ChallengeEdit from './challenges/ChallengeEdit';
 
 import Account from './account/Account';
+import SignIn from './account/SignIn';
 import Error from './misc/Error';
 
 const Routes = () => (
   <Switch>
     <Route exact path="/" component={ChallengeList} />
-    <Route path="/new" component={ChallengeNew} />
-    <Route path="/:slug/attempts/new" component={AttemptNew} />
-    <Route path="/:slug/attempts/:id" component={Attempt} />
+    <Route path="/account" component={Account} />
+    <Route path="/login" component={SignIn} />
+    <Route path="/challenges/new" component={ChallengeNew} />
+    <Route path="/:slug/attempt" component={AttemptNew} />
+    <Route path="/attempts/:id" component={Attempt} />
     <Route path="/:slug/edit" component={ChallengeEdit} />
     <Route path="/:slug" component={Challenge} />
-    <Route path="/account" component={Account} />
     <Route component={Error} />
   </Switch>
 );

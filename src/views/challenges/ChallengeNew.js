@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import FirebaseAuth from '../misc/FirebaseAuth';
 import Error from '../misc/Error';
 
 import ChallengeForm from './ChallengeForm';
 
-import logIn from '../../actions/logIn';
 import createChallenge from '../../actions/createChallenge';
 
 import { Page } from '../../styles/layout';
@@ -27,8 +26,10 @@ const ChallengeNew = ({ history }) => (
         if (!auth) {
           return (
             <div>
-              <p>You must be logged in to add posts</p>
-              <button onClick={logIn}>Sign in</button>
+              <p>You must be logged in to add challenges</p>
+              <Link to="/login">
+                <wds-button>Sign in</wds-button>
+              </Link>
             </div>
           );
         }

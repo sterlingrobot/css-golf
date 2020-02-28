@@ -1,12 +1,15 @@
 import React from 'react';
 
-import logIn from '../../actions/logIn';
 import FirebaseAuth from '../misc/FirebaseAuth';
+
 import Error from '../misc/Error';
 import Profile from './Profile';
+import { Link } from 'react-router-dom';
+
 import { Page } from '../../styles/layout';
 
 import '../../styles/account.scss';
+import AttemptList from '../attempts/AttemptList';
 
 const Account = () => (
   <Page>
@@ -24,15 +27,21 @@ const Account = () => (
           return (
             <div>
               <p>Sign in to see your account</p>
-              <wds-button onClick={logIn}>Sign in</wds-button>
+              <Link to="/login">
+                <wds-button>Sign in</wds-button>
+              </Link>
             </div>
           );
         }
 
         return (
-          <div className="account-profile">
-            <Profile auth={auth} />
-          </div>
+          <>
+            <div className="account-profile">
+              <Profile auth={auth} />
+            </div>
+            <hr />
+            <AttemptList user={auth} />
+          </>
         );
       }}
     </FirebaseAuth>
