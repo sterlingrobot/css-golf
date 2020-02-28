@@ -3,7 +3,6 @@ import imgToUint8Array from './imageDataToArray';
 
 const generateDiffData = (target, match) => {
   let width, height;
-
   return dataUrlToImage(target)
     .then(image => {
       width = image.width;

@@ -1,17 +1,20 @@
 import domtoimage from 'dom-to-image';
 
 const generateSnapshot = (id, type, markup, css) => {
-  const node = document.createElement('div');
-  const style = document.createElement('style');
-  const content = document.createElement('div');
+  const container = document.getElementById([type, id].join('-'));
 
-  node.id = [type, id].join('-');
-  node.appendChild(style);
-  node.appendChild(content);
-  content.innerHTML = markup;
-  style.innerHTML = css;
+  const node =
+    container.querySelector('.output-snapshot') ||
+    document.createElement('div');
 
-  console.log(node);
+  node.className = 'output-snapshot';
+  node.innerHTML = `
+    <style>${css}</style>
+    ${markup}
+  `;
+
+  container.appendChild(node);
+
   return domtoimage.toPng(node);
 };
 

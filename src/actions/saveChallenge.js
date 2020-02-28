@@ -2,21 +2,16 @@ import Firebase from 'firebase/app';
 
 import slugify from 'slugify';
 import compileScss from './compileScss';
-import domtoimage from 'dom-to-image';
+import generateSnapshot from './generateSnapshot';
 
 import {
   prepareDocForCreate,
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
 
-const saveChallenge = async (values, snapshotNode) => {
+const saveChallenge = async values => {
   const challenge = { ...values };
-
   challenge.slug = slugify(values.title, { lower: true });
-
-  if (snapshotNode) {
-    challenge.snapshot = await domtoimage.toPng(snapshotNode);
-  }
 
   const doc = challenge.path
     ? Firebase.firestore().doc(challenge.path)
@@ -28,12 +23,22 @@ const saveChallenge = async (values, snapshotNode) => {
           alert(`Whoops, couldn't save your challenge: ${error.message}`);
         });
 
-  if (challenge.path) {
-    await doc.update(prepareDocForUpdate(challenge));
-  }
-
   return compileScss('challenge', doc.id, challenge.css)
-    .then(styles => doc.update({ style: styles, path: doc.path }))
+    .then(styles => {
+      challenge.style = styles;
+      return generateSnapshot(
+        doc.id,
+        'challenge',
+        challenge.html,
+        challenge.style
+      );
+    })
+    .then(snapshot => {
+      console.log(snapshot);
+      return doc.update(
+        prepareDocForUpdate({ ...challenge, snapshot, path: doc.path })
+      );
+    })
     .then(() => Promise.resolve({ ...challenge, path: doc.path }))
     .catch(error => Promise.reject({ error, path: doc.path }));
 };
