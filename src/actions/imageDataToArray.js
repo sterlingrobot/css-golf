@@ -17,7 +17,7 @@ const imgToUint8Array = (data, width, height) => {
         resolve(imageData.data);
       };
     })(ctx);
-    image.src = data || 'data:,';
+    image.src = data;
   });
 };
 

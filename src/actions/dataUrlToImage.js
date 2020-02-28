@@ -1,9 +1,11 @@
 const dataUrlToImage = data => {
   return new Promise((resolve, _reject) => {
     const image = new Image();
-    image.onload = img => {
-      resolve(img);
-    };
+    image.onload = (_e => {
+      return function() {
+        resolve(this);
+      };
+    })();
     image.src = data;
   });
 };
