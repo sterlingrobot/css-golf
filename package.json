@@ -13,6 +13,7 @@
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
     "node-sass": "^4.13.1",
+    "pixelmatch": "^5.1.0",
     "prismjs": "^1.19.0",
     "react": "^16.4.0",
     "react-async": "^10.0.0",

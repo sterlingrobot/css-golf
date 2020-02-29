@@ -1,10 +1,3 @@
-// This is an uncontrolled React form, which is way simpler than
-// the normal React controlled form
-// https://reactjs.org/docs/uncontrolled-components.html
-//
-// You can use browser form validation these days, and just
-// get the values from the form on submit.
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -27,8 +20,9 @@ class ChallengeForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { title, html, css } = event.target.elements;
+    const { path, title, html, css } = event.target.elements;
     const values = {
+      path: path.value,
       title: title.value,
       html: html.value,
       css: css.value
@@ -38,10 +32,11 @@ class ChallengeForm extends React.Component {
 
   render() {
     const {
-      props: { challenge, onDelete }
+      props: { challenge, error, onClick, onDelete }
     } = this;
     return (
       <form id="challengeForm" onSubmit={this.onSubmit}>
+        <input type="hidden" name="path" defaultValue={challenge.path} />
         <div className="form-wrap">
           <div className="form-row">
             <div className="form-control">
@@ -81,6 +76,14 @@ class ChallengeForm extends React.Component {
                 autoComplete="off"
                 required
               />
+              {error && (
+                <div className="editor-error">
+                  <wds-icon type="warn" onClick={onClick}>
+                    close
+                  </wds-icon>
+                  {error}
+                </div>
+              )}
             </div>
           </div>
 
@@ -107,10 +110,13 @@ export default ChallengeForm;
 
 ChallengeForm.propTypes = {
   challenge: PropTypes.shape({
+    path: PropTypes.string,
     title: PropTypes.string,
     html: PropTypes.string,
     css: PropTypes.string
   }),
+  error: PropTypes.string,
   onSubmit: PropTypes.func,
+  onClick: PropTypes.func,
   onDelete: PropTypes.func
 };

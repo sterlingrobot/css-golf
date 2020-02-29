@@ -6,8 +6,31 @@
   max-height: 40vh;
   overflow: auto;
 }
+
 .editor {
   textarea:focus {
     outline: 0;
+  }
+}
+
+.editor-error {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  margin: 0 0 1rem 0.5rem;
+  padding: 4rem 1rem 1rem;
+  font-family: 'Fira code', monospace;
+  font-size: 1.2rem;
+  white-space: pre;
+  color: $color-red-base;
+  background: $color-red-20;
+
+  wds-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
   }
 }
