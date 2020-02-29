@@ -11,6 +11,7 @@ import Error from '../misc/Error';
 import AttemptForm from './AttemptForm';
 import AttemptOutput from './AttemptOutput';
 import AttemptMarkup from '../attempts/AttemptMarkup';
+import AttemptReport from './AttemptReport';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
@@ -26,14 +27,35 @@ class Attempt extends React.Component {
   constructor() {
     super();
     this.resetError = this.resetError.bind(this);
+    this.onDiffResult = this.onDiffResult.bind(this);
+    this.onLintResult = this.onLintResult.bind(this);
   }
 
   state = {
-    error: null
+    error: null,
+    diff: null,
+    lint: null
   };
 
   resetError(_e) {
     this.setState({ error: null });
+  }
+
+  onDiffResult(total, diff) {
+    this.setState({
+      diff: {
+        totalPixels: total,
+        diffPixels: diff
+      }
+    });
+  }
+
+  onLintResult(css) {
+    lintStyles(css).then(results =>
+      this.setState({
+        lint: results
+      })
+    );
   }
 
   render() {
@@ -67,8 +89,6 @@ class Attempt extends React.Component {
 
                   const attempt = data;
 
-                  lintStyles(attempt.css);
-
                   return (
                     <FirestoreDocument path={`challenges/${attempt.challenge}`}>
                       {({ error, isLoading, data }) => {
@@ -96,11 +116,7 @@ class Attempt extends React.Component {
                             <DiffOutput
                               target={challenge.snapshot}
                               match={attempt.snapshot}
-                              onDiffResult={(total, diff) =>
-                                console.log(`SCORE:
-                                  ${100 - (diff / total) * 100}
-                                `)
-                              }
+                              onDiffResult={this.onDiffResult}
                             />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
@@ -124,6 +140,11 @@ class Attempt extends React.Component {
                                 <AttemptMarkup css={attempt.css} />
                               </div>
                             )}
+                            <AttemptReport
+                              title={`Results for ${auth.displayName}`}
+                              diff={this.state.diff}
+                              lint={this.state.lint}
+                            />
                           </div>
                         );
                       }}
