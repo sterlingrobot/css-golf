@@ -13,7 +13,12 @@ module.exports.handler = async (event, _context) => {
       .then(response => {
         return {
           statusCode: 200,
-          body: JSON.stringify({ results: response.results[0] })
+          body: JSON.stringify({
+            results: {
+              errored: response.results[0].errored,
+              warnings: response.results[0].warnings
+            }
+          })
         };
       });
   } catch (err) {
