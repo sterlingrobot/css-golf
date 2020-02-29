@@ -9,6 +9,8 @@ import { InternalLink } from '../../styles/links';
 import DateFormat from '../misc/DateFormat';
 import { Avatar } from '../account/Avatar';
 
+import { scoreTotal } from '../../actions/scoreAttempt';
+
 import '../../styles/attempt.scss';
 
 const AttemptList = ({ challenge = null, user = null }) => (
@@ -120,6 +122,12 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                     </small>
                                   </div>
                                   <div className="list-item-icons"></div>
+                                  <div className="list-item-score">
+                                    {scoreTotal(attempt.diff, attempt.lint, {
+                                      target: attemptChallenge,
+                                      match: attempt
+                                    }).toFixed(2)}
+                                  </div>
                                 </>
                               );
                             }}
