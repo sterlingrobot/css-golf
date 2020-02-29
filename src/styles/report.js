@@ -13,7 +13,11 @@ const ReportTable = styled.table`
   td {
     padding: 1rem 0;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: top;
+  }
+
+  ul {
+    margin: 0;
   }
 
   .score {
