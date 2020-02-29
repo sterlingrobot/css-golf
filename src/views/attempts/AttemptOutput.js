@@ -7,15 +7,16 @@ const setContent = html => {
   return { __html: html };
 };
 
-const AttemptOutput = ({ attempt, challenge }) => (
-  <div id={`attempt-${attempt.id}`} className="attempt-output">
+// eslint-disable-next-line react/display-name
+const AttemptOutput = React.forwardRef(({ attempt, html }, ref) => (
+  <div id={`attempt-${attempt.id}`} className="attempt-output" ref={ref}>
     <style>{attempt.style}</style>
     <div
       className="attempt-content"
-      dangerouslySetInnerHTML={setContent(challenge.html)}
+      dangerouslySetInnerHTML={setContent(html)}
     ></div>
   </div>
-);
+));
 
 export default AttemptOutput;
 
@@ -25,7 +26,5 @@ AttemptOutput.propTypes = {
     style: PropTypes.string,
     snapshot: PropTypes.string
   }),
-  challenge: PropTypes.shape({
-    html: PropTypes.string
-  })
+  html: PropTypes.string
 };

@@ -33,10 +33,9 @@
 
   img {
     position: absolute;
-    max-width: 150%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    max-width: 60em;
+    top: 0;
+    left: 0;
   }
 }
 
@@ -51,7 +50,8 @@
 
   .like-count,
   wds-icon {
-    color: $color-blue-20;
+    color: $color-blue-50;
+    opacity: 0.6;
   }
 
   .like-count {
@@ -67,7 +67,7 @@
   }
 
   &:hover wds-icon {
-    color: $color-blue-50;
+    opacity: 1;
     transform: translateY(-3px) scale(1.1);
   }
 

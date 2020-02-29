@@ -9,7 +9,7 @@ import Error from '../misc/Error';
 import AttemptForm from './AttemptForm';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 
-import createAttempt from '../../actions/createAttempt';
+import saveAttempt from '../../actions/saveAttempt';
 
 import { Page } from '../../styles/layout';
 
@@ -77,6 +77,7 @@ class AttemptNew extends React.Component {
 
                   return (
                     <div>
+                      <h2>{challenge.title}</h2>
                       <div className="challenge-container">
                         <ChallengeOutput challenge={challenge} />
                       </div>
@@ -85,8 +86,8 @@ class AttemptNew extends React.Component {
                         path={this.state.path}
                         error={this.state.error}
                         onSubmit={values =>
-                          createAttempt(challenge.id, values)
-                            .then(attempt => history.push(attempt.path))
+                          saveAttempt(challenge.id, values)
+                            .then(attempt => history.push(`/${attempt.path}`))
                             // if we error on SCSS compile, we've still
                             //  created the doc, so store that in state
                             //  to pass back into the form values

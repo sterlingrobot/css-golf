@@ -13,8 +13,9 @@ import AttemptOutput from './AttemptOutput';
 import AttemptMarkup from '../attempts/AttemptMarkup';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
+import DiffOutput from './DiffOutput';
 
-import createAttempt from '../../actions/createAttempt';
+import saveAttempt from '../../actions/saveAttempt';
 
 import { Page } from '../../styles/layout';
 
@@ -79,7 +80,6 @@ class Attempt extends React.Component {
                         if (data.length === 0) {
                           return <Error />;
                         }
-
                         const challenge = data;
 
                         return (
@@ -88,7 +88,16 @@ class Attempt extends React.Component {
                             <ChallengeOutput challenge={challenge} />
                             <AttemptOutput
                               attempt={attempt}
-                              challenge={challenge}
+                              html={challenge.html}
+                            />
+                            <DiffOutput
+                              target={challenge.snapshot}
+                              match={attempt.snapshot}
+                              onDiffResult={(total, diff) =>
+                                console.log(`SCORE:
+                                  ${100 - (diff / total) * 100}
+                                `)
+                              }
                             />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
@@ -97,7 +106,7 @@ class Attempt extends React.Component {
                                 path={attempt.path}
                                 error={this.state.error}
                                 onSubmit={values =>
-                                  createAttempt(
+                                  saveAttempt(
                                     challenge.id,
                                     values
                                   ).catch(({ error }) =>
