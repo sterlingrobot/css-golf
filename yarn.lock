@@ -2036,10 +2036,27 @@
     "@material/elevation" "^4.0.0"
     "@material/ripple" "^4.0.0"
 
+"@wisetail/tokens@^1.1.0":
+  version "1.1.0"
+  resolved "https://npm.pkg.github.com/download/@wisetail/tokens/1.1.0/c094f098eaf34dbd10c4816578eeb8b8fa7119cd9d31dbf4e60de16bf3b7bc90#cd7c3b40ce01d5e8fb3609407776dec2c66ab14b"
+  integrity sha512-zMq0dYAgrpDCDO20KRjTLMTcImyp02HRdgvIuOvptnrpGVdbx7750JfoE9fdTjeIhRNm0m7Jq7tldeKwP8aj7w==
+  dependencies:
+    "@material/elevation" "^4.0.0"
+    "@material/ripple" "^4.0.0"
+
 "@wisetail/wds-base@^1.0.0":
   version "1.0.0"
   resolved "https://npm.pkg.github.com/download/@wisetail/wds-base/1.0.0/2ee41cb3978574bc7c132ef8486b695d915c320490a4491df18bf20727fb7a9a#68109abd0774d6389a9885ad7e22b0e9781a013a"
   integrity sha512-doN0qVgM1BBGG2SYIsCm3Wm8tYYVIUAHmkADBb66tFzkCsRmOuYaVcnBeCRnpKA/t35I3Pw6fYRqSp2gNCulDQ==
+  dependencies:
+    "@material/ripple" "^4.0.0"
+    lit-element "^2.0.1"
+    lit-html "^1.1.2"
+
+"@wisetail/wds-base@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.pkg.github.com/download/@wisetail/wds-base/1.1.1/9b782d4216f7d6ac9310abcd29adc0d108b715d2ed69f02742e8576bbf8843ed#eafc8ccf784c0f416949723a7ac7c337e578b03d"
+  integrity sha512-hOjY1IOt99PW/MPJc61tkcVZ8paTcCaO4ygUKATHij27LXSm7mq20fKh6vt3bDfzNRfoZxUzrSeCAaawG7A7tg==
   dependencies:
     "@material/ripple" "^4.0.0"
     lit-element "^2.0.1"
@@ -2065,6 +2082,28 @@
     "@wisetail/wds-base" "^1.0.0"
     lit-element "^2.0.1"
     lit-html "^1.1.2"
+
+"@wisetail/wds-icon@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.pkg.github.com/download/@wisetail/wds-icon/1.1.1/5affb39e5793ed67b43913018ee7a32fbd5a0e0594a3f0e5bd34f8b6de6edaa7#74e5424f390734cc9239ff9c12504f89a666eaef"
+  integrity sha512-aPSLkq/buI8x9HYW4axDkO3namKKIF6O8/4f5XdZmQdHw2D+EN9ymCc+tkCITltvxH6v64l8hKiSykd5MBASAw==
+  dependencies:
+    "@wisetail/tokens" "^1.1.0"
+    "@wisetail/wds-base" "^1.1.1"
+    lit-element "^2.0.1"
+    lit-html "^1.1.2"
+
+"@wisetail/wds-panel@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.pkg.github.com/download/@wisetail/wds-panel/1.1.1/29dbf3be995444cbc23022a8a5029dab5b93be28b6692c0281cd2ea57df6e9c4#b41cb8b939f4fd76ad3ac731e45030d14d9bc3fc"
+  integrity sha512-pPKiBM3EFAHPb5bvVpnD5ByNeQBQjnidNDu6hMI1gcnUFwynb+qfVdhecZCLNivSlQg4duTcwwn0n1lZBIvO5Q==
+  dependencies:
+    "@wisetail/tokens" "^1.1.0"
+    "@wisetail/wds-base" "^1.1.1"
+    "@wisetail/wds-icon" "^1.1.1"
+    lit-element "^2.0.1"
+    lit-html "^1.1.2"
+    rxjs "^6.5.3"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
