@@ -17,7 +17,6 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import lintStyles from '../../actions/lintStyles';
 
 import { Page } from '../../styles/layout';
 
@@ -28,13 +27,11 @@ class Attempt extends React.Component {
     super();
     this.resetError = this.resetError.bind(this);
     this.onDiffResult = this.onDiffResult.bind(this);
-    this.onLintResult = this.onLintResult.bind(this);
   }
 
   state = {
     error: null,
-    diff: null,
-    lint: null
+    diff: null
   };
 
   resetError(_e) {
@@ -48,14 +45,6 @@ class Attempt extends React.Component {
         diffPixels: diff
       }
     });
-  }
-
-  onLintResult(css) {
-    lintStyles(css).then(results =>
-      this.setState({
-        lint: results
-      })
-    );
   }
 
   render() {
@@ -116,6 +105,7 @@ class Attempt extends React.Component {
                             <DiffOutput
                               target={challenge.snapshot}
                               match={attempt.snapshot}
+                              options={{ threshold: 0.7 }}
                               onDiffResult={this.onDiffResult}
                             />
                             {auth.uid === attempt.createdBy ? (
@@ -143,7 +133,7 @@ class Attempt extends React.Component {
                             <AttemptReport
                               title={`Results for ${auth.displayName}`}
                               diff={this.state.diff}
-                              lint={this.state.lint}
+                              lint={attempt.lint}
                             />
                           </div>
                         );
