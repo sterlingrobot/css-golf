@@ -52,14 +52,14 @@ class DiffOutput extends React.Component {
   componentDidMount() {
     const { target, match, options } = this.props;
     generateDiffData(target, match).then(imgData =>
-      this.diffPixels({ ...imgData, ...options })
+      this.diffPixels({ ...imgData, ...{ options } })
     );
   }
 
   componentDidUpdate() {
     const { target, match, options } = this.props;
     generateDiffData(target, match).then(imgData =>
-      this.diffPixels({ ...imgData, ...options })
+      this.diffPixels({ ...imgData, ...{ options } })
     );
   }
 

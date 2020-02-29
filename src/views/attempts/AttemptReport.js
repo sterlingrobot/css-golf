@@ -17,8 +17,12 @@ const AttemptReport = ({ title, diff, lint }) => (
           <tr>
             <th>Pixel Diffing Result</th>
             <td>
-              {diff.totalPixels - diff.diffPixels} of {diff.totalPixels} pixels
-              matched
+              <ul>
+                <li>
+                  {diff.totalPixels - diff.diffPixels} of {diff.totalPixels}{' '}
+                  pixels matched
+                </li>
+              </ul>
             </td>
             <td className="score">
               {(100 - (diff.diffPixels / diff.totalPixels) * 100).toFixed(2)}
@@ -29,16 +33,21 @@ const AttemptReport = ({ title, diff, lint }) => (
           <tr>
             <th>Linting Result</th>
             <td>
-              {lint.results.errored && <strong>Errors</strong>}
-              {lint.results.warnings.length && (
-                <ul>
-                  {lint.results.warnings.map((warning, i) => (
+              <ul>
+                {lint.warnings.length ? (
+                  lint.warnings.map((warning, i) => (
                     <li key={i}>{warning.text}</li>
-                  ))}
-                </ul>
-              )}
+                  ))
+                ) : (
+                  <li>
+                    <i>No errors!</i>
+                  </li>
+                )}
+              </ul>
             </td>
-            <td className="score">{100 - 10 * lint.results.warnings.length}</td>
+            <td className="score">
+              {(100 - 10 * lint.warnings.length).toFixed(2)}
+            </td>
           </tr>
         )}
       </tbody>
@@ -55,15 +64,13 @@ AttemptReport.propTypes = {
     diffPixels: PropTypes.number
   }),
   lint: PropTypes.shape({
-    results: PropTypes.shape({
-      errored: PropTypes.bool,
-      warnings: PropTypes.arrayOf(
-        PropTypes.shape({
-          rule: PropTypes.string,
-          severity: PropTypes.string,
-          text: PropTypes.string
-        })
-      )
-    })
+    errored: PropTypes.bool,
+    warnings: PropTypes.arrayOf(
+      PropTypes.shape({
+        rule: PropTypes.string,
+        severity: PropTypes.string,
+        text: PropTypes.string
+      })
+    )
   })
 };
