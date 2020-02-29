@@ -28,6 +28,19 @@ const scoreLint = lint => ({
   score: lint && 100 - 10 * lint.warnings.length
 });
 
+const calculateEfficiency = efficiency => {
+  const strippedTarget = efficiency.target.style
+    .replace(`#challenge-${efficiency.target.id}`, '')
+    .replace(/\s/g, '');
+  const strippedMatch = efficiency.match.style
+    .replace(`#attempt-${efficiency.match.id}`, '')
+    .replace(/\s/g, '');
+  return {
+    target: strippedTarget,
+    match: strippedMatch
+  };
+};
+
 const scoreEfficiency = efficiency => ({
   name: 'efficiency',
   score:
@@ -42,7 +55,7 @@ const scoreTotal = (diff, lint, efficiency) => {
   const scores = [
     scoreDiff(diff),
     scoreLint(lint),
-    scoreEfficiency(efficiency)
+    scoreEfficiency(calculateEfficiency(efficiency))
   ].filter(num => !!num.score);
   let average = 0;
   return (
@@ -55,20 +68,13 @@ const scoreTotal = (diff, lint, efficiency) => {
   );
 };
 
-const AttemptReport = ({ title, diff, lint, efficiency, children }) => (
+const AttemptReport = ({ title, diff, lint, efficiency }) => (
   <wds-panel className="attempt-report" title={title}>
-    <div slot="header">{children}</div>
+    <div slot="header">
+      <h2>{scoreTotal(diff, lint, efficiency).toFixed(2)}</h2>
+    </div>
     <ReportTable>
-      <thead>
-        <tr>
-          <th className="score" colSpan="2">
-            Score
-          </th>
-          <th className="score">
-            {scoreTotal(diff, lint, efficiency).toFixed(2)}
-          </th>
-        </tr>
-      </thead>
+      <thead></thead>
       <tbody>
         {diff && (
           <tr>
@@ -119,8 +125,8 @@ const AttemptReport = ({ title, diff, lint, efficiency, children }) => (
               <ul>
                 <li>
                   {(() => {
-                    const charDiff =
-                      efficiency.match.length - efficiency.target.length;
+                    const { target, match } = calculateEfficiency(efficiency);
+                    const charDiff = match.length - target.length;
                     return `${Math.abs(charDiff)} characters ${
                       charDiff >= 0 ? 'more' : 'less'
                     } than challenge`;
@@ -129,7 +135,9 @@ const AttemptReport = ({ title, diff, lint, efficiency, children }) => (
               </ul>
             </td>
             <td className="score">
-              {scoreEfficiency(efficiency).score.toFixed(2)}
+              {scoreEfficiency(calculateEfficiency(efficiency)).score.toFixed(
+                2
+              )}
             </td>
           </tr>
         )}
@@ -157,8 +165,13 @@ AttemptReport.propTypes = {
     )
   }),
   efficiency: PropTypes.shape({
-    target: PropTypes.string,
-    match: PropTypes.string
-  }),
-  children: PropTypes.node
+    target: PropTypes.shape({
+      id: PropTypes.string,
+      style: PropTypes.string
+    }),
+    match: PropTypes.shape({
+      id: PropTypes.string,
+      style: PropTypes.string
+    })
+  })
 };

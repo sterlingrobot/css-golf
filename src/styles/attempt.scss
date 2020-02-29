@@ -9,6 +9,15 @@
   grid-template-areas: 'header' 'output' 'actions' 'form';
   grid-template-rows: auto;
 
+  h2 {
+    small {
+      display: block;
+      font-size: 0.666em;
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+
   .challenge-output {
     position: relative;
     transition: 300ms opacity;

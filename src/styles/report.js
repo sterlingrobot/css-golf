@@ -7,6 +7,10 @@ const ReportTable = styled.table`
 
   tbody tr {
     border-top: 1px solid ${Colors.SILVER_50};
+
+    &:first-child {
+      border: 0;
+    }
   }
 
   th,
