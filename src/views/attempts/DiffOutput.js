@@ -49,6 +49,10 @@ class DiffOutput extends React.Component {
     ctx.putImageData(imgDataOutput, 0, 0);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.match !== nextProps.match;
+  }
+
   componentDidMount() {
     const { target, match, options } = this.props;
     generateDiffData(target, match).then(imgData =>
