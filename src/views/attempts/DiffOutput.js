@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import pixelmatch from 'pixelmatch';
+import generateDiffData from '../../actions/generateDiffData';
 
 const DIFF_OPTIONS = {
   threshold: 0.1,
@@ -16,21 +17,28 @@ class DiffOutput extends React.Component {
     this.writeDiffToOutput.bind(this);
   }
 
-  diffPixels({ target, attempt, width, height, options }) {
-    const imgDataOutput = new ImageData(width, height);
-    const diff = pixelmatch(
-      target,
-      attempt,
-      imgDataOutput.data,
-      width,
-      height,
-      {
-        ...DIFF_OPTIONS,
-        ...options
+  getTotalNonAlphaPixels(imgData) {
+    const all = imgData.length;
+    let total = 0;
+    for (let i = 0; i < all; i += 4) {
+      if (imgData[i + 3] > 0) {
+        total++;
       }
-    );
-    console.log(diff);
+    }
+    return total;
+  }
+
+  diffPixels({ target, match, width, height, options }) {
+    const imgDataOutput = new ImageData(width, height);
+    let totalPixels = this.getTotalNonAlphaPixels(target);
+    const diff = pixelmatch(target, match, imgDataOutput.data, width, height, {
+      ...DIFF_OPTIONS,
+      ...options
+    });
     this.writeDiffToOutput(imgDataOutput);
+    return (
+      this.props.onDiffResult && this.props.onDiffResult(totalPixels, diff)
+    );
   }
 
   writeDiffToOutput(imgDataOutput) {
@@ -41,8 +49,18 @@ class DiffOutput extends React.Component {
     ctx.putImageData(imgDataOutput, 0, 0);
   }
 
+  componentDidMount() {
+    const { target, match, options } = this.props;
+    generateDiffData(target, match).then(imgData =>
+      this.diffPixels({ ...imgData, ...options })
+    );
+  }
+
   componentDidUpdate() {
-    this.props.imgData && this.diffPixels(this.props.imgData);
+    const { target, match, options } = this.props;
+    generateDiffData(target, match).then(imgData =>
+      this.diffPixels({ ...imgData, ...options })
+    );
   }
 
   render() {
@@ -59,17 +77,14 @@ class DiffOutput extends React.Component {
 export default DiffOutput;
 
 DiffOutput.propTypes = {
-  imgData: PropTypes.shape({
-    target: PropTypes.instanceOf(Uint8ClampedArray),
-    attempt: PropTypes.instanceOf(Uint8ClampedArray),
-    width: PropTypes.number,
-    height: PropTypes.number,
-    options: PropTypes.shape({
-      threshold: PropTypes.number,
-      includeAA: PropTypes.bool,
-      alpha: PropTypes.number,
-      aaColor: PropTypes.arrayOf(PropTypes.number),
-      diffColor: PropTypes.arrayOf(PropTypes.number)
-    })
+  onDiffResult: PropTypes.func,
+  target: PropTypes.string,
+  match: PropTypes.string,
+  options: PropTypes.shape({
+    threshold: PropTypes.number,
+    includeAA: PropTypes.bool,
+    alpha: PropTypes.number,
+    aaColor: PropTypes.arrayOf(PropTypes.number),
+    diffColor: PropTypes.arrayOf(PropTypes.number)
   })
 };
