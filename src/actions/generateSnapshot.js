@@ -1,7 +1,19 @@
 import domtoimage from 'dom-to-image';
 
+const createAttemptSnapshotContainer = (id, type) => {
+  const container = document.createElement('div');
+  const parent = document.querySelector('.challenge-container');
+  const reference = parent.querySelector('.challenge-output');
+  container.id = [type, id].join('-');
+  container.className = `${type}-output`;
+  parent.insertBefore(container, reference.nextSibling);
+  return container;
+};
+
 const generateSnapshot = (id, type, markup, css) => {
-  const container = document.getElementById([type, id].join('-'));
+  const container =
+    document.getElementById([type, id].join('-')) ||
+    createAttemptSnapshotContainer(id, type);
 
   const node =
     container.querySelector('.output-snapshot') ||
