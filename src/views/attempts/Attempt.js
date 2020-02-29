@@ -106,7 +106,12 @@ class Attempt extends React.Component {
                                 path={attempt.path}
                                 error={this.state.error}
                                 onSubmit={values =>
-                                  saveAttempt(challenge.id, values)
+                                  saveAttempt(
+                                    challenge.id,
+                                    values
+                                  ).catch(({ error }) =>
+                                    this.setState({ error })
+                                  )
                                 }
                                 onClick={this.resetError}
                               />
