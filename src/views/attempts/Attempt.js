@@ -22,6 +22,18 @@ import { Page } from '../../styles/layout';
 
 import '../../styles/attempt.scss';
 
+const calculateEfficiency = (target, match) => {
+  const strippedTarget = target.style
+    .replace(`#challenge-${target.id}`, '')
+    .replace(/\s/g, '');
+  const strippedMatch = match.style
+    .replace(`#attempt-${match.id}`, '')
+    .replace(/\s/g, '');
+  return {
+    target: strippedTarget,
+    match: strippedMatch
+  };
+};
 class Attempt extends React.Component {
   constructor() {
     super();
@@ -105,7 +117,7 @@ class Attempt extends React.Component {
                             <DiffOutput
                               target={challenge.snapshot}
                               match={attempt.snapshot}
-                              options={{ threshold: 0.7 }}
+                              options={{ threshold: 0.5 }}
                               onDiffResult={this.onDiffResult}
                             />
                             {auth.uid === attempt.createdBy ? (
@@ -134,7 +146,11 @@ class Attempt extends React.Component {
                               title={`Results for ${auth.displayName}`}
                               diff={this.state.diff}
                               lint={attempt.lint}
-                            />
+                              efficiency={calculateEfficiency(
+                                challenge,
+                                attempt
+                              )}
+                            ></AttemptReport>
                           </div>
                         );
                       }}
