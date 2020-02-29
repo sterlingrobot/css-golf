@@ -25,7 +25,16 @@ const generateSnapshot = (id, type, markup, css) => {
     ${markup}
   `;
 
+  const imgs = node.querySelectorAll('img');
   container.appendChild(node);
+
+  if (imgs.length) {
+    return Promise.all(
+      Array.from(imgs).map(
+        img => new Promise(resolve => (img.onload = () => resolve()))
+      )
+    ).then(() => domtoimage.toPng(node));
+  }
 
   return domtoimage.toPng(node);
 };
