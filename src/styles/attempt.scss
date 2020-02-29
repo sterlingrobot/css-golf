@@ -6,12 +6,9 @@
   display: grid;
   margin-bottom: 2rem;
   gap: 2rem;
-  <<<<<<<HEAD
   grid-template-areas: 'header' 'output' 'actions' 'form';
   grid-template-rows: auto;
-  =======grid-template-areas: 'header' 'output' 'form';
-  grid-template-rows: auto minmax(20rem, max-content) auto;
-  >>>>>>>master .attempt-output,
+
   .challenge-output {
     position: relative;
     transition: 300ms opacity;
