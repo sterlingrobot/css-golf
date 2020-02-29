@@ -34,7 +34,6 @@ const saveChallenge = async values => {
       );
     })
     .then(snapshot => {
-      console.log(snapshot);
       return doc.update(
         prepareDocForUpdate({ ...challenge, snapshot, path: doc.path })
       );
