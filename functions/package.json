@@ -24,7 +24,10 @@
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
     "querystring": "^0.2.0",
-    "sass": "^1.25.0"
+    "sass": "^1.25.0",
+    "stylelint": "^13.2.0",
+    "stylelint-config-sass-guidelines": "^7.0.0",
+    "stylelint-scss": "^3.14.2"
   },
   "directories": {
     "lib": "lib"
