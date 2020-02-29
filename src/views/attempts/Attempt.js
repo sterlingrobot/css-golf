@@ -26,7 +26,6 @@ class Attempt extends React.Component {
   constructor() {
     super();
     this.resetError = this.resetError.bind(this);
-    this.onDiffResult = this.onDiffResult.bind(this);
   }
 
   state = {
@@ -36,15 +35,6 @@ class Attempt extends React.Component {
 
   resetError(_e) {
     this.setState({ error: null });
-  }
-
-  onDiffResult(total, diff) {
-    this.setState({
-      diff: {
-        totalPixels: total,
-        diffPixels: diff
-      }
-    });
   }
 
   render() {
@@ -109,7 +99,18 @@ class Attempt extends React.Component {
                               target={challenge.snapshot}
                               match={attempt.snapshot}
                               options={{ threshold: 0.5 }}
-                              onDiffResult={this.onDiffResult}
+                              onDiffResult={(totalPixels, diffPixels) => {
+                                saveAttempt(challenge.id, {
+                                  ...attempt,
+                                  ...{ diff: { totalPixels, diffPixels } }
+                                });
+                                this.setState({
+                                  diff: {
+                                    totalPixels,
+                                    diffPixels
+                                  }
+                                });
+                              }}
                             />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
