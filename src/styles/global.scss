@@ -40,6 +40,13 @@ hr {
   margin: 1rem 0;
 }
 
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: $color-silver-50;
+}
+
 [class$='-output'] {
   position: relative;
 

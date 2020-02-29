@@ -57,15 +57,15 @@ class AttemptForm extends React.Component {
                 style={{ ...editor }}
                 required
               />
-              {error && (
-                <div className="editor-error">
-                  <wds-icon type="warn" onClick={onClick}>
-                    close
-                  </wds-icon>
-                  {error}
-                </div>
-              )}
             </div>
+            {error && (
+              <div className="editor-error">
+                <wds-icon type="warn" onClick={onClick}>
+                  close
+                </wds-icon>
+                {error}
+              </div>
+            )}
           </FormRow>
 
           <FormRow>
