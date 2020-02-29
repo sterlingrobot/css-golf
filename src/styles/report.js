@@ -16,6 +16,12 @@ const ReportTable = styled.table`
     vertical-align: top;
   }
 
+  th small {
+    display: block;
+    font-weight: normal;
+    font-style: italic;
+  }
+
   ul {
     margin: 0;
   }
