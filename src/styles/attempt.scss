@@ -6,10 +6,12 @@
   display: grid;
   margin-bottom: 2rem;
   gap: 2rem;
+  <<<<<<<HEAD
   grid-template-areas: 'header' 'output' 'actions' 'form';
   grid-template-rows: auto;
-
-  .attempt-output,
+  =======grid-template-areas: 'header' 'output' 'form';
+  grid-template-rows: auto minmax(20rem, max-content) auto;
+  >>>>>>>master .attempt-output,
   .challenge-output {
     position: relative;
     transition: 300ms opacity;
@@ -65,6 +67,19 @@
   > * {
     flex: 1 1 20em;
     margin: 0 0.5rem 1rem;
+  }
+}
+
+.attempts-list {
+  margin: 2rem 0;
+
+  h3 {
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  p {
+    padding: 1rem;
   }
 }
 
