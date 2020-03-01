@@ -12,6 +12,9 @@ import {
 const saveAttempt = async (challengeId, values) => {
   const attempt = { ...values, challenge: challengeId };
 
+  attempt.tries = attempt.tries || 0;
+  attempt.tries++;
+
   const challengeDoc = await Firebase.firestore()
     .collection('challenges')
     .doc(challengeId)
@@ -23,7 +26,12 @@ const saveAttempt = async (challengeId, values) => {
     ? Firebase.firestore().doc(attempt.path)
     : await Firebase.firestore()
         .collection('attempts')
-        .add(prepareDocForCreate({ ...attempt, _likeCount: 0 }))
+        .add(
+          prepareDocForCreate({
+            ...attempt,
+            _likeCount: 0
+          })
+        )
         .catch(error => {
           // eslint-disable-next-line no-alert
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
