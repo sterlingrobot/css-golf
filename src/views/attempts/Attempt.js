@@ -16,7 +16,6 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import lintStyles from '../../actions/lintStyles';
 
 import { Page } from '../../styles/layout';
 
