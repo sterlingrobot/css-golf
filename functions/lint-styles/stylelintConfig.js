@@ -1,7 +1,7 @@
 module.exports = {
   extends: 'stylelint-config-sass-guidelines',
   rules: {
-    'max-nesting-depth': 2,
+    'max-nesting-depth': 1,
     'order/properties-alphabetical-order': null
   }
 };
