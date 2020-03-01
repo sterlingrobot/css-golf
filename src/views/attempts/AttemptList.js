@@ -104,7 +104,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                     {scoreTotal(attempt.diff, attempt.lint, {
                                       target: attemptChallenge,
                                       match: attempt
-                                    }).toFixed(2)}
+                                    }).toNumber(2)}
                                   </div>
                                 </>
                               ) : (
@@ -136,7 +136,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                     {scoreTotal(attempt.diff, attempt.lint, {
                                       target: attemptChallenge,
                                       match: attempt
-                                    }).toFixed(2)}
+                                    }).toNumber(2)}
                                   </div>
                                 </>
                               )}

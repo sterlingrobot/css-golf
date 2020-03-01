@@ -16,7 +16,7 @@ import '../../styles/report.scss';
 const AttemptReport = ({ title, diff, lint, efficiency }) => (
   <wds-panel className="attempt-report" title={title}>
     <div slot="header">
-      <h2>{scoreTotal(diff, lint, efficiency).toFixed(2)}</h2>
+      <h2>{scoreTotal(diff, lint, efficiency).toNumber(2)}</h2>
     </div>
     <ReportTable>
       <thead></thead>
@@ -35,7 +35,7 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
                 </li>
               </ul>
             </td>
-            <td className="score">{scoreDiff(diff).score.toFixed(2)}</td>
+            <td className="score">{scoreDiff(diff).toNumber(2)}</td>
           </tr>
         )}
         {lint && (
@@ -57,7 +57,7 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
                 )}
               </ul>
             </td>
-            <td className="score">{scoreLint(lint).score.toFixed(2)}</td>
+            <td className="score">{scoreLint(lint).toNumber(2)}</td>
           </tr>
         )}
         {efficiency && (
@@ -80,9 +80,7 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
               </ul>
             </td>
             <td className="score">
-              {scoreEfficiency(calculateEfficiency(efficiency)).score.toFixed(
-                2
-              )}
+              {scoreEfficiency(calculateEfficiency(efficiency)).toNumber(2)}
             </td>
           </tr>
         )}
