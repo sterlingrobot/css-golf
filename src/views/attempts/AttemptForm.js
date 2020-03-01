@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
+import prettier from 'prettier/standalone';
+import parserPostcss from 'prettier/parser-postcss';
 
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
@@ -29,12 +31,36 @@ class AttemptForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { css, path } = event.target.elements;
-    const values = {
-      path: path.value,
-      css: css.value
-    };
-    return css.checkValidity() && this.props.onSubmit(values);
+    const target = event.target;
+    this.setState(
+      {
+        code: this.formatCode()
+      },
+      () => {
+        const { css, path } = target.elements;
+        const values = {
+          path: path.value,
+          css: css.value
+        };
+        return css.checkValidity() && this.props.onSubmit(values);
+      }
+    );
+  };
+
+  formatCode = () => {
+    const { code } = this.state;
+    const formatted = prettier.format(code, {
+      plugins: [parserPostcss],
+      parser: 'scss',
+      useTabs: false,
+      tabWidth: 2,
+      endOfLine: 'lf',
+      printWidth: 80,
+      semi: true,
+      singleQuote: true,
+      bracketSpacing: true
+    });
+    return formatted;
   };
 
   render() {

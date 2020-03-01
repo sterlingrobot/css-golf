@@ -45,7 +45,7 @@ const ChallengeList = () => (
       }}
     </FirebaseAuth>
     <hr />
-    <FirestoreCollection path={'challenges'} sort="updatedOn:desc">
+    <FirestoreCollection path={'challenges'}>
       {({ error, isLoading, data }) => {
         if (error) {
           return <Error error={error} />;

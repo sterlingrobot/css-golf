@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
+import prettier from 'prettier/standalone';
+import parserPostcss from 'prettier/parser-postcss';
+import parserHtml from 'prettier/parser-html';
 
 import { TextInput } from '../../styles/forms';
 import editor from '../../styles/editor';
@@ -20,16 +23,50 @@ class ChallengeForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { path, title, html, css } = event.target.elements;
-    const values = {
-      path: path.value,
-      title: title.value,
-      html: html.value,
-      css: css.value
-    };
-    return this.props.onSubmit(values);
+    const target = event.target;
+    this.setState(
+      {
+        html: this.formatCode('html'),
+        css: this.formatCode('scss')
+      },
+      () => {
+        const { path, title, html, css } = target.elements;
+        const values = {
+          path: path.value,
+          title: title.value,
+          html: html.value,
+          css: css.value
+        };
+        return this.props.onSubmit(values);
+      }
+    );
   };
 
+  formatCode = type => {
+    const { html, css } = this.state;
+    const config = {
+      html: {
+        parser: parserHtml,
+        code: html
+      },
+      scss: {
+        parser: parserPostcss,
+        code: css
+      }
+    };
+    const formatted = prettier.format(config[type].code, {
+      plugins: [config[type].parser],
+      parser: type,
+      useTabs: false,
+      tabWidth: 2,
+      endOfLine: 'lf',
+      printWidth: 80,
+      semi: true,
+      singleQuote: true,
+      bracketSpacing: true
+    });
+    return formatted;
+  };
   render() {
     const {
       props: { challenge, error, onClick, onDelete }
