@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FirestoreCollection, FirestoreDocument } from 'react-firestore';
+import { scoreTotal } from '../../actions/scoreAttempt';
 
+import DateFormat from '../misc/DateFormat';
 import Error from '../misc/Error';
 
 import { InternalLink } from '../../styles/links';
-import DateFormat from '../misc/DateFormat';
 import { Avatar } from '../account/Avatar';
-
-import { scoreTotal } from '../../actions/scoreAttempt';
 
 import '../../styles/attempt.scss';
 
@@ -57,47 +56,58 @@ const AttemptList = ({ challenge = null, user = null }) => (
                     const attemptUser = data;
 
                     return (
-                      <InternalLink
-                        to={`/attempts/${attempt.id}`}
-                        className="list-item"
+                      <FirestoreDocument
+                        path={`challenges/${attempt.challenge}`}
                       >
-                        {challenge ? (
-                          <>
-                            <div className="list-item-avatar">
-                              <Avatar user={attemptUser} width="2.5em" />
-                            </div>
-                            <div className="list-item-info">
-                              by {attemptUser.displayName || 'Somebody Else'}
-                              <small>
-                                {attempt.updatedOn ? (
-                                  <DateFormat timestamp={attempt.updatedOn} />
-                                ) : (
-                                  <DateFormat timestamp={attempt.createdOn} />
-                                )}
-                              </small>
-                            </div>
-                            <div className="list-item-icons"></div>
-                          </>
-                        ) : (
-                          <FirestoreDocument
-                            path={`challenges/${attempt.challenge}`}
-                          >
-                            {({ error, isLoading, data }) => {
-                              if (error) {
-                                return <Error error={error} />;
-                              }
+                        {({ error, isLoading, data }) => {
+                          if (error) {
+                            return <Error error={error} />;
+                          }
 
-                              if (isLoading) {
-                                return <p>loading...</p>;
-                              }
+                          if (isLoading) {
+                            return <p>loading...</p>;
+                          }
 
-                              if (!data) {
-                                return <Error />;
-                              }
+                          if (!data) {
+                            return <Error />;
+                          }
 
-                              const attemptChallenge = data;
+                          const attemptChallenge = data;
 
-                              return (
+                          return (
+                            <InternalLink
+                              to={`/attempts/${attempt.id}`}
+                              className="list-item"
+                            >
+                              {challenge ? (
+                                <>
+                                  <div className="list-item-avatar">
+                                    <Avatar user={attemptUser} width="2.5em" />
+                                  </div>
+                                  <div className="list-item-info">
+                                    by{' '}
+                                    {attemptUser.displayName || 'Somebody Else'}
+                                    <small>
+                                      {attempt.updatedOn ? (
+                                        <DateFormat
+                                          timestamp={attempt.updatedOn}
+                                        />
+                                      ) : (
+                                        <DateFormat
+                                          timestamp={attempt.createdOn}
+                                        />
+                                      )}
+                                    </small>
+                                  </div>
+                                  <div className="list-item-icons"></div>
+                                  <div className="list-item-score">
+                                    {scoreTotal(attempt.diff, attempt.lint, {
+                                      target: attemptChallenge,
+                                      match: attempt
+                                    }).toFixed(2)}
+                                  </div>
+                                </>
+                              ) : (
                                 <>
                                   <div className="list-item-challenge">
                                     <div className="snapshot">
@@ -129,11 +139,11 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                     }).toFixed(2)}
                                   </div>
                                 </>
-                              );
-                            }}
-                          </FirestoreDocument>
-                        )}
-                      </InternalLink>
+                              )}
+                            </InternalLink>
+                          );
+                        }}
+                      </FirestoreDocument>
                     );
                   }}
                 </FirestoreDocument>
