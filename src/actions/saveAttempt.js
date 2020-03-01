@@ -2,6 +2,7 @@ import Firebase from 'firebase/app';
 
 import compileScss from './compileScss';
 import generateSnapshot from './generateSnapshot';
+import lintStyles from './lintStyles';
 
 import {
   prepareDocForCreate,
@@ -28,7 +29,11 @@ const saveAttempt = async (challengeId, values) => {
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
         });
 
-  return compileScss('attempt', doc.id, attempt.css)
+  return lintStyles(attempt.css)
+    .then(results => {
+      attempt.lint = results;
+      return compileScss('attempt', doc.id, attempt.css);
+    })
     .then(styles => {
       attempt.style = styles;
       return generateSnapshot(doc.id, 'attempt', challenge.html, attempt.style);

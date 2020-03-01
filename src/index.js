@@ -10,8 +10,8 @@ import ReactDOM from 'react-dom';
 
 import App from './views/App';
 
-import '@wisetail/wds-icon';
 import '@wisetail/wds-button';
+import '@wisetail/wds-panel';
 
 import '@wisetail/tokens/build/css/fonts.css';
 import './styles/global.scss';

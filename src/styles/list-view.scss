@@ -15,6 +15,10 @@
   flex-flow: column nowrap;
   font-size: 1.8rem;
 
+  .list-item-avatar + & {
+    font-size: 1.5rem;
+  }
+
   small {
     margin-top: 0.333em;
     font-size: 0.666em;
@@ -41,6 +45,11 @@
 
 .list-item-icons {
   margin-left: auto;
+}
+
+.list-item-score {
+  color: $color-font-base;
+  font-size: 2rem;
 }
 
 .list-item-likes {

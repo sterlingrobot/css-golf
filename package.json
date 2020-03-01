@@ -8,6 +8,7 @@
     "@wisetail/tokens": "^1.0.0",
     "@wisetail/wds-button": "^1.0.0",
     "@wisetail/wds-icon": "^1.0.0",
+    "@wisetail/wds-panel": "^1.1.1",
     "dom-to-image": "^2.6.0",
     "firebase": "^7.8.2",
     "firebase-admin": "^8.9.2",

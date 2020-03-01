@@ -11,12 +11,12 @@ import Error from '../misc/Error';
 import AttemptForm from './AttemptForm';
 import AttemptOutput from './AttemptOutput';
 import AttemptMarkup from '../attempts/AttemptMarkup';
+import AttemptReport from './AttemptReport';
 import ChallengeOutput from '../challenges/ChallengeOutput';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import lintStyles from '../../actions/lintStyles';
 
 import { Page } from '../../styles/layout';
 
@@ -29,7 +29,8 @@ class Attempt extends React.Component {
   }
 
   state = {
-    error: null
+    error: null,
+    diff: null
   };
 
   resetError(_e) {
@@ -67,8 +68,6 @@ class Attempt extends React.Component {
 
                   const attempt = data;
 
-                  lintStyles(attempt.css);
-
                   return (
                     <FirestoreDocument path={`challenges/${attempt.challenge}`}>
                       {({ error, isLoading, data }) => {
@@ -87,7 +86,10 @@ class Attempt extends React.Component {
 
                         return (
                           <div className="attempt-container">
-                            <h2>{challenge.title}</h2>
+                            <h2>
+                              {challenge.title}
+                              <small>by {auth.displayName}</small>
+                            </h2>
                             <ChallengeOutput challenge={challenge} />
                             <AttemptOutput
                               attempt={attempt}
@@ -96,11 +98,19 @@ class Attempt extends React.Component {
                             <DiffOutput
                               target={challenge.snapshot}
                               match={attempt.snapshot}
-                              onDiffResult={(total, diff) =>
-                                console.log(`SCORE:
-                                  ${100 - (diff / total) * 100}
-                                `)
-                              }
+                              options={{ threshold: 0.5 }}
+                              onDiffResult={(totalPixels, diffPixels) => {
+                                saveAttempt(challenge.id, {
+                                  ...attempt,
+                                  ...{ diff: { totalPixels, diffPixels } }
+                                });
+                                this.setState({
+                                  diff: {
+                                    totalPixels,
+                                    diffPixels
+                                  }
+                                });
+                              }}
                             />
                             {auth.uid === attempt.createdBy ? (
                               <AttemptForm
@@ -124,6 +134,15 @@ class Attempt extends React.Component {
                                 <AttemptMarkup css={attempt.css} />
                               </div>
                             )}
+                            <AttemptReport
+                              title="Score"
+                              diff={this.state.diff}
+                              lint={attempt.lint}
+                              efficiency={{
+                                target: challenge,
+                                match: attempt
+                              }}
+                            ></AttemptReport>
                           </div>
                         );
                       }}

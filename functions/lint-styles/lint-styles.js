@@ -10,10 +10,15 @@ module.exports.handler = async (event, _context) => {
         config,
         configBasedir: __dirname
       })
-      .then(results => {
+      .then(response => {
         return {
           statusCode: 200,
-          body: JSON.stringify({ results })
+          body: JSON.stringify({
+            results: {
+              errored: response.results[0].errored,
+              warnings: response.results[0].warnings
+            }
+          })
         };
       });
   } catch (err) {
