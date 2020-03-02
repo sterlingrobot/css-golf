@@ -11,6 +11,7 @@ import { InternalLink } from '../../styles/links';
 import { Avatar } from '../account/Avatar';
 
 import '../../styles/attempt.scss';
+import AttemptScore from './AttemptScore';
 
 const AttemptList = ({ challenge = null, user = null }) => (
   <div className="attempts-list">
@@ -101,10 +102,14 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                   </div>
                                   <div className="list-item-icons"></div>
                                   <div className="list-item-score">
-                                    {scoreTotal(attempt.diff, attempt.lint, {
-                                      target: attemptChallenge,
-                                      match: attempt
-                                    }).toNumber(2)}
+                                    {attempt && challenge && (
+                                      <AttemptScore
+                                        score={scoreTotal(
+                                          attempt,
+                                          challenge
+                                        ).toPar()}
+                                      />
+                                    )}
                                   </div>
                                 </>
                               ) : (
@@ -133,10 +138,14 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                   </div>
                                   <div className="list-item-icons"></div>
                                   <div className="list-item-score">
-                                    {scoreTotal(attempt.diff, attempt.lint, {
-                                      target: attemptChallenge,
-                                      match: attempt
-                                    }).toNumber(2)}
+                                    {attempt && challenge && (
+                                      <AttemptScore
+                                        score={scoreTotal(
+                                          attempt,
+                                          challenge
+                                        ).toPar()}
+                                      />
+                                    )}
                                   </div>
                                 </>
                               )}
