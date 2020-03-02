@@ -9,6 +9,15 @@
   grid-template-areas: 'header' 'output' 'actions' 'form';
   grid-template-rows: auto;
 
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  h3 {
+    flex: 0 0 6rem;
+  }
   h2 {
     small {
       display: block;
