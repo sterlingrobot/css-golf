@@ -32,12 +32,12 @@ export const scoreLint = lint => {
   };
 };
 
-export const calculateEfficiency = efficiency => {
-  const strippedTarget = efficiency.target.style
-    .replace(`#challenge-${efficiency.target.id}`, '')
+export const calculateEfficiency = (match, target) => {
+  const strippedTarget = target.style
+    .replace(`#challenge-${target.id}`, '')
     .replace(/\s/g, '');
-  const strippedMatch = efficiency.match.style
-    .replace(`#attempt-${efficiency.match.id}`, '')
+  const strippedMatch = match.style
+    .replace(`#attempt-${match.id}`, '')
     .replace(/\s/g, '');
   return {
     target: strippedTarget,
@@ -59,13 +59,13 @@ export const scoreEfficiency = efficiency => {
   };
 };
 
-export const scoreTotal = (diff, lint, efficiency) => {
+export const scoreTotal = (attempt, challenge) => {
   let average = 0;
 
   const scores = [
-    scoreDiff(diff),
-    scoreLint(lint),
-    scoreEfficiency(calculateEfficiency(efficiency))
+    scoreDiff(attempt.diff),
+    scoreLint(attempt.lint),
+    scoreEfficiency(calculateEfficiency(attempt, challenge))
   ].filter(num => !!num.score);
 
   const score =
@@ -77,7 +77,12 @@ export const scoreTotal = (diff, lint, efficiency) => {
     }, 0) / average;
 
   return {
-    toNumber: places => score.toFixed(places),
-    isComplete: () => score >= PAR_THRESHOLD
+    toNumber: (places = 0) => score.toFixed(places),
+    isComplete: () => score >= PAR_THRESHOLD,
+    toPar: () => {
+      const overUnder = attempt.tries - challenge.par;
+      const sign = overUnder > 0 ? '+' : '';
+      return score >= PAR_THRESHOLD ? `${sign}${overUnder}` : 'INCOMPLETE';
+    }
   };
 };
