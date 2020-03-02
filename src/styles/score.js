@@ -71,15 +71,26 @@ export const ParScore = styled.h3`
     z-index: -1;
   }
 
-  &:under1 {
+  &.incomplete {
+    font-size: 1.2em;
+    color: ${Colors.GOLD_BASE};
+
+    &:before {
+      background: transparent;
+    }
+  }
+
+  &.under1 {
     color: ${Colors.FONT_SECONDARY};
+
     &:before {
       background: ${Colors.GREEN_50};
     }
   }
 
-  &:over1 {
+  &.over1 {
     color: ${Colors.FONT_BASE};
+
     &:before {
       background: ${Colors.GOLD_BASE};
     }
@@ -87,6 +98,7 @@ export const ParScore = styled.h3`
 
   &.over2 {
     color: ${Colors.FONT_SECONDARY};
+
     &:before {
       background: ${Colors.RED_BASE};
     }
