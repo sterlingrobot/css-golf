@@ -107,7 +107,9 @@ class AttemptForm extends React.Component {
                   background: 'none'
                 }}
               >
-                <wds-button type="dark">Submit Attempt</wds-button>
+                <wds-button type="dark">
+                  Submit Try #{attempt ? attempt.tries + 1 : 1}
+                </wds-button>
               </button>
             </FormRow>
           )}
@@ -121,6 +123,7 @@ export default AttemptForm;
 
 AttemptForm.propTypes = {
   attempt: PropTypes.shape({
+    tries: PropTypes.number,
     css: PropTypes.string
   }),
   challenge: PropTypes.shape({

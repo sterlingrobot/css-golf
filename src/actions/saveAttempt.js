@@ -12,9 +12,6 @@ import {
 const saveAttempt = async (challengeId, values, record = false) => {
   const attempt = { ...values, challenge: challengeId };
 
-  attempt.tries = attempt.tries || 0;
-  attempt.tries += record ? 1 : 0;
-
   const challengeDoc = await Firebase.firestore()
     .collection('challenges')
     .doc(challengeId)
@@ -29,6 +26,7 @@ const saveAttempt = async (challengeId, values, record = false) => {
         .add(
           prepareDocForCreate({
             ...attempt,
+            tries: 0,
             _likeCount: 0
           })
         )
@@ -36,6 +34,11 @@ const saveAttempt = async (challengeId, values, record = false) => {
           // eslint-disable-next-line no-alert
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
         });
+
+  const attemptDoc = await doc.get();
+  const data = attemptDoc.data();
+
+  attempt.tries = data.tries + (record ? 1 : 0);
 
   return lintStyles(attempt.css)
     .then(results => {
