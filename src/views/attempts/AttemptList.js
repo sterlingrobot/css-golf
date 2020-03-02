@@ -138,12 +138,13 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                   </div>
                                   <div className="list-item-icons"></div>
                                   <div className="list-item-score">
-                                    {attempt && challenge && (
+                                    {attempt && attemptChallenge && (
                                       <AttemptScore
+                                        type="number"
                                         score={scoreTotal(
                                           attempt,
-                                          challenge
-                                        ).toPar()}
+                                          attemptChallenge
+                                        ).toNumber(2)}
                                       />
                                     )}
                                   </div>
