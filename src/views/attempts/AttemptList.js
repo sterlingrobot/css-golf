@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FirestoreCollection, FirestoreDocument } from 'react-firestore';
-import { scoreTotal } from '../../actions/scoreAttempt';
 
+import AttemptScore from './AttemptScore';
 import DateFormat from '../misc/DateFormat';
 import Error from '../misc/Error';
 
+import { scoreTotal } from '../../actions/scoreAttempt';
+
 import { InternalLink } from '../../styles/links';
 import { Avatar } from '../account/Avatar';
+import { Par } from '../../styles/score';
 
 import '../../styles/attempt.scss';
-import AttemptScore from './AttemptScore';
 
 const AttemptList = ({ challenge = null, user = null }) => (
   <div className="attempts-list">
@@ -136,7 +138,11 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                       )}
                                     </small>
                                   </div>
-                                  <div className="list-item-icons"></div>
+                                  <div className="list-item-icons">
+                                    <div className="list-item-par">
+                                      <Par>{attemptChallenge.par}</Par>
+                                    </div>
+                                  </div>
                                   <div className="list-item-score">
                                     {attempt && attemptChallenge && (
                                       <AttemptScore
