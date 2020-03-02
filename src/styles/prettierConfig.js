@@ -4,11 +4,11 @@ export default options => {
     useTabs: false,
     tabWidth: 2,
     endOfLine: 'lf',
-    printWidth: 100,
+    printWidth: 80,
     semi: true,
     singleQuote: true,
-    trailingComma: 'all',
     bracketSpacing: true,
+    trailingComma: 'all',
     jsxBracketSameLine: false,
     arrowParens: 'avoid',
     ...options

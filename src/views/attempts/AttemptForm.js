@@ -13,6 +13,7 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 import prettier from 'prettier/standalone';
 import parserPostcss from 'prettier/parser-postcss';
+import prettierConfig from '../../styles/prettierConfig';
 
 import AttemptMarkup from './AttemptMarkup';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
@@ -51,15 +52,9 @@ class AttemptForm extends React.Component {
   formatCode = () => {
     const { code } = this.state;
     const formatted = prettier.format(code, {
+      ...prettierConfig,
       plugins: [parserPostcss],
-      parser: 'scss',
-      useTabs: false,
-      tabWidth: 2,
-      endOfLine: 'lf',
-      printWidth: 80,
-      semi: true,
-      singleQuote: true,
-      bracketSpacing: true
+      parser: 'scss'
     });
     return formatted;
   };
