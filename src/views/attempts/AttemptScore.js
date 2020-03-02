@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ParScore } from '../../styles/par-score';
+import { ParScore, NumberScore } from '../../styles/score';
 
 const INCOMPLETE = 'INCOMPLETE';
 
-const AttemptScore = ({ score, style }) => {
+const AttemptScore = ({ type, score, style }) => {
   const parsed = score === INCOMPLETE ? score : parseInt(score, 0);
-  return (
+  return type === 'number' ? (
+    <NumberScore>{score}</NumberScore>
+  ) : (
     <ParScore
       style={style}
       className={
@@ -30,6 +32,7 @@ const AttemptScore = ({ score, style }) => {
 export default AttemptScore;
 
 AttemptScore.propTypes = {
+  type: PropTypes.string,
   score: PropTypes.string,
   style: PropTypes.object
 };
