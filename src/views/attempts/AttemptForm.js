@@ -14,6 +14,7 @@ import 'prismjs/components/prism-scss';
 import prettier from 'prettier/standalone';
 import parserPostcss from 'prettier/parser-postcss';
 
+import AttemptMarkup from './AttemptMarkup';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
 import { FormRow } from '../../styles/forms';
@@ -42,7 +43,7 @@ class AttemptForm extends React.Component {
           path: path.value,
           css: css.value
         };
-        return css.checkValidity() && this.props.onSubmit(values);
+        return css.checkValidity() && this.props.onSubmit(values, true);
       }
     );
   };
@@ -64,26 +65,32 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const { challenge, path, error, onClick } = this.props;
+    const { attempt, challenge, path, isComplete, error, onClick } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
           <FormRow className="form-row">
             <ChallengeMarkup html={challenge.html} />
-            <div className="editor-wrap">
-              <Editor
-                className="editor"
-                name="css"
-                value={this.state.code}
-                placeholder="... you can write SCSS here ..."
-                onValueChange={code => this.setState({ code })}
-                highlight={code => Prism.highlight(code, Prism.languages.scss)}
-                padding={10}
-                style={{ ...editor }}
-                required
-              />
-            </div>
+            {isComplete ? (
+              <AttemptMarkup css={attempt.css} />
+            ) : (
+              <div className="editor-wrap">
+                <Editor
+                  className="editor"
+                  name="css"
+                  value={this.state.code}
+                  placeholder="... you can write SCSS here ..."
+                  onValueChange={code => this.setState({ code })}
+                  highlight={code =>
+                    Prism.highlight(code, Prism.languages.scss)
+                  }
+                  padding={10}
+                  style={{ ...editor }}
+                  required
+                />
+              </div>
+            )}
             {error && (
               <div className="editor-error">
                 <wds-icon type="warn" onClick={onClick}>
@@ -94,19 +101,21 @@ class AttemptForm extends React.Component {
             )}
           </FormRow>
 
-          <FormRow>
-            <button
-              type="submit"
-              style={{
-                width: '100%',
-                appearance: 'none',
-                border: 0,
-                background: 'none'
-              }}
-            >
-              <wds-button type="dark">Submit Attempt</wds-button>
-            </button>
-          </FormRow>
+          {!isComplete && (
+            <FormRow>
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  appearance: 'none',
+                  border: 0,
+                  background: 'none'
+                }}
+              >
+                <wds-button type="dark">Submit Attempt</wds-button>
+              </button>
+            </FormRow>
+          )}
         </div>
       </form>
     );
@@ -123,6 +132,7 @@ AttemptForm.propTypes = {
     html: PropTypes.string
   }),
   path: PropTypes.string,
+  isComplete: PropTypes.bool,
   error: PropTypes.string,
   onSubmit: PropTypes.func,
   onClick: PropTypes.func

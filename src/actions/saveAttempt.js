@@ -9,11 +9,11 @@ import {
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
 
-const saveAttempt = async (challengeId, values) => {
+const saveAttempt = async (challengeId, values, record = false) => {
   const attempt = { ...values, challenge: challengeId };
 
   attempt.tries = attempt.tries || 0;
-  attempt.tries++;
+  attempt.tries += record ? 1 : 0;
 
   const challengeDoc = await Firebase.firestore()
     .collection('challenges')
