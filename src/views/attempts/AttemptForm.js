@@ -18,6 +18,9 @@ import prettierConfig from '../../styles/prettierConfig';
 import AttemptMarkup from './AttemptMarkup';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
+import Modal from '../misc/Modal';
+import SCSSvariables from '../misc/SCSSvariables';
+
 import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
 
@@ -25,7 +28,6 @@ import 'prismjs/themes/prism.css';
 import '../../styles/form.scss';
 import '../../styles/editor.scss';
 import '../../styles/challenge';
-import Modal from '../misc/Modal';
 
 class AttemptForm extends React.Component {
   state = {
@@ -70,7 +72,9 @@ class AttemptForm extends React.Component {
             <Modal
               trigger={{ icon: 'info_outline', label: 'Variables' }}
               title="Variables"
-            ></Modal>
+            >
+              <SCSSvariables />
+            </Modal>
           </div>
 
           <FormRow className="form-row">
