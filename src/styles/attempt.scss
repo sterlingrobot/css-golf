@@ -72,6 +72,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-top: 2rem;
+
+  > .modal-trigger {
+    margin-left: 2rem;
+  }
 }
 
 .attempt-actions {
