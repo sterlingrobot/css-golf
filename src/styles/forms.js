@@ -5,6 +5,7 @@ const FormRow = styled.div`
 `;
 const FormLabel = styled.label``;
 const TextInput = styled.input``;
+const Select = styled.select``;
 const TextArea = styled.textarea``;
 
-export { FormRow, FormLabel, TextInput, TextArea };
+export { FormRow, FormLabel, TextInput, Select, TextArea };

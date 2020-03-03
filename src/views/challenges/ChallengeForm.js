@@ -8,7 +8,7 @@ import prettier from 'prettier/standalone';
 import parserPostcss from 'prettier/parser-postcss';
 import parserHtml from 'prettier/parser-html';
 
-import { TextInput } from '../../styles/forms';
+import { TextInput, Select, FormLabel } from '../../styles/forms';
 import editor from '../../styles/editor';
 
 import 'prismjs/themes/prism.css';
@@ -30,10 +30,11 @@ class ChallengeForm extends React.Component {
         css: this.formatCode('scss')
       },
       () => {
-        const { path, title, html, css } = target.elements;
+        const { path, title, par, html, css } = target.elements;
         const values = {
           path: path.value,
           title: title.value,
+          par: par.value,
           html: html.value,
           css: css.value
         };
@@ -69,7 +70,12 @@ class ChallengeForm extends React.Component {
   };
   render() {
     const {
-      props: { challenge, error, onClick, onDelete }
+      props: {
+        challenge = { path: '', title: '', par: 3 },
+        error,
+        onClick,
+        onDelete
+      }
     } = this;
     return (
       <form id="challengeForm" onSubmit={this.onSubmit}>
@@ -80,10 +86,27 @@ class ChallengeForm extends React.Component {
               <TextInput
                 type="text"
                 name="title"
-                defaultValue={challenge ? challenge.title : ''}
+                defaultValue={challenge.title}
+                placeholder="Name this challenge..."
                 autoComplete="off"
                 required
               />
+            </div>
+            <div className="form-control" style={{ textAlign: 'right' }}>
+              <FormLabel htmlFor="par">Par for this challenge:</FormLabel>
+              <Select
+                name="par"
+                defaultValue={challenge.par}
+                autoComplete="off"
+                style={{ marginLeft: '1rem' }}
+                required
+              >
+                {[...Array(10)].map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
 
@@ -97,6 +120,7 @@ class ChallengeForm extends React.Component {
                 highlight={html => Prism.highlight(html, Prism.languages.html)}
                 padding={10}
                 style={{ ...editor }}
+                placeholder="<html></html>"
                 autoComplete="off"
                 required
               />
@@ -110,6 +134,7 @@ class ChallengeForm extends React.Component {
                 highlight={css => Prism.highlight(css, Prism.languages.scss)}
                 padding={10}
                 style={{ ...editor }}
+                placeholder=".css{ ... }"
                 autoComplete="off"
                 required
               />
@@ -149,6 +174,7 @@ ChallengeForm.propTypes = {
   challenge: PropTypes.shape({
     path: PropTypes.string,
     title: PropTypes.string,
+    par: PropTypes.string,
     html: PropTypes.string,
     css: PropTypes.string
   }),

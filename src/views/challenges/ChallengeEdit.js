@@ -17,7 +17,6 @@ import { InternalLink } from '../../styles/links';
 class ChallengeEdit extends React.Component {
   constructor() {
     super();
-    this.output = React.createRef();
     this.resetError = this.resetError.bind(this);
   }
 
@@ -59,13 +58,17 @@ class ChallengeEdit extends React.Component {
                   Back to Challenges
                 </InternalLink>
                 <div className="challenge-container">
-                  <ChallengeOutput challenge={challenge} ref={this.output} />
+                  <ChallengeOutput challenge={challenge} />
                 </div>
                 <ChallengeForm
                   challenge={challenge}
                   error={this.state.error}
                   onSubmit={values => {
-                    saveChallenge(values, this.output.current);
+                    saveChallenge(values).then(
+                      challengeEdit =>
+                        challengeEdit.slug !== challenge.slug &&
+                        history.push(`/${challengeEdit.slug}/edit`)
+                    );
                   }}
                   onDelete={() =>
                     deleteChallenge(challenge).then(() => history.push(`/`))

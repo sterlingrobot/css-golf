@@ -44,12 +44,13 @@
 }
 
 .list-item-icons {
+  display: flex;
+  align-items: center;
   margin-left: auto;
 }
 
-.list-item-score {
-  color: $color-font-base;
-  font-size: 2rem;
+.list-item-par {
+  margin-right: 5rem;
 }
 
 .list-item-likes {

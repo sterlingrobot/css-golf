@@ -9,7 +9,7 @@ import {
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
 
-const saveAttempt = async (challengeId, values) => {
+const saveAttempt = async (challengeId, values, record = false) => {
   const attempt = { ...values, challenge: challengeId };
 
   const challengeDoc = await Firebase.firestore()
@@ -23,11 +23,22 @@ const saveAttempt = async (challengeId, values) => {
     ? Firebase.firestore().doc(attempt.path)
     : await Firebase.firestore()
         .collection('attempts')
-        .add(prepareDocForCreate({ ...attempt, _likeCount: 0 }))
+        .add(
+          prepareDocForCreate({
+            ...attempt,
+            tries: 0,
+            _likeCount: 0
+          })
+        )
         .catch(error => {
           // eslint-disable-next-line no-alert
           alert(`Whoops, couldn't save your attempt: ${error.message}`);
         });
+
+  const attemptDoc = await doc.get();
+  const data = attemptDoc.data();
+
+  attempt.tries = data.tries + (record ? 1 : 0);
 
   return lintStyles(attempt.css)
     .then(results => {
