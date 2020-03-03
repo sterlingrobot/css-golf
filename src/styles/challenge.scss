@@ -9,8 +9,16 @@
     align-items: center;
     margin: 0 0 2rem;
 
-    h1 {
+    > * {
+      flex: 0 0 auto;
       margin: 0;
+    }
+    h1 {
+      margin-right: 8rem;
+    }
+
+    h3 {
+      margin-right: auto;
     }
   }
 }

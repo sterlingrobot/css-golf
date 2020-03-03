@@ -13,15 +13,15 @@ import {
 import { ReportTable } from '../../styles/report';
 import '../../styles/report.scss';
 
-const AttemptReport = ({ title, diff, lint, efficiency }) => (
+const AttemptReport = ({ title, attempt, challenge }) => (
   <wds-panel className="attempt-report" title={title}>
     <div slot="header">
-      <h2>{scoreTotal(diff, lint, efficiency).toFixed(2)}</h2>
+      <h2>{scoreTotal(attempt, challenge).toNumber(2)}</h2>
     </div>
     <ReportTable>
       <thead></thead>
       <tbody>
-        {diff && (
+        {attempt.diff && (
           <tr>
             <th>
               Pixel Diffing Result
@@ -30,15 +30,15 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
             <td>
               <ul>
                 <li>
-                  {diff.totalPixels - diff.diffPixels} of {diff.totalPixels}{' '}
-                  pixels matched
+                  {attempt.diff.totalPixels - attempt.diff.diffPixels} of{' '}
+                  {attempt.diff.totalPixels} pixels matched
                 </li>
               </ul>
             </td>
-            <td className="score">{scoreDiff(diff).score.toFixed(2)}</td>
+            <td className="score">{scoreDiff(attempt.diff).toNumber(2)}</td>
           </tr>
         )}
-        {lint && (
+        {attempt.lint && (
           <tr>
             <th>
               Linting Result
@@ -46,8 +46,8 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
             </th>
             <td>
               <ul>
-                {lint.warnings.length ? (
-                  lint.warnings.map((warning, i) => (
+                {attempt.lint.warnings.length ? (
+                  attempt.lint.warnings.map((warning, i) => (
                     <li key={i}>{warning.text}</li>
                   ))
                 ) : (
@@ -57,10 +57,10 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
                 )}
               </ul>
             </td>
-            <td className="score">{scoreLint(lint).score.toFixed(2)}</td>
+            <td className="score">{scoreLint(attempt.lint).toNumber(2)}</td>
           </tr>
         )}
-        {efficiency && (
+        {attempt.style && challenge.style && (
           <tr>
             <th>
               Efficiency Result
@@ -70,7 +70,10 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
               <ul>
                 <li>
                   {(() => {
-                    const { target, match } = calculateEfficiency(efficiency);
+                    const { target, match } = calculateEfficiency(
+                      attempt,
+                      challenge
+                    );
                     const charDiff = match.length - target.length;
                     return `${Math.abs(charDiff)} characters ${
                       charDiff >= 0 ? 'more' : 'less'
@@ -80,9 +83,9 @@ const AttemptReport = ({ title, diff, lint, efficiency }) => (
               </ul>
             </td>
             <td className="score">
-              {scoreEfficiency(calculateEfficiency(efficiency)).score.toFixed(
-                2
-              )}
+              {scoreEfficiency(
+                calculateEfficiency(attempt, challenge)
+              ).toNumber(2)}
             </td>
           </tr>
         )}
@@ -95,28 +98,26 @@ export default AttemptReport;
 
 AttemptReport.propTypes = {
   title: PropTypes.string,
-  diff: PropTypes.shape({
-    totalPixels: PropTypes.number,
-    diffPixels: PropTypes.number
-  }),
-  lint: PropTypes.shape({
-    errored: PropTypes.bool,
-    warnings: PropTypes.arrayOf(
-      PropTypes.shape({
-        rule: PropTypes.string,
-        severity: PropTypes.string,
-        text: PropTypes.string
-      })
-    )
-  }),
-  efficiency: PropTypes.shape({
-    target: PropTypes.shape({
-      id: PropTypes.string,
-      style: PropTypes.string
+  attempt: PropTypes.shape({
+    id: PropTypes.string,
+    style: PropTypes.string,
+    diff: PropTypes.shape({
+      totalPixels: PropTypes.number,
+      diffPixels: PropTypes.number
     }),
-    match: PropTypes.shape({
-      id: PropTypes.string,
-      style: PropTypes.string
+    lint: PropTypes.shape({
+      errored: PropTypes.bool,
+      warnings: PropTypes.arrayOf(
+        PropTypes.shape({
+          rule: PropTypes.string,
+          severity: PropTypes.string,
+          text: PropTypes.string
+        })
+      )
     })
+  }),
+  challenge: PropTypes.shape({
+    id: PropTypes.string,
+    style: PropTypes.string
   })
 };

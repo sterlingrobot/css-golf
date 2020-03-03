@@ -10,6 +10,7 @@ import Error from '../misc/Error';
 
 import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
+import { Par } from '../../styles/score';
 import DateFormat from '../misc/DateFormat';
 
 const giveLike = (e, challenge) => {
@@ -95,6 +96,9 @@ const ChallengeList = () => (
                         </small>
                       </div>
                       <div className="list-item-icons">
+                        <div className="list-item-par">
+                          <Par>{challenge.par}</Par>
+                        </div>
                         <div
                           className="list-item-likes"
                           onClick={e => giveLike(e, challenge)}

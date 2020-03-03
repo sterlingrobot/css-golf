@@ -16,6 +16,7 @@ import { InternalLink } from '../../styles/links';
 import { Page } from '../../styles/layout';
 
 import '../../styles/challenge.scss';
+import { Par } from '../../styles/score';
 
 class Challenge extends React.Component {
   render() {
@@ -52,6 +53,7 @@ class Challenge extends React.Component {
 
                 <header>
                   <h1>{challenge.title}</h1>
+                  <Par>{challenge.par}</Par>
                   <FirebaseAuth>
                     {({ auth }) =>
                       auth && auth.admin ? (

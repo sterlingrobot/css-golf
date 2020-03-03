@@ -12,13 +12,18 @@ import AttemptForm from './AttemptForm';
 import AttemptOutput from './AttemptOutput';
 import AttemptMarkup from '../attempts/AttemptMarkup';
 import AttemptReport from './AttemptReport';
+import AttemptScore from './AttemptScore';
+
 import ChallengeOutput from '../challenges/ChallengeOutput';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
+import { scoreTotal } from '../../actions/scoreAttempt';
 
 import { Page } from '../../styles/layout';
+import { Avatar } from '../account/Avatar';
+import DateFormat from '../misc/DateFormat';
 
 import '../../styles/attempt.scss';
 
@@ -30,7 +35,8 @@ class Attempt extends React.Component {
 
   state = {
     error: null,
-    diff: null
+    diff: null,
+    complete: false
   };
 
   resetError(_e) {
@@ -82,68 +88,112 @@ class Attempt extends React.Component {
                         if (data.length === 0) {
                           return <Error />;
                         }
+
                         const challenge = data;
 
                         return (
-                          <div className="attempt-container">
-                            <h2>
-                              {challenge.title}
-                              <small>by {auth.displayName}</small>
-                            </h2>
-                            <ChallengeOutput challenge={challenge} />
-                            <AttemptOutput
-                              attempt={attempt}
-                              html={challenge.html}
-                            />
-                            <DiffOutput
-                              target={challenge.snapshot}
-                              match={attempt.snapshot}
-                              options={{ threshold: 0.5 }}
-                              onDiffResult={(totalPixels, diffPixels) => {
-                                saveAttempt(challenge.id, {
-                                  ...attempt,
-                                  ...{ diff: { totalPixels, diffPixels } }
-                                });
-                                this.setState({
-                                  diff: {
-                                    totalPixels,
-                                    diffPixels
-                                  }
-                                });
-                              }}
-                            />
-                            {auth.uid === attempt.createdBy ? (
-                              <AttemptForm
-                                attempt={attempt}
-                                challenge={challenge}
-                                path={attempt.path}
-                                error={this.state.error}
-                                onSubmit={values =>
-                                  saveAttempt(
-                                    challenge.id,
-                                    values
-                                  ).catch(({ error }) =>
-                                    this.setState({ error })
-                                  )
-                                }
-                                onClick={this.resetError}
-                              />
-                            ) : (
-                              <div className="attempt-static">
-                                <ChallengeMarkup html={challenge.html} />
-                                <AttemptMarkup css={attempt.css} />
-                              </div>
-                            )}
-                            <AttemptReport
-                              title="Score"
-                              diff={this.state.diff}
-                              lint={attempt.lint}
-                              efficiency={{
-                                target: challenge,
-                                match: attempt
-                              }}
-                            ></AttemptReport>
-                          </div>
+                          <FirestoreDocument
+                            path={`users/${attempt.createdBy}`}
+                          >
+                            {({ error, isLoading, data }) => {
+                              if (error) {
+                                return <Error error={error} />;
+                              }
+
+                              if (isLoading) {
+                                return <p>loading...</p>;
+                              }
+
+                              if (data.length === 0) {
+                                return <Error />;
+                              }
+
+                              const user = data;
+                              const score = scoreTotal(attempt, challenge);
+
+                              return (
+                                <div className="attempt-container">
+                                  <header>
+                                    <div style={{ marginRight: '1rem' }}>
+                                      <Avatar user={user} width="5rem" />
+                                    </div>
+                                    <h2>
+                                      {challenge.title} Attempt
+                                      <small>
+                                        by {user.displayName} &mdash;{' '}
+                                        <DateFormat
+                                          timestamp={
+                                            attempt.updatedOn ||
+                                            attempt.createdOn
+                                          }
+                                        />
+                                      </small>
+                                    </h2>
+                                    <AttemptScore
+                                      score={score.toPar()}
+                                      style={{ marginLeft: 'auto' }}
+                                    />
+                                  </header>
+                                  <ChallengeOutput challenge={challenge} />
+                                  <AttemptOutput
+                                    attempt={attempt}
+                                    html={challenge.html}
+                                  />
+                                  <DiffOutput
+                                    target={challenge.snapshot}
+                                    match={attempt.snapshot}
+                                    options={{ threshold: 0.5 }}
+                                    onDiffResult={(totalPixels, diffPixels) => {
+                                      saveAttempt(challenge.id, {
+                                        ...attempt,
+                                        ...{ diff: { totalPixels, diffPixels } }
+                                      }).then(attempt =>
+                                        this.setState({
+                                          complete: scoreTotal(
+                                            attempt,
+                                            challenge
+                                          ).isComplete(),
+                                          diff: {
+                                            totalPixels,
+                                            diffPixels
+                                          }
+                                        })
+                                      );
+                                    }}
+                                  />
+                                  {auth.uid === attempt.createdBy ? (
+                                    <AttemptForm
+                                      attempt={attempt}
+                                      challenge={challenge}
+                                      path={attempt.path}
+                                      error={this.state.error}
+                                      isComplete={this.state.complete}
+                                      onSubmit={values =>
+                                        saveAttempt(
+                                          challenge.id,
+                                          values,
+                                          true
+                                        ).catch(({ error }) =>
+                                          this.setState({ error })
+                                        )
+                                      }
+                                      onClick={this.resetError}
+                                    />
+                                  ) : (
+                                    <div className="attempt-static">
+                                      <ChallengeMarkup html={challenge.html} />
+                                      <AttemptMarkup css={attempt.css} />
+                                    </div>
+                                  )}
+                                  <AttemptReport
+                                    title="Score"
+                                    attempt={attempt}
+                                    challenge={challenge}
+                                  ></AttemptReport>
+                                </div>
+                              );
+                            }}
+                          </FirestoreDocument>
                         );
                       }}
                     </FirestoreDocument>
