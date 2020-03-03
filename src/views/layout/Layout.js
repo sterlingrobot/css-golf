@@ -13,7 +13,12 @@ const Layout = ({ children }) => (
   <HeaderFooterWrapper>
     <Header>
       <HeaderLink to="/">
-        <h2>CSS Golf</h2>
+        <h2 className="app-title">
+          CSS Golf
+          <wds-icon type="approve" size="large">
+            golf_course
+          </wds-icon>
+        </h2>
       </HeaderLink>
 
       <div>
