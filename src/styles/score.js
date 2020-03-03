@@ -4,7 +4,7 @@ import { Colors } from '@wisetail/tokens';
 export const Par = styled.h3`
   position: relative;
   margin: 0;
-  color: ${Colors.FONT_SECONDARY};
+  color: ${Colors.GREEN_BASE};
   font-size: 1.5em;
   font-weight: bold !important;
   font-style: normal !important;
@@ -16,25 +16,21 @@ export const Par = styled.h3`
     display: block;
     position: absolute;
     top: 50%;
-    left: -1.5rem;
+    left: -1.25rem;
     transform: translate(-100%, -40%);
-    color: ${Colors.FONT_BASE};
     font-size: 0.8em;
-    font-weight: normal !important;
-    line-height: 1;
+    line-height: 0;
   }
 
   &:after {
     content: '';
     display: block;
     position: absolute;
-    width: 1.5em;
-    height: 1.5em;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: ${Colors.GREEN_50};
-    border-radius: 50%;
+    left: 0;
+    transform: translate(-0.333em, -50%);
+    border: 1em solid transparent;
+    border-left: 2.5em solid ${Colors.GREEN_20};
     z-index: -1;
   }
 `;
