@@ -25,6 +25,7 @@ import 'prismjs/themes/prism.css';
 import '../../styles/form.scss';
 import '../../styles/editor.scss';
 import '../../styles/challenge';
+import Modal from '../misc/Modal';
 
 class AttemptForm extends React.Component {
   state = {
@@ -65,6 +66,13 @@ class AttemptForm extends React.Component {
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
+          <div className="attempt-help">
+            <Modal
+              trigger={{ icon: 'info_outline', label: 'Variables' }}
+              title="Variables"
+            ></Modal>
+          </div>
+
           <FormRow className="form-row">
             <ChallengeMarkup html={challenge.html} />
             {isComplete ? (

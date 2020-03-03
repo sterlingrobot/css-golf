@@ -68,6 +68,12 @@
   grid-area: output;
 }
 
+.attempt-help {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .attempt-actions {
   margin: 0 auto;
 }
