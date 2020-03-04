@@ -99,15 +99,32 @@ const ChallengeList = () => (
                         <div className="list-item-par">
                           <Par>{challenge.par}</Par>
                         </div>
-                        <div
-                          className="list-item-likes"
-                          onClick={e => giveLike(e, challenge)}
-                        >
-                          <span className="like-count">
-                            {challenge._likeCount || 0}
-                          </span>
-                          <wds-icon>thumb_up_alt</wds-icon>
-                        </div>
+                        <FirebaseAuth>
+                          {({ isLoading, error, auth }) => {
+                            if (error) {
+                              return <Error error={error} />;
+                            }
+
+                            if (isLoading) {
+                              return <div>loading...</div>;
+                            }
+
+                            if (auth) {
+                              return (
+                                <div
+                                  className="list-item-likes"
+                                  onClick={e => giveLike(e, challenge)}
+                                >
+                                  <span className="like-count">
+                                    {challenge._likeCount || 0}
+                                  </span>
+                                  <wds-icon>thumb_up_alt</wds-icon>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        </FirebaseAuth>
                       </div>
                     </InternalLink>
                   );
