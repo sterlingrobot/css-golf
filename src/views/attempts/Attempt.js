@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FirestoreDocument } from 'react-firestore';
 import FirebaseAuth from '../misc/FirebaseAuth';
 
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import Error from '../misc/Error';
 
@@ -55,6 +55,17 @@ class Attempt extends React.Component {
 
             if (isLoading) {
               return <div>loading...</div>;
+            }
+
+            if (!auth) {
+              return (
+                <div>
+                  <p>You must be logged in to view attempts</p>
+                  <Link to="/login">
+                    <wds-button>Sign in</wds-button>
+                  </Link>
+                </div>
+              );
             }
 
             return (
