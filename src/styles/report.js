@@ -26,6 +26,14 @@ const ReportTable = styled.table`
     font-style: italic;
   }
 
+  h3 {
+    margin: 0;
+    color: ${Colors.GREEN_50};
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
   ul {
     margin: 0;
   }

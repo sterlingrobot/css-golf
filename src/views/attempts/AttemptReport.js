@@ -24,6 +24,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
         {attempt.diff && (
           <tr>
             <th>
+              <h3>The Drive</h3>
               Pixel Diffing Result
               <small>Worth {weightedAmount('diff').toFixed(2)}%</small>
             </th>
@@ -41,6 +42,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
         {attempt.lint && (
           <tr>
             <th>
+              <h3>The Approach</h3>
               Linting Result
               <small>Worth {weightedAmount('lint').toFixed(2)}%</small>
             </th>
@@ -63,6 +65,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
         {attempt.style && challenge.style && (
           <tr>
             <th>
+              <h3>The Green</h3>
               Efficiency Result
               <small>Worth {weightedAmount('efficiency').toFixed(2)}%</small>
             </th>
