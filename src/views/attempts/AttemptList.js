@@ -41,7 +41,7 @@ const AttemptList = ({ challenge = null, user = null }) => (
         return (
           <>
             {data.map(attempt => (
-              <div key={attempt.id}>
+              <div key={attempt.id} className="list-item-wrap">
                 <FirestoreDocument path={`users/${attempt.createdBy}`}>
                   {({ error, isLoading, data }) => {
                     if (error) {
