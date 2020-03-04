@@ -68,6 +68,17 @@
   grid-area: output;
 }
 
+.attempt-help {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 2rem;
+
+  > .modal-trigger {
+    margin-right: 2rem;
+  }
+}
+
 .attempt-actions {
   margin: 0 auto;
 }

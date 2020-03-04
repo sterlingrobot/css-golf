@@ -14,6 +14,7 @@ import '@wisetail/wds-button';
 import '@wisetail/wds-panel';
 
 import '@wisetail/tokens/build/css/fonts.css';
+import '@wisetail/tokens/build/css/variables.css';
 import './styles/global.scss';
 
 console.log('create-react-app env:', process.env.NODE_ENV);
