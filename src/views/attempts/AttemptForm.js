@@ -9,6 +9,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Editor from 'react-simple-code-editor';
+import Markdown from 'markdown-to-jsx';
+
 import Prism from 'prismjs';
 import 'prismjs/components/prism-scss';
 import prettier from 'prettier/standalone';
@@ -69,20 +71,35 @@ class AttemptForm extends React.Component {
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
-          <div className="attempt-help">
-            <Modal
-              trigger={{ icon: 'info_outline', label: 'SCSS' }}
-              title="SCSS Variables"
-            >
-              <SCSSvariables />
-            </Modal>
-            <Modal
-              trigger={{ icon: 'info_outline', label: 'CSS' }}
-              title="CSS Variables"
-            >
-              <CSSvariables />
-            </Modal>
-          </div>
+          {!isComplete ? (
+            <div className="attempt-help">
+              {challenge.hints.map((hint, i) => (
+                <Modal
+                  key={i}
+                  trigger={{
+                    icon: 'lightbulb_outline',
+                    label: `Hint #${i + 1}`
+                  }}
+                  title={`Hint #${i + 1}`}
+                >
+                  <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
+                </Modal>
+              ))}
+
+              <Modal
+                trigger={{ icon: 'info_outline', label: 'SCSS' }}
+                title="SCSS Variables"
+              >
+                <SCSSvariables />
+              </Modal>
+              <Modal
+                trigger={{ icon: 'info_outline', label: 'CSS' }}
+                title="CSS Variables"
+              >
+                <CSSvariables />
+              </Modal>
+            </div>
+          ) : null}
 
           <FormRow className="form-row">
             <ChallengeMarkup html={challenge.html} />
@@ -146,7 +163,8 @@ AttemptForm.propTypes = {
     css: PropTypes.string
   }),
   challenge: PropTypes.shape({
-    html: PropTypes.string
+    html: PropTypes.string,
+    hints: PropTypes.arrayOf(PropTypes.string)
   }),
   path: PropTypes.string,
   isComplete: PropTypes.bool,
