@@ -8,6 +8,7 @@ import { Avatar } from '../account/Avatar';
 
 import { HeaderFooterWrapper, Header, Footer } from '../../styles/layout';
 import { HeaderLink } from '../../styles/links';
+import { Logo } from '../../styles/logo';
 
 const Layout = ({ children }) => (
   <HeaderFooterWrapper>
@@ -15,9 +16,7 @@ const Layout = ({ children }) => (
       <HeaderLink to="/">
         <h2 className="app-title">
           CSS Golf
-          <wds-icon type="approve" size="large">
-            golf_course
-          </wds-icon>
+          <Logo />
         </h2>
       </HeaderLink>
 
