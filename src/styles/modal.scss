@@ -1,0 +1,46 @@
+@import '~@wisetail/tokens/build/scss/variables';
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: rgba($color-black-base, 0.8);
+  animation: 600ms fadein;
+
+  wds-panel {
+    max-width: 80em;
+    max-height: 80vh;
+  }
+}
+
+.modal-trigger {
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  wds-icon {
+    margin-right: 0.25em;
+    color: inherit;
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

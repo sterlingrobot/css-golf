@@ -8,12 +8,16 @@ import { Avatar } from '../account/Avatar';
 
 import { HeaderFooterWrapper, Header, Footer } from '../../styles/layout';
 import { HeaderLink } from '../../styles/links';
+import { Logo } from '../../styles/logo';
 
 const Layout = ({ children }) => (
   <HeaderFooterWrapper>
     <Header>
       <HeaderLink to="/">
-        <h2>CSS Golf</h2>
+        <h2 className="app-title">
+          CSS Golf
+          <Logo />
+        </h2>
       </HeaderLink>
 
       <div>

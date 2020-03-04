@@ -18,6 +18,10 @@ import prettierConfig from '../../styles/prettierConfig';
 import AttemptMarkup from './AttemptMarkup';
 import ChallengeMarkup from '../challenges/ChallengeMarkup';
 
+import Modal from '../misc/Modal';
+import SCSSvariables from '../misc/SCSSvariables';
+import CSSvariables from '../misc/CSSvariables';
+
 import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
 
@@ -65,6 +69,21 @@ class AttemptForm extends React.Component {
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input type="hidden" name="path" defaultValue={path} />
         <div className="form-wrap">
+          <div className="attempt-help">
+            <Modal
+              trigger={{ icon: 'info_outline', label: 'SCSS' }}
+              title="SCSS Variables"
+            >
+              <SCSSvariables />
+            </Modal>
+            <Modal
+              trigger={{ icon: 'info_outline', label: 'CSS' }}
+              title="CSS Variables"
+            >
+              <CSSvariables />
+            </Modal>
+          </div>
+
           <FormRow className="form-row">
             <ChallengeMarkup html={challenge.html} />
             {isComplete ? (
