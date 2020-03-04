@@ -76,6 +76,10 @@
 
   > .modal-trigger {
     margin-right: 2rem;
+
+    &:nth-last-child(2) {
+      margin-left: auto;
+    }
   }
 }
 
