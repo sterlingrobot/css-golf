@@ -12,3 +12,6 @@ serviceAccountKey*
 
 # Local Netlify folder
 .netlify
+
+# copied scss includes
+_includes

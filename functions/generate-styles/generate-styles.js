@@ -7,14 +7,10 @@ module.exports.handler = async (event, _context) => {
       .renderSync({
         data: `
           @import 'variables';
-          @import 'mixins';
 
           #${prefix}-${id} { ${css} }
         `,
-        includePaths: [
-          'node_modules',
-          'node_modules/@wisetail/tokens/build/scss'
-        ]
+        includePaths: ['_includes', 'functions/generate-styles/_includes']
       })
       .css.toString('utf-8');
 
