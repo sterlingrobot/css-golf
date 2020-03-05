@@ -9,7 +9,7 @@ module.exports.handler = async (event, _context) => {
       .lint({
         code: css,
         config,
-        configBasedir: path.resolve(path.dirname(__dirname))
+        configBasedir: __dirname
       })
       .then(response => {
         return {
