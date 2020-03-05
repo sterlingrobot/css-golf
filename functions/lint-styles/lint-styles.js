@@ -1,8 +1,6 @@
 const stylelint = require('stylelint');
 const config = require('./stylelintConfig');
 require('stylelint-config-sass-guidelines');
-require('stylelint-order');
-require('stylelint-scss');
 
 module.exports.handler = async (event, _context) => {
   const { css } = JSON.parse(event.body);
