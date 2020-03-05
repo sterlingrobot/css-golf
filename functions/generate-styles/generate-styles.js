@@ -13,8 +13,8 @@ module.exports.handler = async (event, _context) => {
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
-          path.resolve('node_modules'),
-          path.resolve('node_modules', '@wisetail/tokens/build/scss')
+          '/opt/build/repo/functions/generate-styles/node_modules',
+          '/opt/build/repo/functions/generate-styles/node_modules/@wisetail/tokens/build/scss'
         ]
       })
       .css.toString('utf-8');
@@ -27,12 +27,7 @@ module.exports.handler = async (event, _context) => {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: err.toString(),
-        debug: {
-          dirname: __dirname,
-          node_modules: path.resolve('node_modules'),
-          tokens: path.resolve('node_modules', '@wisetail/tokens/build/scss')
-        }
+        error: err.toString()
       })
     };
   }
