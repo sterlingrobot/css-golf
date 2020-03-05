@@ -13,8 +13,8 @@ module.exports.handler = async (event, _context) => {
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
-          path.resolve(__dirname, 'node_modules'),
-          path.resolve(__dirname, 'node_modules', '@wisetail/tokens/build/scss')
+          path.resolve('node_modules'),
+          path.resolve('node_modules', '@wisetail/tokens/build/scss')
         ]
       })
       .css.toString('utf-8');
