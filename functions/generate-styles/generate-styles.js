@@ -13,8 +13,8 @@ module.exports.handler = async (event, _context) => {
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
-          '/opt/build/repo/functions/generate-styles/node_modules',
-          '/opt/build/repo/functions/generate-styles/node_modules/@wisetail/tokens/build/scss'
+          '../../opt/build/repo/functions/generate-styles/node_modules',
+          '../../opt/build/repo/functions/generate-styles/node_modules/@wisetail/tokens/build/scss'
         ]
       })
       .css.toString('utf-8');
