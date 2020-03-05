@@ -1,3 +1,4 @@
+const path = require('path');
 const stylelint = require('stylelint');
 const config = require('./stylelintConfig');
 require('stylelint-config-sass-guidelines');
@@ -8,7 +9,8 @@ module.exports.handler = async (event, _context) => {
     return stylelint
       .lint({
         code: css,
-        config
+        config,
+        configBasedir: path.dirname(__dirname)
       })
       .then(response => {
         return {
