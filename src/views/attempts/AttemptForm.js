@@ -73,18 +73,19 @@ class AttemptForm extends React.Component {
         <div className="form-wrap">
           {!isComplete ? (
             <div className="attempt-help">
-              {challenge.hints.map((hint, i) => (
-                <Modal
-                  key={i}
-                  trigger={{
-                    icon: 'lightbulb_outline',
-                    label: `Hint #${i + 1}`
-                  }}
-                  title={`Hint #${i + 1}`}
-                >
-                  <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
-                </Modal>
-              ))}
+              {challenge.hints &&
+                challenge.hints.map((hint, i) => (
+                  <Modal
+                    key={i}
+                    trigger={{
+                      icon: 'lightbulb_outline',
+                      label: `Hint #${i + 1}`
+                    }}
+                    title={`Hint #${i + 1}`}
+                  >
+                    <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
+                  </Modal>
+                ))}
 
               <Modal
                 trigger={{ icon: 'info_outline', label: 'SCSS' }}
