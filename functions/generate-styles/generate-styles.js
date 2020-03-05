@@ -21,19 +21,19 @@ module.exports.handler = async (event, _context) => {
 
     return {
       statusCode: 200,
+      body: JSON.stringify({ styles })
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
       body: JSON.stringify({
-        styles,
-        paths: {
+        error: err.toString(),
+        debug: {
           dirname: __dirname,
           node_modules: path.resolve('node_modules'),
           tokens: path.resolve('node_modules', '@wisetail/tokens/build/scss')
         }
       })
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.toString() })
     };
   }
 };
