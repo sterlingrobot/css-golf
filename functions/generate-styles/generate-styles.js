@@ -1,4 +1,3 @@
-const path = require('path');
 const sass = require('sass');
 
 module.exports.handler = async (event, _context) => {
@@ -7,15 +6,12 @@ module.exports.handler = async (event, _context) => {
     const styles = sass
       .renderSync({
         data: `
-          @import 'variables';
-          @import 'mixins';
+          @import '~@wisetail/tokens/build/scss/variables';
+          @import '~@wisetail/tokens/build/scss/mixins';
 
           #${prefix}-${id} { ${css} }
         `,
-        includePaths: [
-          '../../opt/build/repo/functions/generate-styles/node_modules',
-          '../../opt/build/repo/functions/generate-styles/node_modules/@wisetail/tokens/build/scss'
-        ]
+        includePaths: ['node_modules']
       })
       .css.toString('utf-8');
 
