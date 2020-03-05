@@ -6,6 +6,9 @@ module.exports.handler = async (event, _context) => {
     const styles = sass
       .renderSync({
         data: `
+          @import 'variables';
+          @import 'mixins';
+
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
