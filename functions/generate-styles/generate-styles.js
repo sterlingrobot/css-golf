@@ -1,3 +1,4 @@
+const path = require('path');
 const sass = require('sass');
 
 module.exports.handler = async (event, _context) => {
@@ -12,8 +13,8 @@ module.exports.handler = async (event, _context) => {
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
-          './node_modules',
-          './node_modules/@wisetail/tokens/build/scss'
+          path.resolve(__dirname, 'node_modules'),
+          path.resolve(__dirname, 'node_modules', '@wisetail/tokens/build/scss')
         ]
       })
       .css.toString('utf-8');
