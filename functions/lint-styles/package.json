@@ -11,6 +11,7 @@
   "dependencies": {
     "@wisetail/tokens": "^1.0.0",
     "stylelint": "^13.2.0",
+    "stylelint-config-sass-guidelines": "^7.0.0",
     "stylelint-order": "^4.0.0",
     "stylelint-scss": "^3.4.0"
   },
