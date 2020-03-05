@@ -6,12 +6,12 @@ module.exports.handler = async (event, _context) => {
     const styles = sass
       .renderSync({
         data: `
-          @import '~@wisetail/tokens/build/scss/variables';
-          @import '~@wisetail/tokens/build/scss/mixins';
-
           #${prefix}-${id} { ${css} }
         `,
-        includePaths: ['node_modules']
+        includePaths: [
+          'node_modules',
+          'node_modules/@wisetail/tokens/build/scss'
+        ]
       })
       .css.toString('utf-8');
 
