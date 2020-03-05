@@ -1,3 +1,4 @@
+const path = require('path');
 const stylelint = require('stylelint');
 const config = require('./stylelintConfig');
 
@@ -8,7 +9,7 @@ module.exports.handler = async (event, _context) => {
       .lint({
         code: css,
         config,
-        configBasedir: __dirname
+        configBasedir: path.resolve(__dirname)
       })
       .then(response => {
         return {
