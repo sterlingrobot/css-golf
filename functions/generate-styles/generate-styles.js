@@ -7,8 +7,8 @@ module.exports.handler = async (event, _context) => {
     const styles = sass
       .renderSync({
         data: `
-          @import './node_modules/@wisetail/tokens/build/scss/variables';
-          @import './node_modules/@wisetail/tokens/build/scss/mixins';
+          @import 'variables';
+          @import 'mixins';
 
           #${prefix}-${id} { ${css} }
         `,
@@ -21,7 +21,14 @@ module.exports.handler = async (event, _context) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ styles })
+      body: JSON.stringify({
+        styles,
+        paths: {
+          dirname: __dirname,
+          node_modules: path.resolve('node_modules'),
+          tokens: path.resolve('node_modules', '@wisetail/tokens/build/scss')
+        }
+      })
     };
   } catch (err) {
     return {
