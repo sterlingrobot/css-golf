@@ -33,12 +33,12 @@ export const scoreLint = lint => {
 };
 
 export const calculateEfficiency = (match, target) => {
-  const strippedTarget = target.style
-    .replace(`#challenge-${target.id}`, '')
-    .replace(/\s/g, '');
-  const strippedMatch = match.style
-    .replace(`#attempt-${match.id}`, '')
-    .replace(/\s/g, '');
+  const strippedTarget = target
+    ? target.style.replace(`#challenge-${target.id}`, '').replace(/\s/g, '')
+    : '';
+  const strippedMatch = match
+    ? match.style.replace(`#attempt-${match.id}`, '').replace(/\s/g, '')
+    : '';
   return {
     target: strippedTarget,
     match: strippedMatch
