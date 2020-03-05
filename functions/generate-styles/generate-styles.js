@@ -12,8 +12,8 @@ module.exports.handler = async (event, _context) => {
           #${prefix}-${id} { ${css} }
         `,
         includePaths: [
-          '../node_modules',
-          '../node_modules/@wisetail/tokens/build/scss'
+          './node_modules',
+          './node_modules/@wisetail/tokens/build/scss'
         ]
       })
       .css.toString('utf-8');
