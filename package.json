@@ -35,7 +35,7 @@
     "build:dev": "firebase use dev && react-scripts build && firebase deploy",
     "build:stage": "firebase use stage && react-scripts build && firebase deploy",
     "build:prod": "firebase use prod && react-scripts build && firebase deploy",
-    "build:functions": "cd functions && yarn install && cd lint-styles && yarn install && cd ../generate-styles && yarn install",
+    "build:functions": "cd functions && yarn install && cd lint-styles && yarn install && cd ../generate-styles && yarn install && ls -l /opt/build/repo/functions/*/",
     "dev": "sh -ac '. ./.env.dev;   yarn build:dev'",
     "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
     "prod": "sh -ac '. ./.env.prod;  yarn build:prod'",

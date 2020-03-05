@@ -7,8 +7,7 @@ module.exports.handler = async (event, _context) => {
     return stylelint
       .lint({
         code: css,
-        config,
-        configBasedir: '../../opt/build/repo/functions/lint-styles'
+        config
       })
       .then(response => {
         return {
