@@ -12,6 +12,7 @@ import ChallengeOutput from '../challenges/ChallengeOutput';
 import saveAttempt from '../../actions/saveAttempt';
 
 import { Page } from '../../styles/layout';
+import { InternalLink } from '../../styles/links';
 
 import '../../styles/attempt.scss';
 
@@ -23,7 +24,8 @@ class AttemptNew extends React.Component {
 
   state = {
     path: undefined,
-    error: null
+    error: null,
+    saving: false
   };
 
   resetError(_e) {
@@ -77,6 +79,13 @@ class AttemptNew extends React.Component {
 
                   return (
                     <div>
+                      <InternalLink
+                        to={`/${challenge.slug}`}
+                        style={{ margin: '0 auto 1rem 0' }}
+                      >
+                        <wds-icon>arrow_back</wds-icon>
+                        Back to {challenge.title}
+                      </InternalLink>
                       <h2>{challenge.title}</h2>
                       <div className="challenge-container">
                         <ChallengeOutput challenge={challenge} />
@@ -85,6 +94,9 @@ class AttemptNew extends React.Component {
                         challenge={challenge}
                         path={this.state.path}
                         error={this.state.error}
+                        isSaving={this.state.saving}
+                        isComplete={this.state.complete}
+                        onSave={saving => this.setState({ saving })}
                         onSubmit={values =>
                           saveAttempt(challenge.id, values, true)
                             .then(attempt => history.push(`/${attempt.path}`))

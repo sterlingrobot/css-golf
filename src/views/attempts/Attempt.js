@@ -22,6 +22,7 @@ import saveAttempt from '../../actions/saveAttempt';
 import { scoreTotal } from '../../actions/scoreAttempt';
 
 import { Page } from '../../styles/layout';
+import { InternalLink } from '../../styles/links';
 import { Avatar } from '../account/Avatar';
 import DateFormat from '../misc/DateFormat';
 
@@ -36,6 +37,7 @@ class Attempt extends React.Component {
   state = {
     error: null,
     diff: null,
+    saving: false,
     complete: false
   };
 
@@ -124,6 +126,13 @@ class Attempt extends React.Component {
 
                               return (
                                 <div className="attempt-container">
+                                  <InternalLink
+                                    to={`/${challenge.slug}`}
+                                    style={{ margin: '0 auto 1rem 0' }}
+                                  >
+                                    <wds-icon>arrow_back</wds-icon>
+                                    Back to {challenge.title}
+                                  </InternalLink>
                                   <header>
                                     <div style={{ marginRight: '1rem' }}>
                                       <Avatar user={user} width="5rem" />
@@ -155,21 +164,24 @@ class Attempt extends React.Component {
                                     match={attempt.snapshot}
                                     options={{ threshold: 0.5 }}
                                     onDiffResult={(totalPixels, diffPixels) => {
-                                      saveAttempt(challenge.id, {
-                                        ...attempt,
-                                        ...{ diff: { totalPixels, diffPixels } }
-                                      }).then(attempt =>
-                                        this.setState({
-                                          complete: scoreTotal(
-                                            attempt,
-                                            challenge
-                                          ).isComplete(),
-                                          diff: {
-                                            totalPixels,
-                                            diffPixels
+                                      auth.uid === attempt.createdBy &&
+                                        saveAttempt(challenge.id, {
+                                          ...attempt,
+                                          ...{
+                                            diff: { totalPixels, diffPixels }
                                           }
-                                        })
-                                      );
+                                        }).then(attempt =>
+                                          this.setState({
+                                            complete: scoreTotal(
+                                              attempt,
+                                              challenge
+                                            ).isComplete(),
+                                            diff: {
+                                              totalPixels,
+                                              diffPixels
+                                            }
+                                          })
+                                        );
                                     }}
                                   />
                                   {auth.uid === attempt.createdBy ? (
@@ -178,15 +190,19 @@ class Attempt extends React.Component {
                                       challenge={challenge}
                                       path={attempt.path}
                                       error={this.state.error}
+                                      isSaving={this.state.saving}
                                       isComplete={this.state.complete}
+                                      onSave={saving =>
+                                        this.setState({ saving })
+                                      }
                                       onSubmit={values =>
-                                        saveAttempt(
-                                          challenge.id,
-                                          values,
-                                          true
-                                        ).catch(({ error }) =>
-                                          this.setState({ error })
-                                        )
+                                        saveAttempt(challenge.id, values, true)
+                                          .then(_attempt =>
+                                            this.setState({ saving: false })
+                                          )
+                                          .catch(({ error }) =>
+                                            this.setState({ error })
+                                          )
                                       }
                                       onClick={this.resetError}
                                     />
