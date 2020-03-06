@@ -40,6 +40,7 @@ class AttemptForm extends React.Component {
   onSubmit = event => {
     event.preventDefault();
     const target = event.target;
+    this.props.onSave && this.props.onSave(true);
     this.setState(
       {
         code: this.formatCode()
@@ -66,7 +67,15 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const { attempt, challenge, path, isComplete, error, onClick } = this.props;
+    const {
+      attempt,
+      challenge,
+      path,
+      isSaving,
+      isComplete,
+      error,
+      onClick
+    } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input type="hidden" name="path" defaultValue={path} />
@@ -133,23 +142,29 @@ class AttemptForm extends React.Component {
             )}
           </FormRow>
 
-          {!isComplete && (
-            <FormRow>
-              <button
-                type="submit"
-                style={{
-                  width: '100%',
-                  appearance: 'none',
-                  border: 0,
-                  background: 'none'
-                }}
+          <FormRow>
+            <button
+              type="submit"
+              disabled={isSaving || isComplete}
+              style={{
+                width: '100%',
+                appearance: 'none',
+                border: 0,
+                background: 'none'
+              }}
+            >
+              <wds-button
+                type={isSaving || isComplete ? '' : 'dark'}
+                color={isComplete ? 'green' : ''}
               >
-                <wds-button type="dark">
-                  Submit Try #{attempt ? attempt.tries + 1 : 1}
-                </wds-button>
-              </button>
-            </FormRow>
-          )}
+                {isSaving
+                  ? `Submitting...`
+                  : isComplete
+                  ? `Completed!`
+                  : `Submit Try #${attempt ? attempt.tries + 1 : 1}`}
+              </wds-button>
+            </button>
+          </FormRow>
         </div>
       </form>
     );
@@ -168,8 +183,10 @@ AttemptForm.propTypes = {
     hints: PropTypes.arrayOf(PropTypes.string)
   }),
   path: PropTypes.string,
+  isSaving: PropTypes.bool,
   isComplete: PropTypes.bool,
   error: PropTypes.string,
   onSubmit: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onSave: PropTypes.func
 };
