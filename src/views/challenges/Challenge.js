@@ -56,7 +56,7 @@ class Challenge extends React.Component {
                   <Par>{challenge.par}</Par>
                   <FirebaseAuth>
                     {({ auth }) =>
-                      auth && auth.admin ? (
+                      auth && auth.admin && auth.uid === challenge.createdBy ? (
                         <InternalLink to={`/${challenge.slug}/edit`}>
                           <wds-button>Edit Challenge</wds-button>
                         </InternalLink>
