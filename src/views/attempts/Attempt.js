@@ -160,29 +160,7 @@ class Attempt extends React.Component {
                                     html={challenge.html}
                                   />
                                   <DiffOutput
-                                    target={challenge.snapshot}
-                                    match={attempt.snapshot}
-                                    options={{ threshold: 0.5 }}
-                                    onDiffResult={(totalPixels, diffPixels) => {
-                                      auth.uid === attempt.createdBy &&
-                                        saveAttempt(challenge.id, {
-                                          ...attempt,
-                                          ...{
-                                            diff: { totalPixels, diffPixels }
-                                          }
-                                        }).then(attempt =>
-                                          this.setState({
-                                            complete: scoreTotal(
-                                              attempt,
-                                              challenge
-                                            ).isComplete(),
-                                            diff: {
-                                              totalPixels,
-                                              diffPixels
-                                            }
-                                          })
-                                        );
-                                    }}
+                                    snapshot={attempt.diff.snapshot}
                                   />
                                   {auth.uid === attempt.createdBy ? (
                                     <AttemptForm
