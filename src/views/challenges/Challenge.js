@@ -74,7 +74,9 @@ class Challenge extends React.Component {
                   <ChallengeOutput challenge={challenge} />
                 </div>
                 <ChallengeMarkup html={challenge.html} />
-                <AttemptList challenge={challenge} />
+                <FirebaseAuth>
+                  {({ auth }) => auth && <AttemptList challenge={challenge} />}
+                </FirebaseAuth>
               </div>
             );
           }}
