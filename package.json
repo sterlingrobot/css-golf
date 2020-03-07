@@ -35,6 +35,7 @@
     "start": "sh -ac '. ./.env; firebase use ${REACT_APP_ENV} && npx react-scripts start'",
     "build": "react-scripts build",
     "build:functions": "cd functions && yarn install",
+    "migration:run": "./scripts/run-migration.js",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"**/*.js\" .",
     "lint:prettier": "prettier \"**/*.{js,scss}\" --check --ignore-path .eslintignore",
