@@ -1,5 +1,5 @@
 import pixelmatch from 'pixelmatch';
-import generateDiffData from '../../actions/generateDiffData';
+import generateDiffData from './generateDiffData';
 
 const DIFF_OPTIONS = {
   threshold: 0.1,

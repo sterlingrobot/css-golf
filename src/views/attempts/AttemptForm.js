@@ -30,7 +30,7 @@ import editor from '../../styles/editor';
 import 'prismjs/themes/prism.css';
 import '../../styles/form.scss';
 import '../../styles/editor.scss';
-import '../../styles/challenge';
+import '../../styles/output';
 
 class AttemptForm extends React.Component {
   state = {
