@@ -166,7 +166,6 @@ class Attempt extends React.Component {
                                     <AttemptForm
                                       attempt={attempt}
                                       challenge={challenge}
-                                      path={attempt.path}
                                       error={this.state.error}
                                       isSaving={this.state.saving}
                                       isComplete={this.state.complete}
