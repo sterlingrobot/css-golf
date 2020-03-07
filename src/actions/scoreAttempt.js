@@ -1,3 +1,4 @@
+const MAX_TRIES = 10;
 const PAR_THRESHOLD = 90;
 
 const WEIGHTS = {
@@ -80,11 +81,13 @@ export const scoreTotal = (attempt, challenge) => {
 
   return {
     toNumber: (places = 0) => score.toFixed(places),
-    isComplete: () => score >= PAR_THRESHOLD,
+    isComplete: () => score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES,
     toPar: () => {
       const overUnder = attempt.tries - challenge.par;
       const sign = overUnder > 0 ? '+' : '';
-      return score >= PAR_THRESHOLD ? `${sign}${overUnder}` : 'INCOMPLETE';
+      return score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES
+        ? `${sign}${overUnder}`
+        : 'INCOMPLETE';
     }
   };
 };
