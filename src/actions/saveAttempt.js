@@ -3,6 +3,7 @@ import Firebase from 'firebase/app';
 import compileScss from './compileScss';
 import generateSnapshot from './generateSnapshot';
 import lintStyles from './lintStyles';
+import diffAttemptSnapshot from './diffAttemptSnapshot';
 
 import {
   prepareDocForCreate,
@@ -51,6 +52,12 @@ const saveAttempt = async (challengeId, values, record = false) => {
     })
     .then(snapshot => {
       attempt.snapshot = snapshot;
+      return diffAttemptSnapshot(challenge.snapshot, attempt.snapshot, {
+        threshold: 0.5
+      });
+    })
+    .then(diff => {
+      attempt.diff = diff;
       return doc.update(prepareDocForUpdate({ ...attempt, path: doc.path }));
     })
     .then(() => Promise.resolve({ ...attempt, path: doc.path }))
