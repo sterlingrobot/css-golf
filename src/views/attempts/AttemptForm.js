@@ -23,6 +23,7 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import Modal from '../misc/Modal';
 import SCSSvariables from '../misc/SCSSvariables';
 import CSSvariables from '../misc/CSSvariables';
+import Error from '../misc/Error';
 
 import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
@@ -77,7 +78,11 @@ class AttemptForm extends React.Component {
     } = this.props;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
-        <input type="hidden" name="path" defaultValue={attempt.path} />
+        <input
+          type="hidden"
+          name="path"
+          defaultValue={attempt && attempt.path}
+        />
         <div className="form-wrap">
           {!isComplete ? (
             <div className="attempt-help">
@@ -131,14 +136,16 @@ class AttemptForm extends React.Component {
                 />
               </div>
             )}
-            {error && (
+            {error && error.message ? (
+              <Error error={error} />
+            ) : error ? (
               <div className="editor-error">
                 <wds-icon type="warn" onClick={onClick}>
                   close
                 </wds-icon>
                 {error}
               </div>
-            )}
+            ) : null}
           </FormRow>
 
           <FormRow>
@@ -184,7 +191,7 @@ AttemptForm.propTypes = {
   }),
   isSaving: PropTypes.bool,
   isComplete: PropTypes.bool,
-  error: PropTypes.string,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Error)]),
   onSubmit: PropTypes.func,
   onClick: PropTypes.func,
   onSave: PropTypes.func
