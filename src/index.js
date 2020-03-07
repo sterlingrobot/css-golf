@@ -17,8 +17,10 @@ import '@wisetail/tokens/build/css/fonts.css';
 import '@wisetail/tokens/build/css/variables.css';
 import './styles/global.scss';
 
+require('dotenv').config();
+
 console.log('create-react-app env:', process.env.NODE_ENV);
-console.log('firefly project:', process.env.REACT_APP_ENV);
+console.log('firebase project env:', process.env.REACT_APP_ENV);
 
 // connect our app to firebase
 const dbConfig = {
