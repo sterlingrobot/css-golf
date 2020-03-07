@@ -5,7 +5,7 @@ import { OutputImg } from '../../styles/output';
 
 const DiffOutput = ({ snapshot }) => (
   <div className="diff-output">
-    <OutputImg src={snapshot} />;
+    <OutputImg src={snapshot} />
   </div>
 );
 
