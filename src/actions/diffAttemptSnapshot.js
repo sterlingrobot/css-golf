@@ -31,7 +31,11 @@ const diffPixels = ({ target, match, width, height, options }) => {
       ...options
     }
   );
-  return Promise.resolve({ totalPixels, diffPixels }, imgDataOutput);
+  return Promise.resolve({
+    totalPixels,
+    diffPixels,
+    snapshot: writeDiffToSnapshot(imgDataOutput)
+  });
 };
 
 const writeDiffToSnapshot = imgDataOutput => {
@@ -47,13 +51,8 @@ const writeDiffToSnapshot = imgDataOutput => {
 };
 
 const diffAttemptSnapshot = (target, match, options) =>
-  generateDiffData(target, match)
-    .then(imgData => diffPixels({ ...imgData, ...{ options } }))
-    .then((diff, imgDataOutput) =>
-      Promise.resolve({
-        diff,
-        snapshot: writeDiffToSnapshot(imgDataOutput)
-      })
-    );
+  generateDiffData(target, match).then(imgData =>
+    diffPixels({ ...imgData, ...{ options } })
+  );
 
 export default diffAttemptSnapshot;
