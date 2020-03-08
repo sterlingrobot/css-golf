@@ -45,7 +45,6 @@ const update = async attempt => {
 console.log(chalk.blue(`\nRe-scoring all attempts...`));
 
 db.collection('attempts')
-  .limit(1)
   .get()
   .then(snap => {
     return Promise.map(snap.docs, update, {
