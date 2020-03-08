@@ -36,9 +36,7 @@ class Attempt extends React.Component {
 
   state = {
     error: null,
-    diff: null,
-    saving: false,
-    complete: false
+    saving: false
   };
 
   resetError(_e) {
@@ -50,15 +48,7 @@ class Attempt extends React.Component {
     return (
       <Page>
         <FirebaseAuth>
-          {({ isLoading, error, auth }) => {
-            if (error) {
-              return <Error error={error} />;
-            }
-
-            if (isLoading) {
-              return <div>loading...</div>;
-            }
-
+          {({ auth }) => {
             if (!auth) {
               return (
                 <div>
@@ -168,7 +158,7 @@ class Attempt extends React.Component {
                                       challenge={challenge}
                                       error={this.state.error}
                                       isSaving={this.state.saving}
-                                      isComplete={this.state.complete}
+                                      isComplete={attempt.score.complete}
                                       onSave={saving =>
                                         this.setState({ saving })
                                       }
@@ -215,6 +205,5 @@ class Attempt extends React.Component {
 export default Attempt;
 
 Attempt.propTypes = {
-  code: PropTypes.string,
   match: PropTypes.shape(Route.match)
 };
