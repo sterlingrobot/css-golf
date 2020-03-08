@@ -3,7 +3,10 @@ const admin = require('firebase-admin');
 const Promise = require('bluebird');
 const chalk = require('chalk');
 
-import { scoreTotal } from '../../src/actions/scoreAttempt';
+import {
+  scoreTotal,
+  calculateEfficiency
+} from '../../src/actions/scoreAttempt';
 
 admin.initializeApp();
 
@@ -28,6 +31,7 @@ const update = async attempt => {
   const ref = db.collection('attempts').doc(attempt.id);
   const challenge = challenges[attempt.data().challenge];
 
+  const efficiencyCalc = calculateEfficiency(attempt.data(), challenge.data());
   const score = scoreTotal(attempt.data(), challenge.data());
 
   const attemptScore = {
@@ -39,7 +43,10 @@ const update = async attempt => {
     complete: score.isComplete()
   };
 
-  return batch.update(ref, { score: attemptScore });
+  return batch.update(ref, {
+    efficiency: efficiencyCalc,
+    score: attemptScore
+  });
 };
 
 console.log(chalk.blue(`\nRe-scoring all attempts...`));
