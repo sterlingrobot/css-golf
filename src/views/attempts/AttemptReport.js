@@ -1,22 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  weightedAmount,
-  calculateEfficiency,
-  scoreDiff,
-  scoreLint,
-  scoreEfficiency,
-  scoreTotal
-} from '../../actions/scoreAttempt';
+import { weightedAmount } from '../../actions/scoreAttempt';
 
 import { ReportTable } from '../../styles/report';
 import '../../styles/report.scss';
 
-const AttemptReport = ({ title, attempt, challenge }) => (
+const AttemptReport = ({ title, attempt }) => (
   <wds-panel className="attempt-report" title={title}>
     <div slot="header">
-      <h2>{scoreTotal(attempt, challenge).toNumber(2)}</h2>
+      <h2>{attempt.score.total}</h2>
     </div>
     <ReportTable>
       <thead></thead>
@@ -62,7 +55,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
             <td className="score">{attempt.score.lint}</td>
           </tr>
         )}
-        {attempt.style && challenge.style && (
+        {attempt.efficiency && (
           <tr>
             <th>
               <h3>The Green</h3>
@@ -73,11 +66,8 @@ const AttemptReport = ({ title, attempt, challenge }) => (
               <ul>
                 <li>
                   {(() => {
-                    const { target, match } = calculateEfficiency(
-                      attempt,
-                      challenge
-                    );
-                    const charDiff = match.length - target.length;
+                    const { target, match } = attempt.efficiency;
+                    const charDiff = match - target;
                     return `${Math.abs(charDiff)} characters ${
                       charDiff >= 0 ? 'more' : 'less'
                     } than challenge`;
@@ -103,11 +93,16 @@ AttemptReport.propTypes = {
     score: PropTypes.shape({
       diff: PropTypes.number,
       lint: PropTypes.number,
-      efficiency: PropTypes.number
+      efficiency: PropTypes.number,
+      total: PropTypes.number
     }),
     diff: PropTypes.shape({
       totalPixels: PropTypes.number,
       diffPixels: PropTypes.number
+    }),
+    efficiency: PropTypes.shape({
+      target: PropTypes.number,
+      match: PropTypes.number
     }),
     lint: PropTypes.shape({
       errored: PropTypes.bool,
@@ -119,9 +114,5 @@ AttemptReport.propTypes = {
         })
       )
     })
-  }),
-  challenge: PropTypes.shape({
-    id: PropTypes.string,
-    style: PropTypes.string
   })
 };

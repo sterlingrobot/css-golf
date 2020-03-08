@@ -19,7 +19,6 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import { scoreTotal } from '../../actions/scoreAttempt';
 
 import { Page } from '../../styles/layout';
 import { InternalLink } from '../../styles/links';
@@ -112,7 +111,6 @@ class Attempt extends React.Component {
                               }
 
                               const user = data;
-                              const score = scoreTotal(attempt, challenge);
 
                               return (
                                 <div className="attempt-container">
@@ -140,7 +138,7 @@ class Attempt extends React.Component {
                                       </small>
                                     </h2>
                                     <AttemptScore
-                                      score={score.toPar()}
+                                      score={attempt.score.par}
                                       style={{ marginLeft: 'auto' }}
                                     />
                                   </header>
@@ -168,7 +166,10 @@ class Attempt extends React.Component {
                                             this.setState({ saving: false })
                                           )
                                           .catch(({ error }) =>
-                                            this.setState({ error })
+                                            this.setState({
+                                              error,
+                                              saving: false
+                                            })
                                           )
                                       }
                                       onClick={this.resetError}
@@ -182,7 +183,6 @@ class Attempt extends React.Component {
                                   <AttemptReport
                                     title="Score"
                                     attempt={attempt}
-                                    challenge={challenge}
                                   ></AttemptReport>
                                 </div>
                               );

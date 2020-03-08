@@ -46,18 +46,15 @@ export const calculateEfficiency = (match, target) => {
       ? match.style.replace(`#attempt-${match.id}`, '').replace(/\s/g, '')
       : '';
   return {
-    target: strippedTarget,
-    match: strippedMatch
+    target: strippedTarget.length,
+    match: strippedMatch.length
   };
 };
 
 export const scoreEfficiency = efficiency => {
   const score =
     efficiency &&
-    100 -
-      ((efficiency.match.length - efficiency.target.length) /
-        efficiency.target.length) *
-        100;
+    100 - ((efficiency.match - efficiency.target) / efficiency.target) * 100;
   return {
     name: 'efficiency',
     score,
