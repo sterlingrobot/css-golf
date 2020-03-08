@@ -7,6 +7,9 @@ const WEIGHTS = {
   efficiency: 1
 };
 
+const toNumber = (num, places) =>
+  +(Math.round(num + `e+${places}`) + `e-${places}`);
+
 export const weightedAmount = name => {
   const weightTotal = Object.values(WEIGHTS).reduce(
     (acc, curr) => acc + curr,
@@ -20,7 +23,7 @@ export const scoreDiff = diff => {
   return {
     name: 'diff',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
   };
 };
 
@@ -29,7 +32,7 @@ export const scoreLint = lint => {
   return {
     name: 'lint',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
   };
 };
 
@@ -58,18 +61,22 @@ export const scoreEfficiency = efficiency => {
   return {
     name: 'efficiency',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
   };
 };
 
 export const scoreTotal = (attempt, challenge) => {
   let average = 0;
 
-  const scores = [
-    scoreDiff(attempt.diff),
-    scoreLint(attempt.lint),
-    scoreEfficiency(calculateEfficiency(attempt, challenge))
-  ].filter(num => !!num.score);
+  const diffScore = scoreDiff(attempt.diff);
+  const lintScore = scoreLint(attempt.lint);
+  const efficiencyScore = scoreEfficiency(
+    calculateEfficiency(attempt, challenge)
+  );
+
+  const scores = [diffScore, lintScore, efficiencyScore].filter(
+    num => !!num.score
+  );
 
   const score =
     scores.reduce((acc, curr) => {
@@ -80,7 +87,10 @@ export const scoreTotal = (attempt, challenge) => {
     }, 0) / average;
 
   return {
-    toNumber: (places = 0) => score.toFixed(places),
+    diffScore,
+    lintScore,
+    efficiencyScore,
+    toNumber: (places = 0) => toNumber(score, places),
     isComplete: () => score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES,
     toPar: () => {
       const overUnder = attempt.tries - challenge.par;
