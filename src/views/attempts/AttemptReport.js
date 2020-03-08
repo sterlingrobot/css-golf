@@ -36,7 +36,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
                 </li>
               </ul>
             </td>
-            <td className="score">{scoreDiff(attempt.diff).toNumber(2)}</td>
+            <td className="score">{attempt.score.diff}</td>
           </tr>
         )}
         {attempt.lint && (
@@ -59,7 +59,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
                 )}
               </ul>
             </td>
-            <td className="score">{scoreLint(attempt.lint).toNumber(2)}</td>
+            <td className="score">{attempt.score.lint}</td>
           </tr>
         )}
         {attempt.style && challenge.style && (
@@ -85,11 +85,7 @@ const AttemptReport = ({ title, attempt, challenge }) => (
                 </li>
               </ul>
             </td>
-            <td className="score">
-              {scoreEfficiency(
-                calculateEfficiency(attempt, challenge)
-              ).toNumber(2)}
-            </td>
+            <td className="score">{attempt.score.efficiency}</td>
           </tr>
         )}
       </tbody>
@@ -104,6 +100,11 @@ AttemptReport.propTypes = {
   attempt: PropTypes.shape({
     id: PropTypes.string,
     style: PropTypes.string,
+    score: PropTypes.shape({
+      diff: PropTypes.number,
+      lint: PropTypes.number,
+      efficiency: PropTypes.number
+    }),
     diff: PropTypes.shape({
       totalPixels: PropTypes.number,
       diffPixels: PropTypes.number
