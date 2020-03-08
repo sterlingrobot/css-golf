@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /* eslint-disable no-console */
 const admin = require('firebase-admin');
 const Promise = require('bluebird');
@@ -32,7 +31,7 @@ const update = attempt => {
     challenges[attempt.data().challenge]
   ])
     .then(([attempt, challenge]) =>
-      diffAttemptSnapshot(challenge.snapshot, attempt.snapshot, {
+      diffAttemptSnapshot(challenge.data().snapshot, attempt.data().snapshot, {
         threshold: 0.5
       })
     )
@@ -51,7 +50,7 @@ const update = attempt => {
     });
 };
 
-console.log(chalk.blue(`Generating diff snapshots...`));
+console.log(chalk.blue(`\nGenerating diff snapshots...`));
 
 // if you're collection is big, you might want to paginate the query
 // so you don't download the entire thing at once:
