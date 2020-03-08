@@ -26,7 +26,7 @@ if (!fs.existsSync(filename)) {
 }
 
 function execute(migrationScript) {
-  return new Promise(resolve => {
+  return new Promise((resolve, _reject) => {
     const migrate = exec(
       `node -r esm ${migrationScript}`,
       (error, stdout, stderr) => {
@@ -34,11 +34,13 @@ function execute(migrationScript) {
           console.log(error.stack);
         }
         console.log(`${migration}: ${stdout}`);
-        console.log(`${migration} | Error: ${stderr}`);
+        if (stderr) {
+          console.log(`${migration} | Error: ${stderr}`);
+        }
       }
     );
     migrate.on('exit', code => resolve(code));
-  });
+  }).catch(error => console.log(error));
 }
 
 execute(filename);
