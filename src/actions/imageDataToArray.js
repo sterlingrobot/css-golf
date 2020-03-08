@@ -1,12 +1,12 @@
-const Canvas = require('canvas');
+const { createCanvas, Image } = require('canvas');
 
 const imgToUint8Array = (data, width, height) => {
-  const canvas = new Canvas(width, height);
+  const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
   return new Promise((resolve, _reject) => {
     //create image, set src to base64 and onload draw to canvas
-    const image = new Canvas.Image();
+    const image = new Image();
     image.onload = (ctx => {
       return function() {
         ctx.drawImage(this, 0, 0);

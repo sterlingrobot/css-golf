@@ -1,3 +1,4 @@
+import { createCanvas, createImageData } from 'canvas';
 import pixelmatch from 'pixelmatch';
 import generateDiffData from './generateDiffData';
 
@@ -18,7 +19,7 @@ const getTotalNonAlphaPixels = imgData => {
 };
 
 const diffPixels = ({ target, match, width, height, options }) => {
-  const imgDataOutput = new ImageData(width, height);
+  const imgDataOutput = createImageData(width, height);
   let totalPixels = getTotalNonAlphaPixels(target);
   const diffPixels = pixelmatch(
     target,
@@ -39,11 +40,8 @@ const diffPixels = ({ target, match, width, height, options }) => {
 };
 
 const writeDiffToSnapshot = imgDataOutput => {
-  const canvas = document.createElement('canvas');
+  const canvas = createCanvas(imgDataOutput.width, imgDataOutput.height);
   const ctx = canvas.getContext('2d');
-
-  canvas.width = imgDataOutput.width;
-  canvas.height = imgDataOutput.height;
 
   ctx.putImageData(imgDataOutput, 0, 0);
 
