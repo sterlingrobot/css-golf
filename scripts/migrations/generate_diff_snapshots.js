@@ -36,6 +36,7 @@ const update = attempt => {
       })
     )
     .then(diff => {
+      // TODO: not working - canvas throws a fatal error on generateDiffData ?!
       // attempt.update({ diff });
       // console.log(chalk.green(`✔ Attempt ${attempt.id} diff snapshot saved.`));
       console.log(
