@@ -1,4 +1,4 @@
-const { createCanvas, Image } = require('canvas');
+import Canvas, { createCanvas } from 'canvas';
 
 const imgToUint8Array = (data, width, height) => {
   const canvas = createCanvas(width, height);
@@ -6,7 +6,8 @@ const imgToUint8Array = (data, width, height) => {
 
   return new Promise((resolve, _reject) => {
     //create image, set src to base64 and onload draw to canvas
-    const image = new Image();
+    const image =
+      'undefined' === typeof Image ? new Canvas.Image() : new Image();
     image.onload = (ctx => {
       return function() {
         ctx.drawImage(this, 0, 0);
