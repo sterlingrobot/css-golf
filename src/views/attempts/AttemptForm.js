@@ -68,14 +68,8 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const {
-      attempt,
-      challenge,
-      isSaving,
-      isComplete,
-      error,
-      onClick
-    } = this.props;
+    const { attempt, challenge, isSaving, error, onClick } = this.props;
+    const isComplete = attempt && attempt.score && attempt.score.complete;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input
@@ -183,7 +177,10 @@ AttemptForm.propTypes = {
   attempt: PropTypes.shape({
     path: PropTypes.string,
     tries: PropTypes.number,
-    css: PropTypes.string
+    css: PropTypes.string,
+    score: PropTypes.shape({
+      complete: PropTypes.bool
+    })
   }),
   challenge: PropTypes.shape({
     html: PropTypes.string,
