@@ -68,14 +68,14 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const { attempt, challenge, isSaving, error, onClick } = this.props;
+    const { path, attempt, challenge, isSaving, error, onClick } = this.props;
     const isComplete = attempt && attempt.score && attempt.score.complete;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
         <input
           type="hidden"
           name="path"
-          defaultValue={attempt && attempt.path}
+          defaultValue={(attempt && attempt.path) || path}
         />
         <div className="form-wrap">
           {!isComplete ? (
@@ -174,6 +174,7 @@ class AttemptForm extends React.Component {
 export default AttemptForm;
 
 AttemptForm.propTypes = {
+  path: PropTypes.string,
   attempt: PropTypes.shape({
     path: PropTypes.string,
     tries: PropTypes.number,
