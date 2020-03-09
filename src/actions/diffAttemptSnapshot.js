@@ -7,20 +7,23 @@ const DIFF_OPTIONS = {
   diffMask: true
 };
 
-const getTotalNonAlphaPixels = imgData => {
+const getTotalNonAlphaPixels = (imgData, width) => {
+  let column = 0,
+    row = 0;
   const all = imgData.length;
-  let total = 0;
   for (let i = 0; i < all; i += 4) {
-    if (imgData[i + 3] > 0) {
-      total++;
+    let alpha = imgData[i + 3];
+    if (alpha > 0) {
+      column = Math.max(column, (i % width) / 4);
+      row = Math.max(row, Math.floor(i / width) / 4);
     }
   }
-  return total;
+  return column * row;
 };
 
 const diffPixels = ({ target, match, width, height, options }) => {
   const imgDataOutput = createImageData(width, height);
-  let totalPixels = getTotalNonAlphaPixels(target);
+  let totalPixels = getTotalNonAlphaPixels(target, width);
   const diffPixels = pixelmatch(
     target,
     match,
