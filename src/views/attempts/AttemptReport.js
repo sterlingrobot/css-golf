@@ -32,6 +32,35 @@ const AttemptReport = ({ title, attempt }) => (
             <td className="score">{attempt.score.diff}</td>
           </tr>
         )}
+        {attempt.utility && (
+          <tr>
+            <th>
+              <h3>The Fairway</h3>
+              Utility Result
+              <small>Worth {weightedAmount('utility').toFixed(2)}%</small>
+            </th>
+            <td>
+              <ul>
+                <li>
+                  {(() => {
+                    const { target, match } = attempt.utility;
+                    const varDiff = match - target;
+                    return `Used ${
+                      varDiff === 0 ? '' : Math.abs(varDiff)
+                    } variables ${
+                      varDiff === 0
+                        ? 'similar to'
+                        : varDiff > 0
+                        ? 'more than'
+                        : 'less than'
+                    }  challenge`;
+                  })()}
+                </li>
+              </ul>
+            </td>
+            <td className="score">{attempt.score.utility}</td>
+          </tr>
+        )}
         {attempt.lint && (
           <tr>
             <th>
@@ -94,6 +123,7 @@ AttemptReport.propTypes = {
       diff: PropTypes.number,
       lint: PropTypes.number,
       efficiency: PropTypes.number,
+      utility: PropTypes.number,
       total: PropTypes.number
     }),
     diff: PropTypes.shape({
@@ -113,6 +143,10 @@ AttemptReport.propTypes = {
           text: PropTypes.string
         })
       )
+    }),
+    utility: PropTypes.shape({
+      target: PropTypes.number,
+      match: PropTypes.number
     })
   })
 };

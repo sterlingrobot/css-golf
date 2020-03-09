@@ -9,7 +9,7 @@ import {
   prepareDocForCreate,
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
-import { scoreTotal, scoreEfficiency } from './scoreAttempt';
+import { scoreTotal, scoreEfficiency, scoreUtility } from './scoreAttempt';
 
 const saveAttempt = async (challengeId, values, record = false) => {
   const attempt = { ...values, challenge: challengeId };
@@ -60,11 +60,13 @@ const saveAttempt = async (challengeId, values, record = false) => {
     .then(diff => {
       attempt.diff = diff;
       attempt.efficiency = scoreEfficiency(attempt, challenge);
+      attempt.utility = scoreUtility(attempt, challenge);
       const score = scoreTotal(attempt, challenge);
       attempt.score = {
         diff: score.diffScore.toNumber(2),
         lint: score.lintScore.toNumber(2),
         efficiency: score.efficiencyScore.toNumber(2),
+        utility: score.utilityScore.toNumber(2),
         total: score.toNumber(2),
         par: score.toPar(),
         complete: score.isComplete()

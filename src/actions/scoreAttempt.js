@@ -2,9 +2,10 @@ const MAX_TRIES = 10;
 const PAR_THRESHOLD = 90;
 
 const WEIGHTS = {
-  diff: 6,
+  diff: 12,
   lint: 3,
-  efficiency: 1
+  efficiency: 1,
+  utility: 4
 };
 
 const toNumber = (num, places) =>
@@ -63,6 +64,30 @@ export const scoreEfficiency = efficiency => {
   };
 };
 
+export const calculateUtility = (attempt, challenge) => {
+  let targetMatches = 0,
+    matchMatches = 0;
+  const VAR_REGEXP = /(var\(--|\$)[a-z]+/g;
+  while (VAR_REGEXP.exec(challenge.css)) targetMatches++;
+  while (VAR_REGEXP.exec(attempt.css)) matchMatches++;
+  return {
+    match: matchMatches,
+    target: targetMatches
+  };
+};
+
+export const scoreUtility = utility => {
+  const score =
+    utility && utility.target
+      ? 100 - ((utility.target - utility.match) / utility.target) * 20
+      : null;
+  return {
+    name: 'utility',
+    score,
+    toNumber: places => toNumber(score, places)
+  };
+};
+
 export const scoreTotal = (attempt, challenge) => {
   let average = 0;
 
@@ -71,8 +96,9 @@ export const scoreTotal = (attempt, challenge) => {
   const efficiencyScore = scoreEfficiency(
     calculateEfficiency(attempt, challenge)
   );
+  const utilityScore = scoreUtility(calculateUtility(attempt, challenge));
 
-  const scores = [diffScore, lintScore, efficiencyScore].filter(
+  const scores = [diffScore, lintScore, efficiencyScore, utilityScore].filter(
     num => !!num.score
   );
 
@@ -88,6 +114,7 @@ export const scoreTotal = (attempt, challenge) => {
     diffScore,
     lintScore,
     efficiencyScore,
+    utilityScore,
     toNumber: (places = 0) => toNumber(score, places),
     isComplete: () => score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES,
     toPar: () => {

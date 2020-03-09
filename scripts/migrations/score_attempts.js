@@ -5,7 +5,8 @@ const chalk = require('chalk');
 
 import {
   scoreTotal,
-  calculateEfficiency
+  calculateEfficiency,
+  calculateUtility
 } from '../../src/actions/scoreAttempt';
 
 admin.initializeApp();
@@ -32,12 +33,14 @@ const update = async attempt => {
   const challenge = challenges[attempt.data().challenge];
 
   const efficiencyCalc = calculateEfficiency(attempt.data(), challenge.data());
+  const utilityCalc = calculateUtility(attempt.data(), challenge.data());
   const score = scoreTotal(attempt.data(), challenge.data());
 
   const attemptScore = {
     diff: score.diffScore.toNumber(2),
     lint: score.lintScore.toNumber(2),
     efficiency: score.efficiencyScore.toNumber(2),
+    utility: score.utilityScore.toNumber(2),
     total: score.toNumber(2),
     par: score.toPar(),
     complete: score.isComplete()
@@ -45,6 +48,7 @@ const update = async attempt => {
 
   return batch.update(ref, {
     efficiency: efficiencyCalc,
+    utility: utilityCalc,
     score: attemptScore
   });
 };
