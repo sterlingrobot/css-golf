@@ -138,7 +138,7 @@ class Attempt extends React.Component {
                                       </small>
                                     </h2>
                                     <AttemptScore
-                                      score={attempt.score.par}
+                                      score={attempt.score && attempt.score.par}
                                       style={{ marginLeft: 'auto' }}
                                     />
                                   </header>
@@ -148,7 +148,9 @@ class Attempt extends React.Component {
                                     html={challenge.html}
                                   />
                                   <DiffOutput
-                                    snapshot={attempt.diff.snapshot}
+                                    snapshot={
+                                      attempt.diff && attempt.diff.snapshot
+                                    }
                                   />
                                   {auth.uid === attempt.createdBy ? (
                                     <AttemptForm
@@ -156,7 +158,9 @@ class Attempt extends React.Component {
                                       challenge={challenge}
                                       error={this.state.error}
                                       isSaving={this.state.saving}
-                                      isComplete={attempt.score.complete}
+                                      isComplete={
+                                        attempt.score && attempt.score.complete
+                                      }
                                       onSave={saving =>
                                         this.setState({ saving })
                                       }

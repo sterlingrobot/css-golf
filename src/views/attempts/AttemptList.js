@@ -105,7 +105,11 @@ const AttemptList = ({ challenge = null, user = null }) => (
                                   <div className="list-item-icons"></div>
                                   <div className="list-item-score">
                                     {attempt && challenge && (
-                                      <AttemptScore score={attempt.score.par} />
+                                      <AttemptScore
+                                        score={
+                                          attempt.score && attempt.score.par
+                                        }
+                                      />
                                     )}
                                   </div>
                                 </>
