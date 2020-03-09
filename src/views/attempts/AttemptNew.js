@@ -104,7 +104,7 @@ class AttemptNew extends React.Component {
                             //  created the doc, so store that in state
                             //  to pass back into the form values
                             .catch(({ path, error }) =>
-                              this.setState({ path, error })
+                              this.setState({ path, error, saving: false })
                             )
                         }
                         onClick={this.resetError}
