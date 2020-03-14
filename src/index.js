@@ -28,7 +28,14 @@ const dbConfig = {
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
 };
+
 Firebase.initializeApp(dbConfig);
+
+Firebase.firestore().settings({
+  cacheSizeBytes: Firebase.firestore.CACHE_SIZE_UNLIMITED
+});
+
+Firebase.firestore().enablePersistence();
 
 // render the App component to our document root with React
 ReactDOM.render(<App />, document.getElementById('root'));
