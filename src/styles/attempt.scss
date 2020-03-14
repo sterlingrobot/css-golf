@@ -83,7 +83,7 @@
   }
 }
 
-.attempt-actions {
+.form-actions {
   margin: 0 auto;
 }
 
@@ -97,19 +97,6 @@
   > * {
     flex: 1 1 20em;
     margin: 0 0.5rem 1rem;
-  }
-}
-
-.attempts-list {
-  margin: 2rem 0;
-
-  h3 {
-    font-weight: normal;
-    font-style: italic;
-  }
-
-  p {
-    padding: 1rem;
   }
 }
 

@@ -68,7 +68,15 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const { path, attempt, challenge, isSaving, error, onClick } = this.props;
+    const {
+      path,
+      attempt,
+      challenge,
+      isSaving,
+      error,
+      onClick,
+      onDelete
+    } = this.props;
     const isComplete = attempt && attempt.score && attempt.score.complete;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
@@ -142,7 +150,14 @@ class AttemptForm extends React.Component {
             ) : null}
           </FormRow>
 
-          <FormRow>
+          <FormRow className="form-actions">
+            <wds-button
+              className="delete-button"
+              color="red"
+              onClick={onDelete}
+            >
+              Delete
+            </wds-button>
             <button
               type="submit"
               disabled={isSaving || isComplete}
@@ -191,6 +206,7 @@ AttemptForm.propTypes = {
   isComplete: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Error)]),
   onSubmit: PropTypes.func,
+  onDelete: PropTypes.func,
   onClick: PropTypes.func,
   onSave: PropTypes.func
 };

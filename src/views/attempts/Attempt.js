@@ -19,6 +19,7 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
+import deleteAttempt from '../../actions/deleteChallenge';
 
 import { Page } from '../../styles/layout';
 import { InternalLink } from '../../styles/links';
@@ -43,7 +44,7 @@ class Attempt extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, history } = this.props;
     return (
       <Page>
         <FirebaseAuth>
@@ -152,7 +153,8 @@ class Attempt extends React.Component {
                                       attempt.diff && attempt.diff.snapshot
                                     }
                                   />
-                                  {auth.uid === attempt.createdBy ? (
+                                  {auth.uid === attempt.createdBy ||
+                                  auth.admin ? (
                                     <AttemptForm
                                       attempt={attempt}
                                       challenge={challenge}
@@ -175,6 +177,11 @@ class Attempt extends React.Component {
                                               saving: false
                                             })
                                           )
+                                      }
+                                      onDelete={() =>
+                                        deleteAttempt(attempt).then(() =>
+                                          history.push(`/${challenge.slug}`)
+                                        )
                                       }
                                       onClick={this.resetError}
                                     />
@@ -209,5 +216,6 @@ class Attempt extends React.Component {
 export default Attempt;
 
 Attempt.propTypes = {
-  match: PropTypes.shape(Route.match)
+  match: PropTypes.shape(Route.match),
+  history: PropTypes.shape(Route.history)
 };
