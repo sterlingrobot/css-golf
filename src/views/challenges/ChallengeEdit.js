@@ -21,6 +21,7 @@ class ChallengeEdit extends React.Component {
   }
 
   state = {
+    deleting: false,
     error: null
   };
 
@@ -45,8 +46,12 @@ class ChallengeEdit extends React.Component {
               return <p>loading...</p>;
             }
 
-            if (data.length === 0) {
+            if (data.length === 0 && !this.state.deleting) {
               return <Error />;
+            }
+
+            if (this.state.deleting) {
+              return <p>Redirecting...</p>;
             }
 
             const challenge = data[0];
@@ -71,7 +76,9 @@ class ChallengeEdit extends React.Component {
                     );
                   }}
                   onDelete={() =>
-                    deleteChallenge(challenge).then(() => history.push(`/`))
+                    this.setState({ deleting: true }, () =>
+                      deleteChallenge(challenge).then(() => history.push(`/`))
+                    )
                   }
                   onClick={this.resetError}
                 />
