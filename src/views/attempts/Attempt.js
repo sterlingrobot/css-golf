@@ -19,7 +19,7 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import deleteAttempt from '../../actions/deleteChallenge';
+import deleteAttempt from '../../actions/deleteAttempt';
 
 import { Page } from '../../styles/layout';
 import { InternalLink } from '../../styles/links';
