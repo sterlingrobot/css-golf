@@ -89,18 +89,23 @@ class AttemptForm extends React.Component {
           {!isComplete ? (
             <div className="attempt-help">
               {challenge.hints &&
-                challenge.hints.map((hint, i) => (
-                  <Modal
-                    key={i}
-                    trigger={{
-                      icon: 'lightbulb_outline',
-                      label: `Hint #${i + 1}`
-                    }}
-                    title={`Hint #${i + 1}`}
-                  >
-                    <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
-                  </Modal>
-                ))}
+                challenge.hints
+                  .filter((hint, i) =>
+                    attempt ? i + 1 <= attempt.tries : i === 0
+                  )
+                  .map((hint, i) => (
+                    <Modal
+                      key={i}
+                      className="attempt-hint"
+                      trigger={{
+                        icon: 'lightbulb_outline',
+                        label: `Hint #${i + 1}`
+                      }}
+                      title={`Hint #${i + 1}`}
+                    >
+                      <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
+                    </Modal>
+                  ))}
 
               <Modal
                 trigger={{ icon: 'info_outline', label: 'SCSS' }}
