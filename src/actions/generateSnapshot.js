@@ -2,7 +2,9 @@ import domtoimage from 'dom-to-image';
 
 const createAttemptSnapshotContainer = (id, type) => {
   const container = document.createElement('div');
-  const parent = document.querySelector('.challenge-container');
+  const parent =
+    document.querySelector('.challenge-container') ||
+    document.querySelector('.attempt-container');
   const reference = parent.querySelector('.challenge-output');
   container.id = [type, id].join('-');
   container.className = `${type}-output`;

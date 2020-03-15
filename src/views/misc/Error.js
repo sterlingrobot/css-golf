@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { InternalLink } from '../../styles/links';
+import { ExternalLink } from '../../styles/links';
 
 const Error = ({ error }) => (
   <div>
@@ -12,7 +12,7 @@ const Error = ({ error }) => (
     <div style={{ fontFamily: 'monospace' }}>
       {error ? error.message : null}
     </div>
-    <InternalLink to="/">Go to the homepage</InternalLink>
+    <ExternalLink href="/">Go to the homepage</ExternalLink>
   </div>
 );
 

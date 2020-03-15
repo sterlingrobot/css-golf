@@ -1,10 +1,15 @@
+const MAX_TRIES = 10;
 const PAR_THRESHOLD = 90;
 
 const WEIGHTS = {
-  diff: 6,
+  diff: 12,
   lint: 3,
-  efficiency: 1
+  efficiency: 1,
+  utility: 4
 };
+
+const toNumber = (num, places) =>
+  +(Math.round(num + `e+${places}`) + `e-${places}`);
 
 export const weightedAmount = name => {
   const weightTotal = Object.values(WEIGHTS).reduce(
@@ -19,7 +24,7 @@ export const scoreDiff = diff => {
   return {
     name: 'diff',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
   };
 };
 
@@ -28,7 +33,7 @@ export const scoreLint = lint => {
   return {
     name: 'lint',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
   };
 };
 
@@ -42,33 +47,60 @@ export const calculateEfficiency = (match, target) => {
       ? match.style.replace(`#attempt-${match.id}`, '').replace(/\s/g, '')
       : '';
   return {
-    target: strippedTarget,
-    match: strippedMatch
+    match: strippedMatch.length,
+    target: strippedTarget.length
   };
 };
 
 export const scoreEfficiency = efficiency => {
   const score =
-    efficiency &&
-    100 -
-      ((efficiency.match.length - efficiency.target.length) /
-        efficiency.target.length) *
-        100;
+    efficiency && efficiency.match > 10
+      ? 100 - ((efficiency.match - efficiency.target) / efficiency.target) * 100
+      : 0;
   return {
     name: 'efficiency',
     score,
-    toNumber: places => score.toFixed(places)
+    toNumber: places => toNumber(score, places)
+  };
+};
+
+export const calculateUtility = (attempt, challenge) => {
+  let targetMatches = 0,
+    matchMatches = 0;
+  const VAR_REGEXP = /(var\(--|\$)[a-z]+/g;
+  while (VAR_REGEXP.exec(challenge.css)) targetMatches++;
+  while (VAR_REGEXP.exec(attempt.css)) matchMatches++;
+  return {
+    match: matchMatches,
+    target: targetMatches
+  };
+};
+
+export const scoreUtility = utility => {
+  const score =
+    utility && utility.target
+      ? 100 - ((utility.target - utility.match) / utility.target) * 20
+      : null;
+  return {
+    name: 'utility',
+    score,
+    toNumber: places => toNumber(score, places)
   };
 };
 
 export const scoreTotal = (attempt, challenge) => {
   let average = 0;
 
-  const scores = [
-    scoreDiff(attempt.diff),
-    scoreLint(attempt.lint),
-    scoreEfficiency(calculateEfficiency(attempt, challenge))
-  ].filter(num => !!num.score);
+  const diffScore = scoreDiff(attempt.diff);
+  const lintScore = scoreLint(attempt.lint);
+  const efficiencyScore = scoreEfficiency(
+    calculateEfficiency(attempt, challenge)
+  );
+  const utilityScore = scoreUtility(calculateUtility(attempt, challenge));
+
+  const scores = [diffScore, lintScore, efficiencyScore, utilityScore].filter(
+    num => !!num.score
+  );
 
   const score =
     scores.reduce((acc, curr) => {
@@ -79,12 +111,18 @@ export const scoreTotal = (attempt, challenge) => {
     }, 0) / average;
 
   return {
-    toNumber: (places = 0) => score.toFixed(places),
-    isComplete: () => score >= PAR_THRESHOLD,
+    diffScore,
+    lintScore,
+    efficiencyScore,
+    utilityScore,
+    toNumber: (places = 0) => toNumber(score, places),
+    isComplete: () => score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES,
     toPar: () => {
       const overUnder = attempt.tries - challenge.par;
       const sign = overUnder > 0 ? '+' : '';
-      return score >= PAR_THRESHOLD ? `${sign}${overUnder}` : 'INCOMPLETE';
+      return score >= PAR_THRESHOLD || attempt.tries >= MAX_TRIES
+        ? `${sign}${overUnder}`
+        : 'INCOMPLETE';
     }
   };
 };

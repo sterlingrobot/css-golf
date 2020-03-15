@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import '../../styles/modal.scss';
 
-const Modal = ({ trigger, title, children }) => {
+const Modal = ({ trigger, title, className = '', children }) => {
   const [active, setActive] = useState(false);
   useEffect(() => {
     document.body.style.overflow = active ? 'hidden' : '';
   });
 
   return (
-    <>
+    <div className={`modal-container ${className}`}>
       <div className="modal-trigger" onClick={() => setActive(true)}>
         <wds-icon>{trigger.icon}</wds-icon>
         {trigger.label}
@@ -30,7 +30,7 @@ const Modal = ({ trigger, title, children }) => {
           </wds-panel>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
@@ -42,5 +42,6 @@ Modal.propTypes = {
     icon: PropTypes.string
   }),
   title: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node
 };

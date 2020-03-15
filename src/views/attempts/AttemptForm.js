@@ -23,6 +23,7 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import Modal from '../misc/Modal';
 import SCSSvariables from '../misc/SCSSvariables';
 import CSSvariables from '../misc/CSSvariables';
+import Error from '../misc/Error';
 
 import { FormRow } from '../../styles/forms';
 import editor from '../../styles/editor';
@@ -30,7 +31,7 @@ import editor from '../../styles/editor';
 import 'prismjs/themes/prism.css';
 import '../../styles/form.scss';
 import '../../styles/editor.scss';
-import '../../styles/challenge';
+import '../../styles/output';
 
 class AttemptForm extends React.Component {
   state = {
@@ -40,6 +41,7 @@ class AttemptForm extends React.Component {
   onSubmit = event => {
     event.preventDefault();
     const target = event.target;
+    this.props.onSave && this.props.onSave(true);
     this.setState(
       {
         code: this.formatCode()
@@ -66,26 +68,44 @@ class AttemptForm extends React.Component {
   };
 
   render() {
-    const { attempt, challenge, path, isComplete, error, onClick } = this.props;
+    const {
+      path,
+      attempt,
+      challenge,
+      isSaving,
+      error,
+      onClick,
+      onDelete
+    } = this.props;
+    const isComplete = attempt && attempt.score && attempt.score.complete;
     return (
       <form id="attemptForm" onSubmit={this.onSubmit}>
-        <input type="hidden" name="path" defaultValue={path} />
+        <input
+          type="hidden"
+          name="path"
+          defaultValue={(attempt && attempt.path) || path}
+        />
         <div className="form-wrap">
           {!isComplete ? (
             <div className="attempt-help">
               {challenge.hints &&
-                challenge.hints.map((hint, i) => (
-                  <Modal
-                    key={i}
-                    trigger={{
-                      icon: 'lightbulb_outline',
-                      label: `Hint #${i + 1}`
-                    }}
-                    title={`Hint #${i + 1}`}
-                  >
-                    <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
-                  </Modal>
-                ))}
+                challenge.hints
+                  .filter((hint, i) =>
+                    attempt ? i + 1 <= attempt.tries : i === 0
+                  )
+                  .map((hint, i) => (
+                    <Modal
+                      key={i}
+                      className="attempt-hint"
+                      trigger={{
+                        icon: 'lightbulb_outline',
+                        label: `Hint #${i + 1}`
+                      }}
+                      title={`Hint #${i + 1}`}
+                    >
+                      <Markdown style={{ minWidth: '40em' }}>{hint}</Markdown>
+                    </Modal>
+                  ))}
 
               <Modal
                 trigger={{ icon: 'info_outline', label: 'SCSS' }}
@@ -123,33 +143,48 @@ class AttemptForm extends React.Component {
                 />
               </div>
             )}
-            {error && (
+            {error && error.message ? (
+              <Error error={error} />
+            ) : error ? (
               <div className="editor-error">
                 <wds-icon type="warn" onClick={onClick}>
                   close
                 </wds-icon>
                 {error}
               </div>
-            )}
+            ) : null}
           </FormRow>
 
-          {!isComplete && (
-            <FormRow>
-              <button
-                type="submit"
-                style={{
-                  width: '100%',
-                  appearance: 'none',
-                  border: 0,
-                  background: 'none'
-                }}
+          <FormRow className="form-actions">
+            <wds-button
+              className="delete-button"
+              color="red"
+              onClick={onDelete}
+            >
+              Delete
+            </wds-button>
+            <button
+              type="submit"
+              disabled={isSaving || isComplete}
+              style={{
+                width: '100%',
+                appearance: 'none',
+                border: 0,
+                background: 'none'
+              }}
+            >
+              <wds-button
+                type={isSaving || isComplete ? '' : 'dark'}
+                color={isComplete ? 'green' : ''}
               >
-                <wds-button type="dark">
-                  Submit Try #{attempt ? attempt.tries + 1 : 1}
-                </wds-button>
-              </button>
-            </FormRow>
-          )}
+                {isSaving
+                  ? `Submitting...`
+                  : isComplete
+                  ? `Completed!`
+                  : `Submit Try #${attempt ? attempt.tries + 1 : 1}`}
+              </wds-button>
+            </button>
+          </FormRow>
         </div>
       </form>
     );
@@ -159,17 +194,24 @@ class AttemptForm extends React.Component {
 export default AttemptForm;
 
 AttemptForm.propTypes = {
+  path: PropTypes.string,
   attempt: PropTypes.shape({
+    path: PropTypes.string,
     tries: PropTypes.number,
-    css: PropTypes.string
+    css: PropTypes.string,
+    score: PropTypes.shape({
+      complete: PropTypes.bool
+    })
   }),
   challenge: PropTypes.shape({
     html: PropTypes.string,
     hints: PropTypes.arrayOf(PropTypes.string)
   }),
-  path: PropTypes.string,
+  isSaving: PropTypes.bool,
   isComplete: PropTypes.bool,
-  error: PropTypes.string,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Error)]),
   onSubmit: PropTypes.func,
-  onClick: PropTypes.func
+  onDelete: PropTypes.func,
+  onClick: PropTypes.func,
+  onSave: PropTypes.func
 };

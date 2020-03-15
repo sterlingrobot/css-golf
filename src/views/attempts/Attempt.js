@@ -19,9 +19,10 @@ import ChallengeMarkup from '../challenges/ChallengeMarkup';
 import DiffOutput from './DiffOutput';
 
 import saveAttempt from '../../actions/saveAttempt';
-import { scoreTotal } from '../../actions/scoreAttempt';
+import deleteAttempt from '../../actions/deleteAttempt';
 
 import { Page } from '../../styles/layout';
+import { InternalLink } from '../../styles/links';
 import { Avatar } from '../account/Avatar';
 import DateFormat from '../misc/DateFormat';
 
@@ -35,8 +36,7 @@ class Attempt extends React.Component {
 
   state = {
     error: null,
-    diff: null,
-    complete: false
+    saving: false
   };
 
   resetError(_e) {
@@ -44,19 +44,11 @@ class Attempt extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, history } = this.props;
     return (
       <Page>
         <FirebaseAuth>
-          {({ isLoading, error, auth }) => {
-            if (error) {
-              return <Error error={error} />;
-            }
-
-            if (isLoading) {
-              return <div>loading...</div>;
-            }
-
+          {({ auth }) => {
             if (!auth) {
               return (
                 <div>
@@ -120,10 +112,16 @@ class Attempt extends React.Component {
                               }
 
                               const user = data;
-                              const score = scoreTotal(attempt, challenge);
 
                               return (
                                 <div className="attempt-container">
+                                  <InternalLink
+                                    to={`/${challenge.slug}`}
+                                    style={{ margin: '0 auto 1rem 0' }}
+                                  >
+                                    <wds-icon>arrow_back</wds-icon>
+                                    Back to {challenge.title}
+                                  </InternalLink>
                                   <header>
                                     <div style={{ marginRight: '1rem' }}>
                                       <Avatar user={user} width="5rem" />
@@ -141,7 +139,7 @@ class Attempt extends React.Component {
                                       </small>
                                     </h2>
                                     <AttemptScore
-                                      score={score.toPar()}
+                                      score={attempt.score && attempt.score.par}
                                       style={{ marginLeft: 'auto' }}
                                     />
                                   </header>
@@ -151,41 +149,38 @@ class Attempt extends React.Component {
                                     html={challenge.html}
                                   />
                                   <DiffOutput
-                                    target={challenge.snapshot}
-                                    match={attempt.snapshot}
-                                    options={{ threshold: 0.5 }}
-                                    onDiffResult={(totalPixels, diffPixels) => {
-                                      saveAttempt(challenge.id, {
-                                        ...attempt,
-                                        ...{ diff: { totalPixels, diffPixels } }
-                                      }).then(attempt =>
-                                        this.setState({
-                                          complete: scoreTotal(
-                                            attempt,
-                                            challenge
-                                          ).isComplete(),
-                                          diff: {
-                                            totalPixels,
-                                            diffPixels
-                                          }
-                                        })
-                                      );
-                                    }}
+                                    snapshot={
+                                      attempt.diff && attempt.diff.snapshot
+                                    }
                                   />
-                                  {auth.uid === attempt.createdBy ? (
+                                  {auth.uid === attempt.createdBy ||
+                                  auth.admin ? (
                                     <AttemptForm
                                       attempt={attempt}
                                       challenge={challenge}
-                                      path={attempt.path}
                                       error={this.state.error}
-                                      isComplete={this.state.complete}
+                                      isSaving={this.state.saving}
+                                      isComplete={
+                                        attempt.score && attempt.score.complete
+                                      }
+                                      onSave={saving =>
+                                        this.setState({ saving })
+                                      }
                                       onSubmit={values =>
-                                        saveAttempt(
-                                          challenge.id,
-                                          values,
-                                          true
-                                        ).catch(({ error }) =>
-                                          this.setState({ error })
+                                        saveAttempt(challenge.id, values, true)
+                                          .then(_attempt =>
+                                            this.setState({ saving: false })
+                                          )
+                                          .catch(({ error }) =>
+                                            this.setState({
+                                              error,
+                                              saving: false
+                                            })
+                                          )
+                                      }
+                                      onDelete={() =>
+                                        deleteAttempt(attempt).then(() =>
+                                          history.push(`/${challenge.slug}`)
                                         )
                                       }
                                       onClick={this.resetError}
@@ -199,7 +194,6 @@ class Attempt extends React.Component {
                                   <AttemptReport
                                     title="Score"
                                     attempt={attempt}
-                                    challenge={challenge}
                                   ></AttemptReport>
                                 </div>
                               );
@@ -222,6 +216,6 @@ class Attempt extends React.Component {
 export default Attempt;
 
 Attempt.propTypes = {
-  code: PropTypes.string,
-  match: PropTypes.shape(Route.match)
+  match: PropTypes.shape(Route.match),
+  history: PropTypes.shape(Route.history)
 };

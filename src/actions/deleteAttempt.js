@@ -7,7 +7,7 @@ const deleteAttempt = attempt => {
     .delete()
     .catch(error => {
       // eslint-disable-next-line no-alert
-      alert(`Whoops, couldn't delete the post: ${error.message}`);
+      alert(`Whoops, couldn't delete the attempt: ${error.message}`);
     });
 };
 

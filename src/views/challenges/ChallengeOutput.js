@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FirebaseAuth from '../misc/FirebaseAuth';
 import Error from '../misc/Error';
 
-import { OutputImg } from '../../styles/challenge';
+import { OutputImg } from '../../styles/output';
 import '../../styles/challenge.scss';
 
 const setContent = html => {

@@ -9,8 +9,10 @@
     "@wisetail/wds-button": "^1.0.0",
     "@wisetail/wds-icon": "^1.0.0",
     "@wisetail/wds-panel": "^1.1.1",
+    "canvas": "^2.6.1",
     "dom-to-image": "^2.6.0",
-    "firebase": "^7.8.2",
+    "dotenv": "^8.2.0",
+    "firebase": "^7.11.0",
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
     "markdown-to-jsx": "^6.11.0",
@@ -30,15 +32,10 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "sh -ac '. ./.env.dev;   firebase use dev && react-scripts start'",
+    "start": "sh -ac '. ./.env; firebase use ${REACT_APP_ENV} && npx react-scripts start'",
     "build": "react-scripts build",
-    "build:dev": "firebase use dev && react-scripts build && firebase deploy",
-    "build:stage": "firebase use stage && react-scripts build && firebase deploy",
-    "build:prod": "firebase use prod && react-scripts build && firebase deploy",
     "build:functions": "cd functions && yarn install",
-    "dev": "sh -ac '. ./.env.dev;   yarn build:dev'",
-    "stage": "sh -ac '. ./.env.stage; yarn build:stage'",
-    "prod": "sh -ac '. ./.env.prod;  yarn build:prod'",
+    "migration:run": "./scripts/run-migration.js",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"**/*.js\" .",
     "lint:prettier": "prettier \"**/*.{js,scss}\" --check --ignore-path .eslintignore",
@@ -66,7 +63,9 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
+    "esm": "^3.2.25",
     "prettier": "^1.19.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "yargs": "^15.1.0"
   }
 }
