@@ -3,11 +3,17 @@ import Firebase from 'firebase/app';
 import compileScss from './compileScss';
 import generateSnapshot from './generateSnapshot';
 import lintStyles from './lintStyles';
+import diffAttemptSnapshot from './diffAttemptSnapshot';
 
 import {
   prepareDocForCreate,
   prepareDocForUpdate
 } from './helpers/firestoreHelpers';
+import {
+  scoreTotal,
+  calculateEfficiency,
+  calculateUtility
+} from './scoreAttempt';
 
 const saveAttempt = async (challengeId, values, record = false) => {
   const attempt = { ...values, challenge: challengeId };
@@ -51,6 +57,24 @@ const saveAttempt = async (challengeId, values, record = false) => {
     })
     .then(snapshot => {
       attempt.snapshot = snapshot;
+      return diffAttemptSnapshot(challenge.snapshot, attempt.snapshot, {
+        threshold: 0.5
+      });
+    })
+    .then(diff => {
+      attempt.diff = diff;
+      attempt.efficiency = calculateEfficiency(attempt, challenge);
+      attempt.utility = calculateUtility(attempt, challenge);
+      const score = scoreTotal(attempt, challenge);
+      attempt.score = {
+        diff: score.diffScore.toNumber(2),
+        lint: score.lintScore.toNumber(2),
+        efficiency: score.efficiencyScore.toNumber(2),
+        utility: score.utilityScore.toNumber(2),
+        total: score.toNumber(2),
+        par: score.toPar(),
+        complete: score.isComplete()
+      };
       return doc.update(prepareDocForUpdate({ ...attempt, path: doc.path }));
     })
     .then(() => Promise.resolve({ ...attempt, path: doc.path }))

@@ -35,13 +35,16 @@ const ChallengeNew = ({ history }) => (
         }
 
         return (
-          <ChallengeForm
-            onSubmit={values =>
-              saveChallenge(values).then(challenge =>
-                history.push(`/${challenge.slug}/edit`)
-              )
-            }
-          />
+          <>
+            <div className="challenge-container"></div>
+            <ChallengeForm
+              onSubmit={values =>
+                saveChallenge(values).then(challenge =>
+                  history.push(`/${challenge.slug}/edit`)
+                )
+              }
+            />
+          </>
         );
       }}
     </FirebaseAuth>

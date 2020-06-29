@@ -1,3 +1,5 @@
+require('stylelint-config-sass-guidelines');
+
 module.exports = {
   extends: ['stylelint-config-sass-guidelines'],
   rules: {

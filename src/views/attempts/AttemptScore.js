@@ -33,6 +33,6 @@ export default AttemptScore;
 
 AttemptScore.propTypes = {
   type: PropTypes.string,
-  score: PropTypes.string,
+  score: PropTypes.number,
   style: PropTypes.object
 };

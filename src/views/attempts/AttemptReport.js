@@ -1,101 +1,117 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  weightedAmount,
-  calculateEfficiency,
-  scoreDiff,
-  scoreLint,
-  scoreEfficiency,
-  scoreTotal
-} from '../../actions/scoreAttempt';
+import { weightedAmount } from '../../actions/scoreAttempt';
 
 import { ReportTable } from '../../styles/report';
 import '../../styles/report.scss';
 
-const AttemptReport = ({ title, attempt, challenge }) => (
-  <wds-panel className="attempt-report" title={title}>
-    <div slot="header">
-      <h2>{scoreTotal(attempt, challenge).toNumber(2)}</h2>
-    </div>
-    <ReportTable>
-      <thead></thead>
-      <tbody>
-        {attempt.diff && (
-          <tr>
-            <th>
-              <h3>The Drive</h3>
-              Pixel Diffing Result
-              <small>Worth {weightedAmount('diff').toFixed(2)}%</small>
-            </th>
-            <td>
-              <ul>
-                <li>
-                  {attempt.diff.totalPixels - attempt.diff.diffPixels} of{' '}
-                  {attempt.diff.totalPixels} pixels matched
-                </li>
-              </ul>
-            </td>
-            <td className="score">{scoreDiff(attempt.diff).toNumber(2)}</td>
-          </tr>
-        )}
-        {attempt.lint && (
-          <tr>
-            <th>
-              <h3>The Approach</h3>
-              Linting Result
-              <small>Worth {weightedAmount('lint').toFixed(2)}%</small>
-            </th>
-            <td>
-              <ul>
-                {attempt.lint.warnings.length ? (
-                  attempt.lint.warnings.map((warning, i) => (
-                    <li key={i}>{warning.text}</li>
-                  ))
-                ) : (
+const AttemptReport = ({ title, attempt }) =>
+  attempt && attempt.score ? (
+    <wds-panel className="attempt-report" title={title}>
+      <div slot="header">
+        <h2>{attempt.score && attempt.score.total}</h2>
+      </div>
+      <ReportTable>
+        <thead></thead>
+        <tbody>
+          {attempt.diff && (
+            <tr>
+              <th>
+                <h3>The Drive</h3>
+                Pixel Diffing Result
+                <small>Worth {weightedAmount('diff').toFixed(2)}%</small>
+              </th>
+              <td>
+                <ul>
                   <li>
-                    <i>No errors!</i>
+                    {attempt.diff.totalPixels - attempt.diff.diffPixels} of{' '}
+                    {attempt.diff.totalPixels} pixels matched
                   </li>
-                )}
-              </ul>
-            </td>
-            <td className="score">{scoreLint(attempt.lint).toNumber(2)}</td>
-          </tr>
-        )}
-        {attempt.style && challenge.style && (
-          <tr>
-            <th>
-              <h3>The Green</h3>
-              Efficiency Result
-              <small>Worth {weightedAmount('efficiency').toFixed(2)}%</small>
-            </th>
-            <td>
-              <ul>
-                <li>
-                  {(() => {
-                    const { target, match } = calculateEfficiency(
-                      attempt,
-                      challenge
-                    );
-                    const charDiff = match.length - target.length;
-                    return `${Math.abs(charDiff)} characters ${
-                      charDiff >= 0 ? 'more' : 'less'
-                    } than challenge`;
-                  })()}
-                </li>
-              </ul>
-            </td>
-            <td className="score">
-              {scoreEfficiency(
-                calculateEfficiency(attempt, challenge)
-              ).toNumber(2)}
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </ReportTable>
-  </wds-panel>
-);
+                </ul>
+              </td>
+              <td className="score">{attempt.score.diff}</td>
+            </tr>
+          )}
+          {attempt.utility && (
+            <tr>
+              <th>
+                <h3>The Fairway</h3>
+                Utility Result
+                <small>Worth {weightedAmount('utility').toFixed(2)}%</small>
+              </th>
+              <td>
+                <ul>
+                  <li>
+                    {(() => {
+                      const { target, match } = attempt.utility;
+                      const varDiff = match - target;
+                      return `Used ${
+                        varDiff === 0 ? '' : Math.abs(varDiff)
+                      } variables ${
+                        varDiff === 0
+                          ? 'similar to'
+                          : varDiff > 0
+                          ? 'more than'
+                          : 'less than'
+                      }  challenge`;
+                    })()}
+                  </li>
+                </ul>
+              </td>
+              <td className="score">{attempt.score.utility}</td>
+            </tr>
+          )}
+          {attempt.lint && (
+            <tr>
+              <th>
+                <h3>The Approach</h3>
+                Linting Result
+                <small>Worth {weightedAmount('lint').toFixed(2)}%</small>
+              </th>
+              <td>
+                <ul>
+                  {attempt.lint.warnings.length ? (
+                    attempt.lint.warnings.map((warning, i) => (
+                      <li key={i}>{warning.text}</li>
+                    ))
+                  ) : (
+                    <li>
+                      <i>No errors!</i>
+                    </li>
+                  )}
+                </ul>
+              </td>
+              <td className="score">{attempt.score.lint}</td>
+            </tr>
+          )}
+          {attempt.efficiency && (
+            <tr>
+              <th>
+                <h3>The Green</h3>
+                Efficiency Result
+                <small>Worth {weightedAmount('efficiency').toFixed(2)}%</small>
+              </th>
+              <td>
+                <ul>
+                  <li>
+                    {(() => {
+                      const { target, match } = attempt.efficiency;
+                      const charDiff = match - target;
+                      return `${Math.abs(charDiff)} characters ${
+                        charDiff >= 0 ? 'more' : 'less'
+                      } than challenge`;
+                    })()}
+                  </li>
+                </ul>
+              </td>
+              <td className="score">{attempt.score.efficiency}</td>
+            </tr>
+          )}
+        </tbody>
+      </ReportTable>
+    </wds-panel>
+  ) : null;
 
 export default AttemptReport;
 
@@ -104,9 +120,20 @@ AttemptReport.propTypes = {
   attempt: PropTypes.shape({
     id: PropTypes.string,
     style: PropTypes.string,
+    score: PropTypes.shape({
+      diff: PropTypes.number,
+      lint: PropTypes.number,
+      efficiency: PropTypes.number,
+      utility: PropTypes.number,
+      total: PropTypes.number
+    }),
     diff: PropTypes.shape({
       totalPixels: PropTypes.number,
       diffPixels: PropTypes.number
+    }),
+    efficiency: PropTypes.shape({
+      target: PropTypes.number,
+      match: PropTypes.number
     }),
     lint: PropTypes.shape({
       errored: PropTypes.bool,
@@ -117,10 +144,10 @@ AttemptReport.propTypes = {
           text: PropTypes.string
         })
       )
+    }),
+    utility: PropTypes.shape({
+      target: PropTypes.number,
+      match: PropTypes.number
     })
-  }),
-  challenge: PropTypes.shape({
-    id: PropTypes.string,
-    style: PropTypes.string
   })
 };

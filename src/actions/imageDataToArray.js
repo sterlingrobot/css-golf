@@ -1,13 +1,13 @@
-const imgToUint8Array = (data, width, height) => {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+import Canvas, { createCanvas } from 'canvas';
 
-  canvas.width = width;
-  canvas.height = height;
+const imgToUint8Array = (data, width, height) => {
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
 
   return new Promise((resolve, _reject) => {
     //create image, set src to base64 and onload draw to canvas
-    const image = new Image();
+    const image =
+      'undefined' === typeof Image ? new Canvas.Image() : new Image();
     image.onload = (ctx => {
       return function() {
         ctx.drawImage(this, 0, 0);
